@@ -214,14 +214,6 @@ export default class Perfil extends Component {
             });
     }
 
-    // Funções simples
-    Logout = async () => {
-        const { navigation } = this.props;
-        await AsyncStorage.clear();
-        navigation.navigate('Splash');
-        RNRestart.Restart();
-    }
-
     verIdade = async () => {
         Alert.alert("Data de nascimento", this.state.nasc);
     }
@@ -346,7 +338,7 @@ export default class Perfil extends Component {
                                     <Icon
                                         name="map-marker"
                                         color="#000"
-                                        size={50}
+                                        size={48}
                                     />
                                     <Text>{this.state.estado}</Text>
                                 </View>

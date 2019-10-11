@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {
     TextInput,
 } from 'react-native-paper';
-import TextInputMask from 'react-native-text-input-mask'
+import TextInputMask from 'react-native-text-input-mask';
 
 export default class CadAtleta extends Component {
     constructor(props) {
@@ -48,6 +48,7 @@ export default class CadAtleta extends Component {
             .then((responseJson) => {
                 console.log(responseJson);
                 this.setState({
+                    cep: responseJson.zipcode,
                     estado: responseJson.state,
                     cidade: responseJson.city
                 })
@@ -62,6 +63,7 @@ export default class CadAtleta extends Component {
             Alert.alert("Erro", "CEP inválido");
         } else {
             this.props.navigation.navigate('CadAtleta2');
+            await AsyncStorage.setItem('Cep', this.state.cep);
             await AsyncStorage.setItem('Estado', this.state.estado);
             await AsyncStorage.setItem('Cidade', this.state.cidade);
         }

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 15,
-        zIndex: 100
+        zIndex: 100,
     },
     campoFormInput: {
         flexDirection: 'row',

@@ -45,6 +45,7 @@ export default class CadAtleta2 extends Component {
         var sexo = await AsyncStorage.getItem('Sexo')
         var email = await AsyncStorage.getItem('Email')
         var senha = await AsyncStorage.getItem('Senha')
+        var cep = await AsyncStorage.getItem('Cep');
         var estado = await AsyncStorage.getItem('Estado')
         var cidade = await AsyncStorage.getItem('Cidade')
 
@@ -67,6 +68,7 @@ export default class CadAtleta2 extends Component {
                         email: email,
                         senha: senha,
                         descricao: 'Você pode alterar a descrição do seu perfil nas configurações da sua conta, apertando na engranagem no canto superior direito',
+                        cep: cep,
                         estado: estado,
                         cidade: cidade,
                         esporte: this.state.PickerValue,

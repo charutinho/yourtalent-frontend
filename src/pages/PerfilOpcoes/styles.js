@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         width: '100%',
-        borderWidth: 2,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
@@ -26,11 +25,31 @@ const styles = StyleSheet.create({
     body: {
         flex: 5,
         width: '100%',
-        borderWidth: 3,
         alignItems: 'center'
     },
     bodyList:{
-        width: '95%'
+        width: '90%',
+        marginTop: 15
+    },
+    bodyListItem:{
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+
+    //Body-List-Radio
+    radioText:{
+        fontSize: 14,
+        color: '#000'
+    },
+    radioOpcao:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 15,
+        zIndex: 100,
+        width: '50%',
+        alignContent: 'center',
+        marginTop: '2%',
+        marginBottom: '2%'
     },
 });
 
