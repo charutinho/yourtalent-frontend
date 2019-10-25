@@ -13,14 +13,29 @@ const styles = StyleSheet.create({
         flex: 3,
         width: '100%',
         backgroundColor: '#9c27b0',
-        borderBottomLeftRadius: 150,
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
+        borderBottomLeftRadius: 140,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    containerText:{
+        flex:1,
+        flexDirection: 'row',
+    },  
+    containerText2:{
+        flex:1,
+    },
+    logoFormat:{
+    },
+    logoPosition:{
+        height:180,
+        width:180,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     loginText: {
-        padding: 15,
         color: '#fff',
         fontSize: 20,
+        padding: 40,
     },
     body: {
         flex: 5,
@@ -43,6 +58,11 @@ const styles = StyleSheet.create({
         borderColor: '#9c27b0',
         marginTop: 15
     },
+    ContainerEsqueciSenha:{
+        marginLeft:"45%",
+        marginTop:10,
+    },
+    
     botaoLogin: {
         width: '80%',
         height: 50,
@@ -74,6 +94,9 @@ const styles = StyleSheet.create({
         height: 45,
         justifyContent: 'center',
     },
+    TextEsqueciSenha:{
+        color:"#424242",
+    }
 });
 
 export default styles;

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         marginTop: 75
     },
     fotoPerfilView:{
-        marginBottom: -65,
+        marginBottom: -75,
         alignItems: 'flex-end'
     },
     fotoPerfil: {
@@ -55,8 +55,11 @@ const styles = StyleSheet.create({
     },
     descricaoView: {
         marginTop: 5,
-        width: 300,
-        height: 80,
+        marginBottom: 20,
+        width: '80%',
+        height: 91,
+        overflow: 'hidden',
+        alignItems: 'center'
     },
     descricao:{
         fontSize: 15,
@@ -107,13 +110,10 @@ const styles = StyleSheet.create({
     destaqueTitulo:{
         fontSize: 20,
         textAlign: 'center',
+        marginTop: '10%'
     },
     destaqueVideo:{
-        marginTop: 10,
-        borderWidth: 1,
-        borderColor: 'red',
-        width: 350,
-        height: 180
+        marginTop: '5%',
     }
 });
 

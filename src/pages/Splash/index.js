@@ -20,7 +20,7 @@ export default class Splash extends Component {
         Animated.sequence([
             Animated.timing(this.state.logoOpacity, {
                 toValue: 1,
-                duration: 2000,  // milisegundos 1000 = 1s
+                duration: 1200,  // milisegundos 1000 = 1s
             })
         ]).start(() => {
             this.props.navigation.navigate("Login")

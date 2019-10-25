@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#0288d1',
+        backgroundColor: '#9c27b0',
     },
     iconSplash:{
         width: 300,

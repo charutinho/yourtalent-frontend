@@ -8,7 +8,8 @@ import {
     StatusBar,
     Alert,
     ImageBackground,
-    Button
+    Button,
+    FlatList
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
@@ -19,6 +20,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
 
 export default class Perfil extends Component {
+
+    //Navbar
     static navigationOptions = ({ navigation }) => {
         return {
             headerRight: (
@@ -55,8 +58,100 @@ export default class Perfil extends Component {
             estado: '',
             //Fotos
             foto: '../../assets/icons/profile.png',
-            capa: '../../assets/img/gatinho.jpg'
+            capa: '../../assets/img/gatinho.jpg',
+            listPost: ''
         };
+    }
+
+
+
+    getPosts = async () => {
+        var idUser = await AsyncStorage.getItem('@Login:id');
+        var ip = await AsyncStorage.getItem('@Ip:ip');
+
+        await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    listPost: responseJson
+                })
+            })
+    }
+
+    // Função de obter dados
+    getDados = async () => {
+        var idUser = await AsyncStorage.getItem('@Login:id');
+        var ip = await AsyncStorage.getItem('@Ip:ip');
+
+        await fetch(`http://192.168.15.28:3000/data/${idUser}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+
+                //Dados do usuário
+                var nomeUsuario = responseJson.user.nome;
+                var nasc = responseJson.user.nasc;
+                var estado = responseJson.user.estado;
+                var descricao = responseJson.user.desc;
+                //Foto
+                var fotoUsuario = responseJson.user.fotoPerfil;
+                var fotoCapa = responseJson.user.fotoCapa;
+
+                // Calculo idade
+                var saveNasc = nasc;
+                var nasc = nasc.split("/");
+                var anoAtual = new Date();
+                var ano = anoAtual.getFullYear();
+                var idade = ano - nasc[2];
+
+                //Icone
+                var nivel = responseJson.user.nivel;
+
+                if (nivel == 1) {
+                    var nivelIcone = 'google-controller'
+                } else {
+                    var nivelIcone = 'account-tie'
+                }
+
+                //Esporte x Tipo
+                var esporte = responseJson.user.esporte;
+
+                if (esporte == undefined) {
+                    var esporte = responseJson.user.tipo;
+                }
+
+
+                //Foto do usuário
+                var imgUser = `http://${ip}:3000/${fotoUsuario}`;
+
+                //Capa do usuário
+                var capaUser = `http://${ip}:3000/${fotoCapa}`;
+
+                this.setState({
+                    nomeUsuario: nomeUsuario,
+                    idade: idade,
+                    nasc: saveNasc,
+                    foto: imgUser,
+                    capa: capaUser,
+                    esporte: esporte,
+                    estado: estado,
+                    descricao: descricao,
+                    nivel: nivel,
+                    nivelIcon: nivelIcone
+                });
+
+            }).catch((error) => {
+                console.error(error);
+            });
+
+    }
+
+    async componentDidUpdate() {
+        this.getDados.call();
+    }
+
+    async componentDidMount() {
+        this.getDados.call();
+        this.getPosts.call();
     }
 
     //Upload image
@@ -104,10 +199,6 @@ export default class Perfil extends Component {
                 };
 
                 fetch(`http://${ip}:3000/uploadimg`, config);
-                Alert.alert("Sucesso!", "A sua foto de perfil foi alterada com sucesso!");
-                AsyncStorage.setItem('Fotoalterada', 'alterou');
-                RNRestart.Restart();
-
             }
         });
 
@@ -155,63 +246,9 @@ export default class Perfil extends Component {
                     },
                 };
 
-                fetchFoto = async () => {
-                    await fetch(`http://${ip}:3000/uploadimgcapa`, config);
-                    Alert.alert("Sucesso!", "A sua foto de capa foi alterada com sucesso!");
-                    AsyncStorage.setItem('Fotoalterada', 'alterou');
-                    RNRestart.Restart();
-                }
-                fetchFoto.call();
+                fetch(`http://${ip}:3000/uploadimgcapa`, config);
             }
         });
-    }
-
-    async componentDidMount() {
-        var idUser = await AsyncStorage.getItem('@Login:id');
-        var ip = await AsyncStorage.getItem('@Ip:ip');
-
-        await fetch(`http://${ip}:3000/data/${idUser}`)
-            .then((response) => response.json())
-            .then((responseJson) => {
-
-                //Dados do usuário
-                var nomeUsuario = responseJson.user.nome;
-                var nasc = responseJson.user.nasc;
-                var esporte = responseJson.user.esporte;
-                var estado = responseJson.user.estado;
-                var descricao = responseJson.user.descricao;
-                //Foto
-                var fotoUsuario = responseJson.user.fotoPerfil;
-                var fotoCapa = responseJson.user.fotoCapa;
-
-
-                // Calculo idade
-                var saveNasc = nasc;
-                var nasc = nasc.split("/");
-                var anoAtual = new Date();
-                var ano = anoAtual.getFullYear();
-                var idade = ano - nasc[2];
-
-                //Foto do usuário
-                var imgUser = `http://${ip}:3000/${fotoUsuario}`;
-
-                //Capa do usuário
-                var capaUser = `http://${ip}:3000/${fotoCapa}`;
-
-                this.setState({
-                    nomeUsuario: nomeUsuario,
-                    idade: idade,
-                    nasc: saveNasc,
-                    foto: imgUser,
-                    capa: capaUser,
-                    esporte: esporte,
-                    estado: estado,
-                    descricao: descricao
-                });
-
-            }).catch((error) => {
-                console.error(error);
-            });
     }
 
     verIdade = async () => {
@@ -248,9 +285,21 @@ export default class Perfil extends Component {
                                     <Icon
                                         name="image-plus"
                                         color="#212121"
-                                        size={30}
+                                        size={20}
                                         style={{
-                                            padding: 8
+                                            backgroundColor: '#eeeeee',
+                                            borderRadius: 90,
+                                            marginRight: 10,
+                                            marginTop: 10,
+                                            padding: 5,
+                                            shadowOffset: {
+                                                width: 0,
+                                                height: 4,
+                                            },
+                                            shadowOpacity: 0.30,
+                                            shadowRadius: 4.65,
+
+                                            elevation: 8,
                                         }}
                                     />
 
@@ -277,7 +326,22 @@ export default class Perfil extends Component {
                                 <Icon
                                     name="image-plus"
                                     color="#212121"
-                                    size={35}
+                                    size={20}
+                                    style={{
+                                        backgroundColor: '#eeeeee',
+                                        borderRadius: 90,
+                                        marginRight: 10,
+                                        marginTop: 10,
+                                        padding: 5,
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 4,
+                                        },
+                                        shadowOpacity: 0.30,
+                                        shadowRadius: 4.65,
+
+                                        elevation: 8,
+                                    }}
                                 />
                             </TouchableOpacity>
 
@@ -293,18 +357,12 @@ export default class Perfil extends Component {
                             </Text>
                         </View>
 
-                        <View>
-                            <TouchableOpacity onPress={this.Logout}>
-                                <Text>
-                                    Logoff
-                            </Text>
-                            </TouchableOpacity>
-                        </View>
-
                         <View style={styles.descricaoView}>
+
                             <Text style={styles.descricao}>
                                 {this.state.descricao}
                             </Text>
+
                         </View>
 
                         <View style={styles.sobreView}>
@@ -325,7 +383,7 @@ export default class Perfil extends Component {
                             <TouchableOpacity>
                                 <View style={styles.esporteView}>
                                     <Icon
-                                        name="google-controller"
+                                        name={this.state.nivelIcon}
                                         color="#000"
                                         size={50}
                                     />
@@ -346,16 +404,78 @@ export default class Perfil extends Component {
 
                         </View>
 
+                        <Text style={styles.destaqueTitulo}>
+                            Últimos posts de {this.state.nomeUsuario}
+                        </Text>
 
-                        <View style={styles.destaqueView}>
-                            <Text style={styles.destaqueTitulo}>
-                                Últimas postagens
-                            </Text>
+                        <FlatList
+                            style={{
+                                width: '100%',
+                                marginBottom: 20,
+                                marginTop: 30
+                            }}
+                            data={this.state.listPost}
+                            keyExtractor={listarposts => String(listarposts._id)}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View
+                                        style={{
+                                            marginTop: 10,
+                                            marginBottom: 30
+                                        }}
+                                    >
+                                        {
+                                            /*
+                                                <TouchableOpacity onPress={() => this.navegar(item.nomeEsporte)}>
+                                                </TouchableOpacity>
+                                             */
+                                        }
+                                        <View
+                                            style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <ImageBackground
+                                                source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                style={{
+                                                    width: 50,
+                                                    height: 50,
+                                                    borderRadius: 90,
+                                                    overflow: 'hidden',
+                                                    marginLeft: 10
+                                                }}
+                                            />
+                                            <Text
+                                                style={{
+                                                    fontSize: 18,
+                                                    marginLeft: 10
+                                                }}
+                                            >
+                                                {item.autor.nomeUsuario}
+                                            </Text>
+                                        </View>
 
-                            <View style={styles.destaqueVideo}>
+                                        <Text
+                                            style={{
+                                                margin: 10,
+                                                textAlign: 'justify',
+                                            }}
+                                        >
+                                            {item.descricao}
+                                        </Text>
 
-                            </View>
-                        </View>
+                                        <ImageBackground source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }}
+                                            style={{
+                                                width: '100%',
+                                                height: 470,
+                                            }}
+                                        />
+
+                                    </View>
+                                );
+                            }}
+                        />
 
                     </View>
                 </View>

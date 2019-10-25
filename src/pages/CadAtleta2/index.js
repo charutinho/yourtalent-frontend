@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import {
     View,
-    TextInput,
     Text,
-    DatePickerAndroid,
     TouchableOpacity,
     ImageBackground,
-    ActivityIndicator,
-    Platform,
     StatusBar,
-    Alert,
     Image,
     Picker,
     Dimensions
 } from 'react-native';
 import styles from './styles';
+import {
+    ActivityIndicator
+} from 'react-native-paper'
+
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -25,7 +24,8 @@ export default class CadAtleta2 extends Component {
     constructor() {
         super();
         this.state = {
-            PickerValue: ''
+            PickerValue: '',
+            loading: false
         }
     };
 
@@ -35,10 +35,10 @@ export default class CadAtleta2 extends Component {
         var nome = await AsyncStorage.getItem('Nome')
         var nasc = await AsyncStorage.getItem('Nasc');
         var nasc = nasc.split("/");
-        if (nasc[0] < 10){
+        if (nasc[0] < 10) {
             nasc[0] = "0" + nasc[0];
         }
-        if (nasc[1] < 10){
+        if (nasc[1] < 10) {
             nasc[1] = "0" + nasc[1];
         }
         nasc = nasc[0] + "/" + nasc[1] + "/" + nasc[2];
@@ -49,6 +49,7 @@ export default class CadAtleta2 extends Component {
         var estado = await AsyncStorage.getItem('Estado')
         var cidade = await AsyncStorage.getItem('Cidade')
 
+        this.setState({ loading: true })
         await fetch(`http://${ip}:3000/auth/register`,
             {
                 method: 'POST',
@@ -67,7 +68,7 @@ export default class CadAtleta2 extends Component {
                         sexo: sexo,
                         email: email,
                         senha: senha,
-                        descricao: 'Você pode alterar a descrição do seu perfil nas configurações da sua conta, apertando na engranagem no canto superior direito',
+                        desc: 'Conte-nos um pouco sobre você :)',
                         cep: cep,
                         estado: estado,
                         cidade: cidade,
@@ -85,9 +86,9 @@ export default class CadAtleta2 extends Component {
 
                 AsyncStorage.setItem('@Nome:nome', nome);
                 AsyncStorage.setItem('@Login:id', id);
-                
-                this.props.navigation.navigate('Feed');
-                
+
+                this.props.navigation.navigate('CadEscolhaEsporte');
+
 
             }).catch((error) => {
                 console.error(error);
@@ -99,6 +100,7 @@ export default class CadAtleta2 extends Component {
     }
 
     render() {
+        const { loading } = this.state;
         return (
             <ImageBackground source={require('../../assets/img/BkBolado.png')}
                 style={{
@@ -113,7 +115,7 @@ export default class CadAtleta2 extends Component {
 
                 <View style={styles.container}>
                     <StatusBar
-                    barStyle="dark-content"
+                        barStyle="dark-content"
                     />
                     <View>
                         <Image style={styles.logoFormat} source={require('../../assets/img/logoRedondo.png')}></Image>
@@ -140,6 +142,17 @@ export default class CadAtleta2 extends Component {
                                 Continuar
                             </Text>
                         </TouchableOpacity>
+
+                        {loading && (
+                            <ActivityIndicator
+                                color="#C00"
+                                size="large"
+                                color='#9c27b0'
+                                style={{
+                                    marginTop: 50
+                                }}
+                            />
+                        )}
 
                     </View>
 

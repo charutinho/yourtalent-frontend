@@ -14,12 +14,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default class CadEscolha extends Component {
 
     handleAtleta = async () => {
-        this.props.navigation.navigate('CadAtleta');
-        await AsyncStorage.setItem('Opcao', 1);
+        this.props.navigation.navigate('CadCep');
+        await AsyncStorage.setItem('Opcao', 'Atleta');
     }
 
-    handleOlheiro = () => {
-        Alert.alert("Alerta", "Página ainda em construção");
+    handleOlheiro = async () => {
+        this.props.navigation.navigate('CadCep');
+        await AsyncStorage.setItem('Opcao', 'Olheiro');
     }
 
     static navigationOptions = {

@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: '12%'
     },
     headerTitle: {
         fontSize: 28

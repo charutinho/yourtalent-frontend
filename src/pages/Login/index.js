@@ -4,11 +4,13 @@ import {
     Text,
     StatusBar,
     Alert,
-    TouchableOpacity
+    TouchableOpacity,
+    Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from 'react-native-paper';
 import RNRestart from 'react-native-restart';
 
@@ -26,7 +28,7 @@ console.disableYellowBox = true;
 //api.pagar.me/1/zipcodes/CEP DO BAGULHO AQUI
 
 // IP local do seu PC:
-var ip = '192.168.15.28';
+ip = '192.168.15.28';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -40,7 +42,6 @@ export default class Login extends Component {
             email: '',
             senha: '',
             loading: false,
-            disabled: false,
             nome: '',
             erroEmail: ''
         };
@@ -48,8 +49,7 @@ export default class Login extends Component {
 
     Login = async () => {
 
-
-        ip = '192.168.15.28';
+        var ip = '192.168.15.28';
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -60,6 +60,7 @@ export default class Login extends Component {
         } else if (this.state.senha == '') {
             Alert.alert("Senha", "Insira sua senha")
         } else {
+            this.setState({ loading: true })
             fetch(`http://${ip}:3000/auth/authenticate`,
                 {
                     method: 'POST',
@@ -118,6 +119,7 @@ export default class Login extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
+        const { loading } = this.state;
         return (
             <View style={styles.container}>
 
@@ -127,11 +129,13 @@ export default class Login extends Component {
                 />
 
                 <View style={styles.header}>
-                    <Text style={styles.loginText}>
-                        Login
-                    </Text>
-                </View>
 
+                    <View style={styles.logoFormat}>
+                        <Image style={styles.logoPosition} source={require('../../assets/img/logoBrancoPNG.png')}
+                        ></Image>
+                    </View>
+                   
+                </View>
                 <View style={styles.body}>
                     <View style={styles.formArea}>
 
@@ -185,7 +189,11 @@ export default class Login extends Component {
                         />
 
                     </View>
-
+                    <View style={styles.ContainerEsqueciSenha}>
+                        <TouchableOpacity>
+                            <Text style={styles.TextEsqueciSenha}>Esqueceu sua senha?</Text>
+                        </TouchableOpacity>
+                    </View>
                     <TouchableOpacity style={styles.botaoLogin} onPress={this.Login}>
                         <Text style={styles.textBotaoLogin}>
                             Entrar
@@ -205,6 +213,17 @@ export default class Login extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
+
+                    {loading && (
+                        <ActivityIndicator
+                            color="#C00"
+                            size="large"
+                            color='#9c27b0'
+                            style={{
+                                marginTop: 50
+                            }}
+                        />
+                    )}
 
 
                 </View>
