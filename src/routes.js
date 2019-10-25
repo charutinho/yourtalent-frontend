@@ -15,26 +15,42 @@ import Login from './pages/Login';
 //Cadastro
 import CadUsuario from './pages/CadUsuario';
 import CadEscolha from './pages/CadEscolha';
-import CadAtleta from './pages/CadAtleta';
+import CadCep from './pages/CadCep';
+
+//Cad Atleta
 import CadAtleta2 from './pages/CadAtleta2';
 
+//CadOlheiro
+import CadOlheiro from './pages/CadOlheiro';
+
+//Aviso e pagamento
+import Aviso from './pages/Aviso';
+import Pagamento from './pages/Pagamento';
 
 //Telas do usuário logado
+import CadEscolhaEsporte from './pages/EscolherCategoria';
+import Categorias from './pages/EscolherCategoriaBanco';
 import PageFeed from './pages/Feed';
 import Perfil from './pages/Perfil';
 import PerfilOpcoes from './pages/PerfilOpcoes';
+import Chat from './pages/Chat';
+
+import PerfilUsuario from './pages/PerfilUsuario';
 
 const Routes = (userLogged = false) => createAppContainer(
     createSwitchNavigator(
         {
             NaoLogado: createStackNavigator(
                 {
-                    Splash: Splash,
-                    Login: Login,
-                    CadUsuario: CadUsuario,
-                    CadEscolha: CadEscolha,
-                    CadAtleta: CadAtleta,
-                    CadAtleta2: CadAtleta2
+                    Splash,
+                    Login,
+                    CadUsuario,
+                    CadEscolha,
+                    CadAtleta2,
+                    CadCep,
+                    Aviso,
+                    CadOlheiro,
+                    Pagamento,
                 }
             ),
             Logado: createMaterialBottomTabNavigator(
@@ -45,13 +61,14 @@ const Routes = (userLogged = false) => createAppContainer(
                             navigationOptions: {
                                 headerTitleStyle: {
                                     textAlign: 'center',
-                                    flex: 1
+                                    flex: 1,
+                                    marginLeft: '22%'
                                 },
                                 headerTitle: 'YourTalent',
                                 tabBarLabel: 'Feed',
-                            }
+                            },
                         },
-                        //PerfilAtleta
+                        PerfilUsuario: PerfilUsuario
                     }),
                     Perfil: createStackNavigator({
                         Perfil: {
@@ -66,8 +83,21 @@ const Routes = (userLogged = false) => createAppContainer(
                                 tabBarLabel: 'Perfil',
                             }
                         },
-                        PerfilOpcoes: PerfilOpcoes
-                    })
+                        PerfilOpcoes: PerfilOpcoes,
+                    }),
+                    Chat: createStackNavigator({
+                        Chat: {
+                            screen: Chat,
+                            navigationOptions: {
+                                headerTitleStyle: {
+                                    textAlign: 'center',
+                                    flex: 1,
+                                },
+                                headerTitle: 'Chat',
+                                tabBarLabel: 'Chat',
+                            }
+                        },
+                    }),
                 },
                 {
                     tabBarOptions: {
@@ -80,7 +110,13 @@ const Routes = (userLogged = false) => createAppContainer(
                         swipeEnabled: true
                     },
                 },
-            )
+            ),
+            Categoria: createSwitchNavigator(
+                {
+                    Categorias,
+                    CadEscolhaEsporte,
+                }
+            ),
         },
         {
             initialRouteName: userLogged ? 'Logado' : 'NaoLogado',
