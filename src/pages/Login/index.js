@@ -13,10 +13,10 @@ import {
     ActivityIndicator
 } from 'react-native-paper';
 import RNRestart from 'react-native-restart';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
-
 import createNavigator from '../../routes';
+import PasswordToggleInput from '../../components/PasswordTextInput';
 
 /**
  * Desabilitei o Yellow Box de avisos
@@ -28,7 +28,7 @@ console.disableYellowBox = true;
 //api.pagar.me/1/zipcodes/CEP DO BAGULHO AQUI
 
 // IP local do seu PC:
-ip = '192.168.15.28';
+ip = '192.168.1.3';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -43,13 +43,19 @@ export default class Login extends Component {
             senha: '',
             loading: false,
             nome: '',
-            erroEmail: ''
+            erroEmail: '',
+            visible: 'eye-outline'
         };
+
+
+
     }
+
+
 
     Login = async () => {
 
-        var ip = '192.168.15.28';
+        var ip = '192.168.1.3';
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -134,7 +140,6 @@ export default class Login extends Component {
                         <Image style={styles.logoPosition} source={require('../../assets/img/logoBrancoPNG.png')}
                         ></Image>
                     </View>
-                   
                 </View>
                 <View style={styles.body}>
                     <View style={styles.formArea}>
@@ -163,32 +168,51 @@ export default class Login extends Component {
                                 }
                             }}
                         />
+                        <View style={styles.passwordContainer}>
 
-                        <TextInput
-                            style={styles.textInputFormSenha}
-                            label="Senha"
-                            keyboardType='default'
-                            placeholder='Sua senha segura'
-                            secureTextEntry={true}
-                            autoCorrect={false}
-                            mode="outlined"
-                            caretHidden={false}
-                            value={this.state.senha}
-                            onChangeText={(senha) => this.setState({ senha })}
-                            theme={{
-                                roundness: 10,
-                                colors: {
-                                    primary: '#9c27b0',
-                                    accent: '#9c27b0',
-                                    surface: '#9c27b0',
-                                    text: '#9c27b0',
-                                    backdrop: '#9c27b0',
-                                    background: '#fff'
-                                }
-                            }}
-                        />
+                            <TextInput
+                                style={styles.textInputFormSenha}
+                                label="Senha"
+                                keyboardType='default'
+                                placeholder='Sua senha segura'
+                                secureTextEntry={true}
+                                autoCorrect={false}
+                                mode="outlined"
+                                caretHidden={false}
+                                value={this.state.senha}
+                                onChangeText={(senha) => this.setState({ senha })}
+                                theme={{
+                                    roundness: 10,
+                                    colors: {
+                                        primary: '#9c27b0',
+                                        accent: '#9c27b0',
+                                        surface: '#9c27b0',
+                                        text: '#9c27b0',
+                                        backdrop: '#9c27b0',
+                                        background: '#fff'
+                                    }
+                                }}
+                            />
+                        </View>
+
+                        <TouchableOpacity
+
+
+                        >
+                            <Icon
+                                style={styles.iconFormat}
+                                name={this.state.visible}
+                                size={35}
+                                color='#616161'
+                                onPress={this.mostrarSenha}
+                            />
+                        </TouchableOpacity>
 
                     </View>
+
+                        <PasswordToggleInput/>
+
+
                     <View style={styles.ContainerEsqueciSenha}>
                         <TouchableOpacity>
                             <Text style={styles.TextEsqueciSenha}>Esqueceu sua senha?</Text>

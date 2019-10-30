@@ -28,9 +28,12 @@ export default class PerfilOpcoes extends Component {
         this.state = {
             checked: '',
             cep: '',
-            loading: false
+            loading: false,
+            secureTextEntry:true,
+            iconName:"eye-outline",
         }
     }
+  
 
     static navigationOptions = ({ navigation }) => {
         return {

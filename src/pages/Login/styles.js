@@ -56,11 +56,21 @@ const styles = StyleSheet.create({
     textInputFormSenha: {
         width: '80%',
         borderColor: '#9c27b0',
-        marginTop: 15
+        marginTop: 15,
+        height:65,
+    },
+    passwordContainer: {
+        flexDirection: 'row',
+        paddingBottom: 30,
+        flex: 1,
+      },
+      iconFormat:{
+        paddingLeft:"60%",
+        paddingTop:3,
     },
     ContainerEsqueciSenha:{
         marginLeft:"45%",
-        marginTop:10,
+        marginTop:50,
     },
     
     botaoLogin: {

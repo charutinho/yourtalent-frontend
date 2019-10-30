@@ -72,12 +72,9 @@ export default class Perfil extends Component {
         await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
-                const post = responseJson.post;
-
                 this.setState({
-                    listData: post,
-                    loading: false
-                });
+                    listPost: responseJson
+                })
             })
     }
 
@@ -86,7 +83,7 @@ export default class Perfil extends Component {
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://192.168.15.28:3000/data/${idUser}`)
+        await fetch(`http://${ip}:3000/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
 
@@ -417,7 +414,7 @@ export default class Perfil extends Component {
                                 marginBottom: 20,
                                 marginTop: 30
                             }}
-                            data={this.state.listData}
+                            data={this.state.listPost}
                             keyExtractor={listarposts => String(listarposts._id)}
                             renderItem={({ item }) => {
                                 return (
@@ -427,31 +424,35 @@ export default class Perfil extends Component {
                                             marginBottom: 30
                                         }}
                                     >
+                                        {
+                                            /*
+                                                <TouchableOpacity onPress={() => this.navegar(item.nomeEsporte)}>
+                                                </TouchableOpacity>
+                                             */
+                                        }
                                         <View
                                             style={{
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
                                             }}
                                         >
-                                                <Image
-                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
-                                                    style={{
-                                                        width: 50,
-                                                        height: 50,
-                                                        borderRadius: 90,
-                                                        overflow: 'hidden',
-                                                        marginLeft: 10
-                                                    }}
-                                                />
-
+                                            <ImageBackground
+                                                source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                style={{
+                                                    width: 50,
+                                                    height: 50,
+                                                    borderRadius: 90,
+                                                    overflow: 'hidden',
+                                                    marginLeft: 10
+                                                }}
+                                            />
                                             <Text
                                                 style={{
                                                     fontSize: 18,
                                                     marginLeft: 10
                                                 }}
                                             >
-                                                {item.autor.nome}
-
+                                                {item.autor.nomeUsuario}
                                             </Text>
                                         </View>
 

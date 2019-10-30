@@ -113,7 +113,7 @@ export default class PageFeed extends Component {
     fetchData = async () => {
         const categoriaEsporte = await AsyncStorage.getItem('Esporte');
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        const response = await fetch(`http://${ip}:3000/listarposts/${categoriaEsporte}`)
+        await fetch(`http://${ip}:3000/listarposts/${categoriaEsporte}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson.post[0].autor)
@@ -124,10 +124,6 @@ export default class PageFeed extends Component {
                     loading: false
                 });
             })
-    }
-
-    async componentDidUpdate(){
-        this.fetchData.call();
     }
 
     async componentDidMount() {
