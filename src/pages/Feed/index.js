@@ -113,13 +113,21 @@ export default class PageFeed extends Component {
     fetchData = async () => {
         const categoriaEsporte = await AsyncStorage.getItem('Esporte');
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        const response = await fetch(`http://${ip}:3000/listarposts/${categoriaEsporte}`);
-        const post = await response.json();
+        const response = await fetch(`http://${ip}:3000/listarposts/${categoriaEsporte}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson.post[0].autor)
+                const post = responseJson.post;
 
-        this.setState({
-            listData: post,
-            loading: false
-        });
+                this.setState({
+                    listData: post,
+                    loading: false
+                });
+            })
+    }
+
+    async componentDidUpdate(){
+        this.fetchData.call();
     }
 
     async componentDidMount() {
@@ -300,7 +308,7 @@ export default class PageFeed extends Component {
                                                 }}
                                                 onPress={() => this.handlePerfil(item.autor.idUsuario)}
                                             >
-                                                {item.autor.nomeUsuario}
+                                                {item.autor.nome}
 
                                             </Text>
                                         </View>
