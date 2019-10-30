@@ -72,9 +72,12 @@ export default class Perfil extends Component {
         await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
+                const post = responseJson.post;
+
                 this.setState({
-                    listPost: responseJson
-                })
+                    listData: post,
+                    loading: false
+                });
             })
     }
 
@@ -414,7 +417,7 @@ export default class Perfil extends Component {
                                 marginBottom: 20,
                                 marginTop: 30
                             }}
-                            data={this.state.listPost}
+                            data={this.state.listData}
                             keyExtractor={listarposts => String(listarposts._id)}
                             renderItem={({ item }) => {
                                 return (
@@ -424,35 +427,31 @@ export default class Perfil extends Component {
                                             marginBottom: 30
                                         }}
                                     >
-                                        {
-                                            /*
-                                                <TouchableOpacity onPress={() => this.navegar(item.nomeEsporte)}>
-                                                </TouchableOpacity>
-                                             */
-                                        }
                                         <View
                                             style={{
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
                                             }}
                                         >
-                                            <ImageBackground
-                                                source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
-                                                style={{
-                                                    width: 50,
-                                                    height: 50,
-                                                    borderRadius: 90,
-                                                    overflow: 'hidden',
-                                                    marginLeft: 10
-                                                }}
-                                            />
+                                                <Image
+                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                    style={{
+                                                        width: 50,
+                                                        height: 50,
+                                                        borderRadius: 90,
+                                                        overflow: 'hidden',
+                                                        marginLeft: 10
+                                                    }}
+                                                />
+
                                             <Text
                                                 style={{
                                                     fontSize: 18,
                                                     marginLeft: 10
                                                 }}
                                             >
-                                                {item.autor.nomeUsuario}
+                                                {item.autor.nome}
+
                                             </Text>
                                         </View>
 
