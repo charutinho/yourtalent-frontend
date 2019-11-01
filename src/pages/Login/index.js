@@ -44,12 +44,19 @@ export default class Login extends Component {
             loading: false,
             nome: '',
             erroEmail: '',
-            visible: 'eye-outline'
+            secureTextEntry: true,
+            iconName: "eye-off-outline",
         };
-
-
-
     }
+    onIconPress = () => {
+        let iconName = (this.state.secureTextEntry) ? "eye-outline":"eye-off-outline";
+
+        this.setState({
+            secureTextEntry: !this.state.secureTextEntry,
+            iconName: iconName
+        });
+    }
+
 
 
 
@@ -175,7 +182,7 @@ export default class Login extends Component {
                                 label="Senha"
                                 keyboardType='default'
                                 placeholder='Sua senha segura'
-                                secureTextEntry={true}
+                                secureTextEntry={this.state.secureTextEntry}
                                 autoCorrect={false}
                                 mode="outlined"
                                 caretHidden={false}
@@ -194,23 +201,12 @@ export default class Login extends Component {
                                 }}
                             />
                         </View>
-
-                        <TouchableOpacity
-
-
-                        >
-                            <Icon
-                                style={styles.iconFormat}
-                                name={this.state.visible}
-                                size={35}
-                                color='#616161'
-                                onPress={this.mostrarSenha}
-                            />
+                        <TouchableOpacity style={{marginLeft:"60%", alignItems:"center", marginTop:5}}onPress={this.onIconPress}>
+                            <Icon style={{}} name={this.state.iconName} size={30} color={"#616161"} />
                         </TouchableOpacity>
 
                     </View>
 
-                        <PasswordToggleInput/>
 
 
                     <View style={styles.ContainerEsqueciSenha}>

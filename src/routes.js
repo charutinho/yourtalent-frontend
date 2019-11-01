@@ -19,6 +19,7 @@ import CadCep from './pages/CadCep';
 
 //Cad Atleta
 import CadAtleta2 from './pages/CadAtleta2';
+import PosicaoEsporte from './pages/PosicaoEsporte';
 
 //CadOlheiro
 import CadOlheiro from './pages/CadOlheiro';
@@ -42,11 +43,12 @@ const Routes = (userLogged = false) => createAppContainer(
         {
             NaoLogado: createStackNavigator(
                 {
+                    CadAtleta2,
+                    PosicaoEsporte,
                     Splash,
                     Login,
                     CadUsuario,
                     CadEscolha,
-                    CadAtleta2,
                     CadCep,
                     Aviso,
                     CadOlheiro,

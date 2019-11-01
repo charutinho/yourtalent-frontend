@@ -1,5 +1,5 @@
 import {
-    StyleSheet,
+    StyleSheet
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -7,80 +7,87 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
     },
     header: {
-        flex: 3,
+        flex: 2,
         flexDirection: 'column',
-        marginLeft: "-30%",
-        
+        justifyContent: 'center',
+        alignItems: 'center',
+
     },
     body: {
-        flex: 7,
+        marginTop: 30,
+        flex: 9,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
         alignItems: 'center',
+        width: '100%',
+        justifyContent: 'center',
+
     },
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#fff',
-        marginTop:90,
-        
+        paddingTop: 60,
+        fontSize: 23,
     },
-    campoForm: {
-        color: '#000',
-        height: 45,
-        width: 300,
-        fontSize: 18,
-        marginTop: 10,
-        marginBottom: 10,
-    },
-    campoForm2: {
-        color: '#000',
-        height: 45,
-        width: 300,
-        fontSize: 18,
-        marginTop: 5,
-    },
-    textFormInput: {
-        fontSize: 18,
-        color: '#000',
-        marginTop: 10,
-        marginLeft: 8,
-        flexDirection: 'row',
-    },
-    radioText: {
-        fontSize: 18,
-        color: '#000'
-    },
-    radioOpcao: {
-        flexDirection: 'row',
+    formArea: {
+        width: '100%',
         alignItems: 'center',
-        marginLeft: 15,
-        zIndex: 100,
     },
-    campoFormInput: {
+    textInputForm: {
+        width: '80%',
+        marginTop: 10,
+        height: 60,
+    },
+    inputSexo: {
+        width: '80%',
         flexDirection: 'row',
-        height: 45,
-        width: 300,
-        fontSize: 18,
-        marginLeft: -5
-    },
-    botaoLogin: {
-        width: 300,
-        height: 50,
-        backgroundColor: '#8e24aa',
-        borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
     },
+    radioText: {
+        fontSize: 18,
+        paddingTop: 15,
+        paddingBottom: 15,
+    },
+    textFormInput: {
+        fontSize: 18,
+        marginRight: 15
+    },
+    radioOpcao: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    textInputFormSenha: {
+        width: '80%',
+        borderColor: '#9c27b0',
+        marginTop: 15,
+        height:65,
+    },
+    passwordContainer: {
+        flexDirection: 'row',
+        paddingBottom: 30,
+        flex: 1,
+      },
+      iconFormat:{
+        paddingLeft:"60%",
+        paddingTop:3,
+    },
+    botaoLogin: {
+        width: '80%',
+        height: 55,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#9c27b0',
+        borderRadius: 6,
+        marginTop: 30,
+        marginBottom: 20,
+    },
     textBotaoLogin: {
+        fontSize: 22,
         fontWeight: 'bold',
-        fontSize: 21,
-        color: '#fff',
-    }
+        color: '#fff'
+    },
 });
 
 export default styles;
