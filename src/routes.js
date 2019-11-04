@@ -1,10 +1,9 @@
 import {
     createAppContainer,
     createSwitchNavigator,
-    createBottomTabNavigator,
 } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 //Telas
 
@@ -35,6 +34,8 @@ import PageFeed from './pages/Feed';
 import Perfil from './pages/Perfil';
 import PerfilOpcoes from './pages/PerfilOpcoes';
 import Chat from './pages/Chat';
+import PerfilCampeonato from './pages/PerfilCampeonatos';
+import NovoCampeonato from './pages/NovoCampeonato';
 
 import PerfilUsuario from './pages/PerfilUsuario';
 
@@ -43,19 +44,19 @@ const Routes = (userLogged = false) => createAppContainer(
         {
             NaoLogado: createStackNavigator(
                 {
-                    CadAtleta2,
-                    PosicaoEsporte,
                     Splash,
                     Login,
                     CadUsuario,
                     CadEscolha,
+                    CadAtleta2,
                     CadCep,
                     Aviso,
                     CadOlheiro,
                     Pagamento,
+                    PosicaoEsporte,
                 }
             ),
-            Logado: createMaterialBottomTabNavigator(
+            Logado: createBottomTabNavigator(
                 {
                     Feed: createStackNavigator({
                         Feed: {
@@ -70,8 +71,9 @@ const Routes = (userLogged = false) => createAppContainer(
                                 tabBarLabel: 'Feed',
                             },
                         },
-                        PerfilUsuario: PerfilUsuario
+                        PerfilUsuario: PerfilUsuario,
                     }),
+
                     Perfil: createStackNavigator({
                         Perfil: {
                             screen: Perfil,
@@ -86,7 +88,10 @@ const Routes = (userLogged = false) => createAppContainer(
                             }
                         },
                         PerfilOpcoes: PerfilOpcoes,
+                        NovoCampeonato: NovoCampeonato,
+                        PerfilCampeonato: PerfilCampeonato,
                     }),
+
                     Chat: createStackNavigator({
                         Chat: {
                             screen: Chat,
@@ -108,8 +113,6 @@ const Routes = (userLogged = false) => createAppContainer(
                         inactiveBackgroundColor: '#f5f5f5',
                         labelStyle: { fontWeight: 'bold' },
                         showIcon: true,
-                        animationEnabled: true,
-                        swipeEnabled: true
                     },
                 },
             ),
