@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         borderColor: '#eeeeee',
         borderWidth: 1,
         padding: 5,
-        marginTop: '5%'
+        marginTop: '5%',
+        borderRadius: 8
     },
     textArea: {
         padding: 15,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 10
     },
-    selectFormat:{
+    selectFormat: {
         backgroundColor: 'rgba(123, 31, 162, 0.1)',
     },
     fim: {
@@ -45,8 +46,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: 80
+    },
+    //Style da miniatura e botão de confirmar 
+    miniaturaImg: {
+        width: 40,
+        height: 40,
+        marginRight: 20,
+        borderRadius: 4,
+        overflow: 'hidden',
+        marginLeft: '5%',
+        marginRight: '5%',
+    },
+    selectImg: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: '-11%',
+    },
+    styleSelect: {
+        marginLeft: '5%',
     }
-
 });
 
 export default styles;

@@ -5,7 +5,8 @@ import {
     StatusBar,
     TouchableOpacity,
     Picker,
-    ScrollView
+    ScrollView,
+    TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextInputMask from 'react-native-text-input-mask';
@@ -15,7 +16,6 @@ import {
     Divider,
     Button,
     RadioButton,
-    TextInput,
     ActivityIndicator
 } from 'react-native-paper';
 
@@ -28,12 +28,9 @@ export default class PerfilOpcoes extends Component {
         this.state = {
             checked: '',
             cep: '',
-            loading: false,
-            secureTextEntry:true,
-            iconName:"eye-outline",
+            loading: false
         }
     }
-  
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -147,7 +144,10 @@ export default class PerfilOpcoes extends Component {
                     }
                 )
             });
-            this.setState({ loading: false })
+            this.setState({ loading: false });
+            this.props.navigation.navigate('Perfil', {
+                atualizou: 1
+            });
     }
 
 

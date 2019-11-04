@@ -6,17 +6,16 @@ import {
     Alert,
     TouchableOpacity,
     Image,
+    Keyboard
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
     TextInput,
     ActivityIndicator
 } from 'react-native-paper';
-import RNRestart from 'react-native-restart';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
 import createNavigator from '../../routes';
-import PasswordToggleInput from '../../components/PasswordTextInput';
 
 /**
  * Desabilitei o Yellow Box de avisos
@@ -28,7 +27,7 @@ console.disableYellowBox = true;
 //api.pagar.me/1/zipcodes/CEP DO BAGULHO AQUI
 
 // IP local do seu PC:
-ip = '192.168.1.3';
+ip = '192.168.15.29';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -62,7 +61,9 @@ export default class Login extends Component {
 
     Login = async () => {
 
-        var ip = '192.168.1.3';
+        Keyboard.dismiss();
+
+        var ip = '192.168.15.29';
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -101,7 +102,6 @@ export default class Login extends Component {
                         let id = idUser;
 
                         let nomeUsuario = responseJson.user.nome;
-                        console.log(nomeUsuario);
 
                         AsyncStorage.setItem('@Nome:nome', nomeUsuario);
 
@@ -188,6 +188,7 @@ export default class Login extends Component {
                                 caretHidden={false}
                                 value={this.state.senha}
                                 onChangeText={(senha) => this.setState({ senha })}
+                                onSubmitEditing={this.Login}
                                 theme={{
                                     roundness: 10,
                                     colors: {

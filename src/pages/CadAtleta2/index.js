@@ -27,75 +27,8 @@ export default class CadAtleta2 extends Component {
     };
 
     handleRegistro = async () => {
-        // esporte do jogador
         await AsyncStorage.setItem('EsporteCad', this.state.PickerValue);
         this.props.navigation.navigate('PosicaoEsporte');
-
-        ip = await AsyncStorage.getItem('@Ip:ip');
-
-        var nome = await AsyncStorage.getItem('Nome')
-        var nasc = await AsyncStorage.getItem('Nasc');
-        var nasc = nasc.split("/");
-        if (nasc[0] < 10) {
-            nasc[0] = "0" + nasc[0];
-        }
-        if (nasc[1] < 10) {
-            nasc[1] = "0" + nasc[1];
-        }
-        nasc = nasc[0] + "/" + nasc[1] + "/" + nasc[2];
-        var sexo = await AsyncStorage.getItem('Sexo')
-        var email = await AsyncStorage.getItem('Email')
-        var senha = await AsyncStorage.getItem('Senha')
-        var cep = await AsyncStorage.getItem('Cep');
-        var estado = await AsyncStorage.getItem('Estado')
-        var cidade = await AsyncStorage.getItem('Cidade')
-
-
-
-        this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/auth/register`,
-            {
-                method: 'POST',
-                headers:
-                {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    'Pragma': 'no-cache',
-                    'Expires': 0
-                },
-                body: JSON.stringify(
-                    {
-                        nome: nome,
-                        nasc: nasc,
-                        sexo: sexo,
-                        email: email,
-                        senha: senha,
-                        desc: 'Conte-nos um pouco sobre você :)',
-                        cep: cep,
-                        estado: estado,
-                        cidade: cidade,
-                        esporte: this.state.PickerValue,
-                        nivel: 1,
-                        fotoPerfil: 'profilepicture.png',
-                        fotoCapa: 'profilecapa.jpg'
-                    })
-
-            })
-            .then((response) => response.json())
-            .then((responseJson) => {
-
-                var id = responseJson.user._id;
-
-                AsyncStorage.setItem('@Nome:nome', nome);
-                AsyncStorage.setItem('@Login:id', id);
-
-                this.props.navigation.navigate('CadEscolhaEsporte');
-
-
-            }).catch((error) => {
-                console.error(error);
-            });
     }
 
     static navigationOptions = {
@@ -166,9 +99,3 @@ export default class CadAtleta2 extends Component {
                 );
             }
         }
-        
-        
-        
-        /*
-        
-        */

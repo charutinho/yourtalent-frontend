@@ -51,6 +51,12 @@ export default class CadCep extends Component {
                     estado: responseJson.state,
                     cidade: responseJson.city
                 })
+                if(this.state.estado == null){
+                    this.setState({
+                        visible: true,
+                        cep: ''
+                    })
+                }
             })
         this.setState({ loading: false })
     }

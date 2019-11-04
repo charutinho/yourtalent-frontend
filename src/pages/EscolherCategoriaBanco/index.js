@@ -34,6 +34,9 @@ export default class Categorias extends Component {
     }
 
     navegar = async (esporte) => {
+        const ip = await AsyncStorage.getItem('@Ip:ip');
+        const idUser = await AsyncStorage.getItem('@Login:id');
+        await fetch(`http://${ip}:3000/esportes/favesporte/${esporte}/${idUser}`);
         await AsyncStorage.setItem('Esporte', esporte)
         this.props.navigation.navigate('Feed');
     }

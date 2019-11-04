@@ -13,11 +13,11 @@ import {
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
-import RNRestart from 'react-native-restart';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
+import ConteudoFeed from '../../components/ConteudoFeed';
 
 export default class Perfil extends Component {
 
@@ -47,6 +47,7 @@ export default class Perfil extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            atualizou: 0,
             nomeUsuario: '',
             idade: '',
             sexo: '',
@@ -72,9 +73,12 @@ export default class Perfil extends Component {
         await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
+                const post = responseJson.post;
+
                 this.setState({
-                    listPost: responseJson
-                })
+                    listData: post,
+                    loading: false
+                });
             })
     }
 
@@ -90,11 +94,14 @@ export default class Perfil extends Component {
                 //Dados do usuário
                 var nomeUsuario = responseJson.user.nome;
                 var nasc = responseJson.user.nasc;
-                var estado = responseJson.user.estado;
                 var descricao = responseJson.user.desc;
                 //Foto
                 var fotoUsuario = responseJson.user.fotoPerfil;
                 var fotoCapa = responseJson.user.fotoCapa;
+
+                //Localização
+                var estado = responseJson.user.estado;
+                var cidade = responseJson.user.cidade;
 
                 // Calculo idade
                 var saveNasc = nasc;
@@ -134,19 +141,30 @@ export default class Perfil extends Component {
                     capa: capaUser,
                     esporte: esporte,
                     estado: estado,
+                    cidade: cidade,
                     descricao: descricao,
                     nivel: nivel,
-                    nivelIcon: nivelIcone
+                    nivelIcon: nivelIcone,
                 });
-
-            }).catch((error) => {
-                console.error(error);
-            });
-
+            })
     }
 
     async componentDidUpdate() {
-        this.getDados.call();
+        const { navigation } = this.props;
+
+        if (navigation.getParam('atualizou') === 1) {
+            this.setState({ atualizou: 1 });
+            this.props.navigation.navigate('Perfil', {
+                atualizou: 2
+            })
+        }
+
+        if (this.state.atualizou === 1) {
+            this.getDados.call();
+            this.getPosts.call();
+            console.log('Posts atualizados')
+            await this.setState({ atualizou: 2 })
+        }
     }
 
     async componentDidMount() {
@@ -199,6 +217,7 @@ export default class Perfil extends Component {
                 };
 
                 fetch(`http://${ip}:3000/uploadimg`, config);
+                this.setState({ atualizou: 1 })
             }
         });
 
@@ -246,7 +265,8 @@ export default class Perfil extends Component {
                     },
                 };
 
-                fetch(`http://${ip}:3000/uploadimgcapa`, config);
+                fetch(`http://${ip}:3000/uploadimgcapa`, config)
+                this.setState({ atualizou: 1 })
             }
         });
     }
@@ -255,7 +275,12 @@ export default class Perfil extends Component {
         Alert.alert("Data de nascimento", this.state.nasc);
     }
 
+    verCidade = async () => {
+        Alert.alert("Localização", `Estado: ${this.state.estado}\nCidade: ${this.state.cidade}`);
+    }
+
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <ScrollView style={{
                 backgroundColor: '#fafafa',
@@ -391,7 +416,7 @@ export default class Perfil extends Component {
                                 </View>
                             </TouchableOpacity>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={this.verCidade}>
                                 <View style={styles.estadoView}>
                                     <Icon
                                         name="map-marker"
@@ -404,17 +429,54 @@ export default class Perfil extends Component {
 
                         </View>
 
+                        <View style={styles.sobreView}>
+
+                            <TouchableOpacity
+                                onPress={() => navigate('PerfilCampeonato')}
+                                style={{
+                                    marginLeft: '10%'
+                                }}
+                            >
+
+                                <View style={styles.campView}>
+                                    <Icon
+                                        name="trophy"
+                                        color="#000"
+                                        size={48}
+                                    />
+                                    <Text>Campeonatos</Text>
+                                </View>
+
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity
+                                style={{
+                                    marginRight: '10%'
+                                }}
+                            >
+                                <View style={styles.campView}>
+                                    <Icon
+                                        name="check"
+                                        color="#000"
+                                        size={48}
+                                    />
+                                    <Text>{this.state.estado}</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+
+
+
+
                         <Text style={styles.destaqueTitulo}>
-                            Últimos posts de {this.state.nomeUsuario}
+                            Seus últimos posts
                         </Text>
 
                         <FlatList
-                            style={{
-                                width: '100%',
-                                marginBottom: 20,
-                                marginTop: 30
-                            }}
-                            data={this.state.listPost}
+                            style={styles.containerFlatList}
+                            data={this.state.listData}
                             keyExtractor={listarposts => String(listarposts._id)}
                             renderItem={({ item }) => {
                                 return (
@@ -424,36 +486,61 @@ export default class Perfil extends Component {
                                             marginBottom: 30
                                         }}
                                     >
-                                        {
-                                            /*
-                                                <TouchableOpacity onPress={() => this.navegar(item.nomeEsporte)}>
-                                                </TouchableOpacity>
-                                             */
-                                        }
                                         <View
                                             style={{
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
                                             }}
                                         >
-                                            <ImageBackground
-                                                source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
-                                                style={{
-                                                    width: 50,
-                                                    height: 50,
-                                                    borderRadius: 90,
-                                                    overflow: 'hidden',
-                                                    marginLeft: 10
-                                                }}
-                                            />
-                                            <Text
-                                                style={{
-                                                    fontSize: 18,
-                                                    marginLeft: 10
-                                                }}
-                                            >
-                                                {item.autor.nomeUsuario}
-                                            </Text>
+                                            <View style={{
+                                                width: '50%',
+                                                flexDirection: 'row',
+                                                alignItems: 'center'
+                                            }}>
+
+                                                <Image
+                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                    style={{
+                                                        width: 50,
+                                                        height: 50,
+                                                        borderRadius: 90,
+                                                        overflow: 'hidden',
+                                                        marginLeft: 10,
+                                                    }}
+                                                />
+
+
+                                                <Text
+                                                    style={{
+                                                        fontSize: 18,
+                                                        marginLeft: 10,
+                                                    }}
+                                                >
+                                                    {item.autor.nome}
+                                                </Text>
+
+                                            </View>
+
+                                            <View style={{
+                                                width: '50%',
+                                                alignItems: 'flex-end'
+                                            }}>
+
+                                                <TouchableOpacity
+                                                >
+                                                    <Icon
+                                                        name="dots-vertical"
+                                                        color="#000"
+                                                        size={25}
+                                                        style={{
+                                                            marginRight: 10
+                                                        }}
+                                                    />
+                                                </TouchableOpacity>
+
+                                            </View>
+
+
                                         </View>
 
                                         <Text
@@ -465,13 +552,7 @@ export default class Perfil extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ImageBackground source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }}
-                                            style={{
-                                                width: '100%',
-                                                height: 470,
-                                            }}
-                                        />
-
+                                        <ConteudoFeed type={item.tipo} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}

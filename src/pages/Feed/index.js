@@ -10,14 +10,17 @@ import {
     ImageBackground,
     Image,
     Picker,
-    ActivityIndicator
+    ActivityIndicator,
+    Modal
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNRestart from 'react-native-restart';
+import Video from 'react-native-video';
 
 import styles from './styles';
+import ConteudoFeed from '../../components/ConteudoFeed';
 
 export default class PageFeed extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -50,7 +53,8 @@ export default class PageFeed extends Component {
             PickerValue: '',
             visibleH: 0,
             visibleW: 0,
-            loading: true
+            loading: true,
+            atualizou: 0
         }
     }
 
@@ -74,46 +78,111 @@ export default class PageFeed extends Component {
                     desc: this.state.desc
                 },
             };
-            fetch(`http://${ip}:3000/novopost`, config);
+            await fetch(`http://${ip}:3000/novopost`, config);
             RNRestart.Restart();
         } else {
             const options = {
-                title: '',
+                title: 'Imagem/vídeo da sua postagem',
                 cancelButtonTitle: 'Cancelar',
-                takePhotoButtonTitle: 'Usar câmera',
+                takePhotoButtonTitle: 'Tirar uma foto',
                 chooseFromLibraryButtonTitle: 'Foto da galeria',
+                customButtons: [
+                    { name: 'video', title: 'Vídeo da galeria' },
+                ],
                 storageOptions: {
                     skipBackup: false,
                     path: 'images',
                 },
             };
 
+            const optionsVideo = {
+                storageOptions: {
+                    skipBackup: true,
+                    path: 'movies'
+                },
+                noData: true,
+                mediaType: 'video'
+            };
+
             ImagePicker.showImagePicker(options, (response) => {
-                const data = new FormData();
-                data.append('name', 'avatar');
-                data.append('img', {
-                    uri: response.uri,
-                    type: response.type,
-                    name: response.fileName
-                });
+                if (response.didCancel) {
+                    console.log('Cancelou o picker');
+                } else if (response.error) {
+                    console.log('ImagePicker Error: ', response.error);
+                } else if (response.customButton === 'video') {
+                    ImagePicker.launchImageLibrary(optionsVideo, (response) => {
+                        const data = new FormData();
+                        data.append('name', 'avatar');
+                        data.append('img', {
+                            uri: response.uri,
+                            type: "video/mp4",
+                            name: "videoupload"
+                        });
+                        const miniatura = { uri: response.uri }
+                        this.setState({
+                            miniatura: miniatura,
+                            data: data,
+                            visibleH: 18,
+                            visibleW: 63
+                        })
+                    });
 
-                const miniatura = { uri: response.uri }
+                } else {
+                    const data = new FormData();
+                    data.append('name', 'avatar');
+                    data.append('img', {
+                        uri: response.uri,
+                        type: response.type,
+                        name: "videoupload"
+                    });
 
-                this.setState({
-                    miniatura: miniatura,
-                    data: data,
-                    visibleH: 18,
-                    visibleW: 63
-                })
+                    const miniatura = { uri: response.uri }
 
+                    this.setState({
+                        miniatura: miniatura,
+                        data: data,
+                        visibleH: 18,
+                        visibleW: 63
+                    })
+                }
             });
         }
     }
 
     fetchData = async () => {
-        const categoriaEsporte = await AsyncStorage.getItem('Esporte');
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/listarposts/${categoriaEsporte}`)
+        const idUser = await AsyncStorage.getItem('@Login:id');
+
+        await fetch(`http://${ip}:3000/esportes/getfavesporte/${idUser}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(`http://${ip}:3000/esportes/getfavesporte/${idUser}`);
+                const esporteFeed = responseJson.esporte[0].esporteFeed;
+
+                this.setState({ esporteFeed: esporteFeed })
+            })
+
+
+        if (this.state.esporteFeed == undefined) {
+            if (this.state.esporteFeed == undefined) {
+                var categoriaEsporte = await AsyncStorage.getItem('Esporte');
+                this.setState({ esporteFeed: categoriaEsporte })
+                await fetch(`http://${ip}:3000/listarposts/${this.state.esporteFeed}`)
+                    .then((response) => response.json())
+                    .then((responseJson) => {
+                        console.log(responseJson.post[0].autor)
+                        const post = responseJson.post;
+
+                        this.setState({
+                            listData: post,
+                            loading: false,
+                            atualizou: 1
+                        });
+                    })
+            }
+        }
+        this.setState({ loading: true })
+        await fetch(`http://${ip}:3000/listarposts/${this.state.esporteFeed}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson.post[0].autor)
@@ -124,6 +193,13 @@ export default class PageFeed extends Component {
                     loading: false
                 });
             })
+    }
+
+    async componentDidUpdate() {
+        if (this.state.atualizou === 1) {
+            this.fetchData.call();
+            this.setState({ atualizou: 2 })
+        }
     }
 
     async componentDidMount() {
@@ -165,32 +241,27 @@ export default class PageFeed extends Component {
                                 onChangeText={(desc) => this.setState({ desc })}
                             />
                         </View>
-                        <View style={styles.novoPostContainer}>
+
+                        <View style={styles.selectImg}>
+
                             <TouchableOpacity
-                                onPress={this.novoPost}
                                 style={{
                                     padding: 5,
                                     fontSize: 22,
                                     flexDirection: 'row',
-                                    alignItems: 'center'
+                                    alignItems: 'center',
                                 }}
+                                onPress={this.novoPost}
                             >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                    }}
-                                >
-                                    Selecionar imagem
-                            </Text>
                                 <Icon
                                     name="image-plus"
                                     color="#212121"
-                                    size={18}
+                                    size={25}
                                     style={{
                                         marginLeft: 5,
                                         backgroundColor: '#fafafa',
                                         borderRadius: 90,
-                                        padding: 4,
+                                        padding: 5,
                                         shadowOffset: {
                                             width: 0,
                                             height: 1,
@@ -200,7 +271,12 @@ export default class PageFeed extends Component {
                                         elevation: 2,
                                     }}
                                 />
+
                             </TouchableOpacity>
+
+                            <Image source={this.state.miniatura}
+                                style={styles.miniaturaImg}
+                            />
 
                             <View style={styles.styleSelect}>
 
@@ -218,52 +294,35 @@ export default class PageFeed extends Component {
                             </View>
 
 
-                            <TouchableOpacity onPress={this.novoPost}>
-                                <Text
+                            <TouchableOpacity
+                                onPress={() => this.novoPost(true)}
+                            >
+                                <Icon
+                                    name="send"
+                                    color="#212121"
+                                    size={25}
                                     style={{
-                                        fontSize: 18,
-                                        marginLeft: 10
-                                    }}>
-                                    {this.state.confirmar}
-                                </Text>
-
+                                        marginLeft: 5,
+                                        backgroundColor: '#fafafa',
+                                        borderRadius: 8,
+                                        padding: 5,
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 1,
+                                        },
+                                        shadowOpacity: 0.20,
+                                        shadowRadius: 1.41,
+                                        elevation: 2,
+                                    }}
+                                />
                             </TouchableOpacity>
 
                         </View>
-
-                        <Image source={this.state.miniatura}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                marginLeft: 20
-                            }}
-                        />
-
-                        <Text
-                            onPress={() => this.novoPost(true)}
-                            style={{
-                                width: this.state.visibleW,
-                                height: this.state.visibleH
-                            }}
-                        >
-                            Confirmar
-                        </Text>
-
-
                     </View>
 
 
                     <View style={styles.body}>
-                        {loading && (
-                            <ActivityIndicator
-                                color="#C00"
-                                size="large"
-                                color='#9c27b0'
-                                style={{
-                                    marginTop: 50
-                                }}
-                            />
-                        )}
+
                         <FlatList
                             style={styles.containerFlatList}
                             data={this.state.listData}
@@ -282,31 +341,61 @@ export default class PageFeed extends Component {
                                                 alignItems: 'center',
                                             }}
                                         >
-                                            <TouchableOpacity
-                                                onPress={() => this.handlePerfil(item.autor.idUsuario)}
-                                            >
-                                                <Image
-                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                            <View style={{
+                                                width: '50%',
+                                                flexDirection: 'row',
+                                                alignItems: 'center'
+                                            }}>
+
+                                                <TouchableOpacity
+                                                    onPress={() => this.handlePerfil(item.autor._id)}
+                                                >
+                                                    <Image
+                                                        source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                        style={{
+                                                            width: 50,
+                                                            height: 50,
+                                                            borderRadius: 90,
+                                                            overflow: 'hidden',
+                                                            marginLeft: 10,
+                                                        }}
+                                                    />
+
+                                                </TouchableOpacity>
+
+                                                <Text
                                                     style={{
-                                                        width: 50,
-                                                        height: 50,
-                                                        borderRadius: 90,
-                                                        overflow: 'hidden',
-                                                        marginLeft: 10
+                                                        fontSize: 18,
+                                                        marginLeft: 10,
                                                     }}
-                                                />
-                                            </TouchableOpacity>
+                                                    onPress={() => this.handlePerfil(item.autor._id)}
+                                                >
+                                                    {item.autor.nome}
 
-                                            <Text
-                                                style={{
-                                                    fontSize: 18,
-                                                    marginLeft: 10
-                                                }}
-                                                onPress={() => this.handlePerfil(item.autor.idUsuario)}
-                                            >
-                                                {item.autor.nome}
+                                                </Text>
 
-                                            </Text>
+                                            </View>
+
+                                            <View style={{
+                                                width: '50%',
+                                                alignItems: 'flex-end'
+                                            }}>
+
+                                                <TouchableOpacity
+                                                >
+                                                    <Icon
+                                                        name="dots-vertical"
+                                                        color="#000"
+                                                        size={25}
+                                                        style={{
+                                                            marginRight: 10
+                                                        }}
+                                                    />
+                                                </TouchableOpacity>
+
+                                            </View>
+
+
                                         </View>
 
                                         <Text
@@ -318,25 +407,30 @@ export default class PageFeed extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ImageBackground source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }}
-                                            style={{
-                                                width: '100%',
-                                                height: 470,
-                                            }}
-                                        />
-
+                                        <ConteudoFeed type={item.tipo} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}
                         />
                     </View>
 
+                    {loading && (
+                        <ActivityIndicator
+                            color="#C00"
+                            size="large"
+                            color='#9c27b0'
+                            style={{
+                                marginTop: 50
+                            }}
+                        />
+                    )}
+
                     <View style={styles.fim}>
                         <Text>
                             Não há mais nada aqui
                         </Text>
                         <Text>
-                            Parece que você já viu tudo, qual tal escolher outro esporte?
+                            Parece que você já viu tudo, que tal escolher outro esporte?
                         </Text>
                     </View>
 

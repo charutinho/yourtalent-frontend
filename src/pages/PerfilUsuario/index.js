@@ -12,12 +12,10 @@ import {
     FlatList
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
-import ImagePicker from 'react-native-image-picker';
-import RNRestart from 'react-native-restart';
-
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
+import ConteudoFeed from '../../components/ConteudoFeed';
 
 export default class PerfilUsuario extends Component {
     //Dados Usuário
@@ -50,8 +48,9 @@ export default class PerfilUsuario extends Component {
         await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
+                const post = responseJson.post;
                 this.setState({
-                    listPost: responseJson
+                    listPost: post
                 })
             })
     }
@@ -62,7 +61,7 @@ export default class PerfilUsuario extends Component {
         var idUser = navigation.getParam('userId')
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://192.168.15.28:3000/data/${idUser}`)
+        await fetch(`http://${ip}:3000/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
 
@@ -251,36 +250,61 @@ export default class PerfilUsuario extends Component {
                                             marginBottom: 30
                                         }}
                                     >
-                                        {
-                                            /*
-                                                <TouchableOpacity onPress={() => this.navegar(item.nomeEsporte)}>
-                                                </TouchableOpacity>
-                                             */
-                                        }
                                         <View
                                             style={{
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
                                             }}
                                         >
-                                            <ImageBackground
-                                                source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
-                                                style={{
-                                                    width: 50,
-                                                    height: 50,
-                                                    borderRadius: 90,
-                                                    overflow: 'hidden',
-                                                    marginLeft: 10
-                                                }}
-                                            />
-                                            <Text
-                                                style={{
-                                                    fontSize: 18,
-                                                    marginLeft: 10
-                                                }}
-                                            >
-                                                {item.autor.nomeUsuario}
-                                            </Text>
+                                            <View style={{
+                                                width: '50%',
+                                                flexDirection: 'row',
+                                                alignItems: 'center'
+                                            }}>
+
+                                                <Image
+                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                    style={{
+                                                        width: 50,
+                                                        height: 50,
+                                                        borderRadius: 90,
+                                                        overflow: 'hidden',
+                                                        marginLeft: 10,
+                                                    }}
+                                                />
+
+
+                                                <Text
+                                                    style={{
+                                                        fontSize: 18,
+                                                        marginLeft: 10,
+                                                    }}
+                                                >
+                                                    {item.autor.nome}
+                                                </Text>
+
+                                            </View>
+
+                                            <View style={{
+                                                width: '50%',
+                                                alignItems: 'flex-end'
+                                            }}>
+
+                                                <TouchableOpacity
+                                                >
+                                                    <Icon
+                                                        name="dots-vertical"
+                                                        color="#000"
+                                                        size={25}
+                                                        style={{
+                                                            marginRight: 10
+                                                        }}
+                                                    />
+                                                </TouchableOpacity>
+
+                                            </View>
+
+
                                         </View>
 
                                         <Text
@@ -292,13 +316,7 @@ export default class PerfilUsuario extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ImageBackground source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }}
-                                            style={{
-                                                width: '100%',
-                                                height: 470,
-                                            }}
-                                        />
-
+                                        <ConteudoFeed type={item.tipo} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}
