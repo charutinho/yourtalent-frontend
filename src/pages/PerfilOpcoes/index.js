@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Picker,
     ScrollView,
-    TextInput
+    TextInput,
+    ImageBackground
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TextInputMask from 'react-native-text-input-mask';
@@ -16,6 +17,7 @@ import {
     Divider,
     Button,
     RadioButton,
+
     ActivityIndicator
 } from 'react-native-paper';
 
@@ -28,9 +30,12 @@ export default class PerfilOpcoes extends Component {
         this.state = {
             checked: '',
             cep: '',
-            loading: false
+            loading: false,
+            secureTextEntry: true,
+            iconName: "eye-outline",
         }
     }
+
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -144,359 +149,391 @@ export default class PerfilOpcoes extends Component {
                     }
                 )
             });
-            this.setState({ loading: false });
-            this.props.navigation.navigate('Perfil', {
-                atualizou: 1
-            });
+        this.setState({ loading: false })
     }
 
 
     render() {
         const { checked, loading } = this.state;
         return (
-            <View style={styles.container}>
-                <ScrollView>
+            <ImageBackground
+                source={require('../../assets/img/bk14.png')}
+                style={{
+                    width: '100%',
+                    height: '100%'
+                }}>
+                <View style={styles.container}>
+                    <ScrollView>
 
-                    <StatusBar
-                        barStyle="dark-content"
-                        backgroundColor="#eeeeee"
-                    />
 
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>
-                            Configurações da conta
-                    </Text>
-                        <Icon
-                            name="settings"
-                            size={28}
-                            style={styles.headerIcon}
+                        <StatusBar
+                            barStyle="dark-content"
+                            backgroundColor="#f4f4f4"
                         />
-                    </View>
 
-                    <View style={styles.body}>
-
-                        <View style={styles.bodyList}>
-
-                            <Text>
-                                Dados pessoais
-                            </Text>
-
-                            <View style={styles.bodyListItem}>
-                                <TextInput
-                                    style={{
-                                        width: '90%'
-                                    }}
-                                    placeholder='Digite seu nome'
-                                    autoCorrect={true}
-                                    mode="outlined"
-                                    caretHidden={false}
-                                    value={this.state.nome}
-                                    onChangeText={(nome) => this.setState({ nome })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                    ref={(input) => { this.inputNome = input; }}
-                                />
-                                <Icon
-                                    name='pencil'
-                                    size={24}
-                                    onPress={() => { this.inputNome.focus(); }}
-                                />
-                            </View>
-
-                            <Divider />
-
-                            <View style={styles.bodyListItem}>
-
-                                <TextInput
-                                    style={{
-                                        width: '90%'
-                                    }}
-                                    placeholder='00/00/0000'
-                                    autoCorrect={true}
-                                    mode="outlined"
-                                    disabled={true}
-                                    caretHidden={false}
-                                    value={this.state.nasc}
-                                    onChangeText={(nasc) => this.setState({ nasc })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                    ref={(input) => { this.inputNasc = input; }}
-                                />
-                                <Icon
-                                    name='calendar'
-                                    size={24}
-                                    onPress={() => { this.inputNasc.focus(); }}
-                                />
-
-                            </View>
-
-                            <Divider />
-
-                            <View style={styles.bodyListItem}>
-
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ checked: "M" })}
-                                    style={styles.radioOpcao}
-                                >
-                                    <Icon
-                                        name='gender-male'
-                                        size={24}
-                                        style={{
-                                            marginRight: '7%'
-                                        }}
-                                    />
-                                    <Text style={styles.radioText}>Masculino</Text>
-
-                                    <RadioButton
-                                        value="M"
-                                        status={checked === 'M' ? 'checked' : 'unchecked'}
-                                        color='#000'
-                                        uncheckedColor='#000'
-                                    />
-                                </TouchableOpacity>
-
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ checked: "F" })}
-                                    style={styles.radioOpcao}
-                                >
-                                    <Icon
-                                        name='gender-female'
-                                        size={24}
-                                        style={{
-                                            marginRight: '7%'
-                                        }}
-                                    />
-
-                                    <Text style={styles.radioText}>Feminino</Text>
-
-                                    <RadioButton
-                                        value="F"
-                                        status={checked === 'F' ? 'checked' : 'unchecked'}
-                                        color="#000"
-                                        uncheckedColor='#000'
-                                    />
-
-                                </TouchableOpacity>
-
-                            </View>
-
-                            <Divider />
-
-                            <View style={styles.bodyListItem}>
-                                <TextInput
-                                    style={{
-                                        width: '90%'
-                                    }}
-                                    placeholder='Digite seu nome'
-                                    autoCorrect={true}
-                                    mode="outlined"
-                                    caretHidden={false}
-                                    value={this.state.email}
-                                    onChangeText={(email) => this.setState({ email })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                    ref={(input) => { this.inputEmail = input; }}
-                                />
-                                <Icon
-                                    name='email'
-                                    size={24}
-                                    onPress={() => { this.inputEmail.focus(); }}
-                                />
-                            </View>
-
-                            <Divider />
-
-                            <View style={styles.bodyListItem}>
-                                <TextInput
-                                    style={{
-                                        width: '90%',
-                                        height: 135
-                                    }}
-                                    placeholder='Fale um pouco mais sobre você...'
-                                    multiline={true}
-                                    autoCorrect={true}
-                                    mode="outlined"
-                                    caretHidden={false}
-                                    value={this.state.desc}
-                                    onChangeText={(desc) => this.setState({ desc })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                    ref={(input) => { this.inputDesc = input; }}
-                                />
-                                <Icon
-                                    name='text'
-                                    size={24}
-                                    onPress={() => { this.inputDesc.focus(); }}
-                                />
-                            </View>
-
-                            <Text>
-                                Localização
-                            </Text>
-
-                            <View style={styles.bodyListItem}>
-                                <TextInput
-                                    style={{
-                                        width: '90%',
-                                    }}
-                                    placeholder='00000-000'
-                                    keyboardType="phone-pad"
-                                    mode="outlined"
-                                    value={this.state.cep}
-                                    onChangeText={(cep) => this.setState({ cep })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                    ref={(input) => { this.inputCep = input; }}
-                                    render={props =>
-                                        <TextInputMask
-                                            {...props}
-                                            mask="[00000]-[000]"
-                                        />
-                                    }
-                                    onSubmitEditing={this.handleCep}
-                                />
-                                <Icon
-                                    name='mailbox'
-                                    size={24}
-                                    onPress={() => { this.inputCep.focus(); }}
-                                />
-                            </View>
-
-                            <Divider />
-
-                            <View style={styles.bodyListItem}>
-                                <TextInput
-                                    style={{
-                                        width: '90%',
-                                    }}
-                                    placeholder='São Paulo'
-                                    keyboardType="phone-pad"
-                                    disabled={true}
-                                    mode="outlined"
-                                    value={this.state.estado}
-                                    onChangeText={(estado) => this.setState({ estado })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                />
-                                <Icon
-                                    name='city'
-                                    size={24}
-                                />
-                            </View>
-
-                            <Divider />
-
-                            <View style={styles.bodyListItem}>
-                                <TextInput
-                                    style={{
-                                        width: '90%',
-                                    }}
-                                    placeholder='São Paulo'
-                                    keyboardType="phone-pad"
-                                    disabled={true}
-                                    mode="outlined"
-                                    value={this.state.cidade}
-                                    onChangeText={(cidade) => this.setState({ cidade })}
-                                    theme={{
-                                        roundness: 10,
-                                        colors: {
-                                            primary: '#9c27b0',
-                                            accent: '#9c27b0',
-                                            surface: '#9c27b0',
-                                            text: '#9c27b0',
-                                            backdrop: '#9c27b0',
-                                            background: '#fff'
-                                        }
-                                    }}
-                                />
-                                <Icon
-                                    name='home-city'
-                                    size={24}
-                                />
-
-                            </View>
-
-
-                            {loading && (
-                                <ActivityIndicator
-                                    color="#C00"
-                                    size="large"
-                                    color='#9c27b0'
-                                    style={{
-                                        marginTop: 50
-                                    }}
-                                />
-                            )}
-
-                            <Button icon="save" onPress={this.handleUpdate}
-                                contentStyle={{
-                                    padding: 3
-                                }}
-                                color='#9c27b0'
-                            >
-                                Salvar informações
-                            </Button>
-
+                        <View style={styles.header}>
+                            <Text style={styles.headerTitle}>
+                                Configurações da conta
+                    </Text>
+                            <Icon
+                                name="settings"
+                                size={30}
+                                style={styles.headerIcon}
+                            />
                         </View>
 
-                    </View>
-                </ScrollView>
-            </View>
+                        <View style={styles.body}>
 
+                            <View style={styles.bodyList}>
+
+                                <Text style={styles.localizacaoStyle}>
+                                    Dados pessoais
+                            </Text>
+
+                                <View style={styles.bodyListItem1}>
+                                    <View style={styles.iconArea}>
+                                        <Icon
+                                            name='pencil'
+                                            size={35}
+                                            color="#fff"
+                                            onPress={() => { this.inputNome.focus(); }}
+                                        />
+                                    </View>
+                                    <TextInput style={styles.inputFormat}
+                                        width='81%'
+                                        placeholder='Digite seu nome'
+                                        autoCorrect={true}
+                                        mode="outlined"
+                                        caretHidden={false}
+                                        value={this.state.nome}
+                                        onChangeText={(nome) => this.setState({ nome })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000',
+                                                text: '#000',
+                                                backdrop: '#000',
+                                                background: '#fff'
+                                            }
+                                        }}
+                                        ref={(input) => { this.inputNome = input; }}
+                                    />
+
+                                </View>
+
+                                <Divider />
+
+                                <View style={styles.bodyListItem1}>
+                                    <View style={styles.iconArea}>
+                                        <Icon
+                                            name='calendar'
+                                            size={35}
+                                            color={"#fff"}
+                                            onPress={() => { this.inputNasc.focus(); }}
+                                        />
+                                    </View>
+
+                                    <TextInput
+                                        style={{
+                                            width: '82%',
+                                        }}
+                                        placeholder='00/00/0000'
+                                        autoCorrect={true}
+                                        mode="outlined"
+                                        disabled={true}
+                                        caretHidden={false}
+                                        value={this.state.nasc}
+                                        onChangeText={(nasc) => this.setState({ nasc })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000',
+                                                text: '#000',
+                                                backdrop: '#000',
+                                                background: '#fff'
+                                            }
+                                        }}
+                                        ref={(input) => { this.inputNasc = input; }}
+                                    />
+
+
+                                </View>
+
+                                <Divider />
+
+                                <View style={styles.bodyListItem3}>
+
+                                    <TouchableOpacity
+                                        onPress={() => this.setState({ checked: "M" })}
+                                        style={styles.radioOpcao}
+                                    >
+
+                                        <View style={styles.iconArea3}>
+                                            <Icon
+                                                name='gender-male-female'
+                                                size={34}
+                                                color={"#fff"}
+                                                style={{
+                                                    marginRight: '7%'
+                                                }}
+                                            />
+                                        </View>
+                                        <Text style={styles.radioText}>Masculino</Text>
+
+                                        <RadioButton
+                                            value="M"
+                                            status={checked === 'M' ? 'checked' : 'unchecked'}
+                                            color='#000'
+                                            uncheckedColor='#000'
+                                        />
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        onPress={() => this.setState({ checked: "F" })}
+                                        style={styles.radioOpcao}
+                                    >
+
+
+                                        <Text style={styles.radioText}>Feminino</Text>
+
+                                        <RadioButton
+                                            value="F"
+                                            status={checked === 'F' ? 'checked' : 'unchecked'}
+                                            color="#000"
+                                            uncheckedColor='#000'
+                                        />
+
+                                    </TouchableOpacity>
+
+                                </View>
+
+                                <Divider />
+
+                                <View style={styles.bodyListItem1}>
+                                    <View style={styles.iconArea}>
+                                        <Icon
+                                            color={"#fff"}
+                                            name='email'
+                                            size={30}
+                                            onPress={() => { this.inputEmail.focus(); }}
+                                        />
+                                    </View>
+                                    <TextInput
+                                        style={{
+                                            width: '82%',
+                                        }}
+                                        placeholder='Digite seu nome'
+                                        autoCorrect={true}
+                                        mode="outlined"
+                                        caretHidden={false}
+                                        value={this.state.email}
+                                        onChangeText={(email) => this.setState({ email })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000000',
+                                                text: '#000',
+                                                backdrop: '#000',
+                                                background: '#fff'
+                                            }
+                                        }}
+                                        ref={(input) => { this.inputEmail = input; }}
+                                    />
+
+                                </View>
+
+                                <Divider />
+
+                                <View style={styles.bodyListItem2}>
+                                    <View style={styles.iconArea2}>
+                                        <Icon
+                                            name='text'
+                                            size={30}
+                                            onPress={() => { this.inputDesc.focus(); }}
+                                            color={"#fff"}
+                                        />
+                                    </View>
+
+                                    <TextInput
+                                        style={{
+                                            width: '82%',
+                                        }}
+                                        placeholder='Fale um pouco mais sobre você...'
+                                        multiline={true}
+                                        autoCorrect={true}
+                                        mode="outlined"
+                                        caretHidden={false}
+                                        value={this.state.desc}
+                                        onChangeText={(desc) => this.setState({ desc })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000',
+                                                text: '#000',
+                                                backdrop: '#000',
+                                                background: '#fff'
+                                            }
+                                        }}
+                                        ref={(input) => { this.inputDesc = input; }}
+                                    />
+
+                                </View>
+
+                                <Text style={styles.localizacaoStyle}>
+                                    Localização
+                                </Text>
+
+                                <View style={styles.bodyListItem1}>
+                                    <View style={styles.iconArea}>
+                                        <Icon
+                                            name='mailbox'
+                                            size={24}
+                                            color={"#fff"}
+                                            onPress={() => { this.inputCep.focus(); }}
+                                        />
+                                    </View>
+
+                                    <TextInput
+                                        style={{
+                                            width: '82%',
+                                        }}
+                                        placeholder='00000-000'
+                                        keyboardType="phone-pad"
+                                        mode="outlined"
+                                        value={this.state.cep}
+                                        onChangeText={(cep) => this.setState({ cep })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000',
+                                                text: '#000',
+                                                backdrop: '#000',
+                                                background: '#fff'
+                                            }
+                                        }}
+                                        ref={(input) => { this.inputCep = input; }}
+                                        render={props =>
+                                            <TextInputMask
+                                                {...props}
+                                                mask="[00000]-[000]"
+                                            />
+                                        }
+                                        onSubmitEditing={this.handleCep}
+                                    />
+
+                                </View>
+
+                                <Divider />
+
+                                <View style={styles.bodyListItem1}>
+                                    <View style={styles.iconArea}>
+                                        <Icon
+                                            name='city'
+                                            size={24}
+                                            color={"#fff"}
+                                        />
+                                    </View>
+                                    <TextInput
+                                        style={{
+                                            width: '82%',
+                                        }}
+                                        placeholder='São Paulo'
+                                        keyboardType="phone-pad"
+                                        disabled={true}
+                                        mode="outlined"
+                                        value={this.state.estado}
+                                        onChangeText={(estado) => this.setState({ estado })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000',
+                                                text: '#000',
+                                                backdrop: '#000',
+                                                background: '#000'
+                                            }
+                                        }}
+                                    />
+
+                                </View>
+
+                                <Divider />
+
+                                <View style={styles.bodyListItem1}>
+                                    <View style={styles.iconArea}>
+                                        <Icon
+                                            name='home-city'
+                                            size={24}
+                                            color={"#fff"}
+                                        />
+                                    </View>
+                                    <TextInput
+                                        style={{
+                                            width: '82%',
+                                        }}
+                                        placeholder='São Paulo'
+                                        keyboardType="phone-pad"
+                                        disabled={true}
+                                        mode="outlined"
+                                        value={this.state.cidade}
+                                        onChangeText={(cidade) => this.setState({ cidade })}
+                                        theme={{
+                                            roundness: 10,
+                                            colors: {
+                                                primary: '#000',
+                                                accent: '#000',
+                                                surface: '#000',
+                                                text: '#0000',
+                                                backdrop: '#000',
+                                                background: '#fff'
+                                            }
+                                        }}
+                                    />
+
+
+                                </View>
+
+
+                                {loading && (
+                                    <ActivityIndicator
+                                        color="#C00"
+                                        size="large"
+                                        color='#9c27b0'
+                                        style={{
+                                            marginTop: 50
+                                        }}
+                                    />
+                                )}
+
+                                <Button icon="save" onPress={this.handleUpdate}
+                                    contentStyle={{
+                                        padding: 3,
+                                        marginTop: "5%",
+                                        marginBottom: "5%",
+
+                                    }}
+                                    color='#000'
+                                >
+                                    Salvar informações
+                            </Button>
+
+                            </View>
+
+                        </View>
+                    </ScrollView>
+                </View>
+            </ImageBackground>
 
         );
     }

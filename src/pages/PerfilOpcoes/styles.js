@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
+        backgroundColor:"#fff"
     },
     //Header
     header: {
@@ -12,10 +13,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        marginTop: '12%'
+        marginTop: '12%',
+
     },
     headerTitle: {
-        fontSize: 28
+        fontSize: 28,
+        color:"#000"
     },
     headerIcon: {
         marginLeft: '3%'
@@ -26,23 +29,85 @@ const styles = StyleSheet.create({
     body: {
         flex: 5,
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+
     },
-    bodyList:{
-        width: '90%',
-        marginTop: 15
+    bodyList: {
+        width: '80%',
+        marginTop: 15,
     },
-    bodyListItem:{
+    bodyListItem1: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        height: 50,
+        borderWidth:1,
+        
+        marginTop:15,
+    },
+    iconArea:{
+        backgroundColor:"#000",
+      
+        height:50,
+        width:60,
+        justifyContent:"center",
+        alignItems:"center",
+        marginLeft:-2,
+
+    },
+    inputFormat: {
+        width: '70%',
+        height: 35,
+        marginLeft:"1%",
+        borderBottomColor:"#000",
+    },
+    bodyListItem2: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 80,
+        borderWidth:1,
+        
+        marginTop:15,
+    },
+    iconArea3:{
+        backgroundColor:"#000",
+      
+        height:50,
+        width:60,
+        justifyContent:"center",
+        alignItems:"center",
+        marginLeft:-15,
+
+    },
+    bodyListItem3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        borderWidth:1,
+    
+        marginTop:15,
+    },
+    iconArea2:{
+        backgroundColor:"#000",
+      
+        height:80,
+        width:60,
+        justifyContent:"center",
+        alignItems:"center",
+        marginLeft:-2,
+
+    },
+    localizacaoStyle:{
+        marginTop:25,
+        fontSize:22,
     },
 
     //Body-List-Radio
-    radioText:{
+    radioText: {
+        paddingLeft:5,
         fontSize: 14,
         color: '#000'
     },
-    radioOpcao:{
+    radioOpcao: {
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 15,

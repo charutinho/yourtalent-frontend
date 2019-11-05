@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     },
     TextEsqueciSenha:{
         color:"#424242",
+        marginTop:"-20%",
     }
 });
 
