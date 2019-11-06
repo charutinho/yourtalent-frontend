@@ -60,7 +60,8 @@ export default class Perfil extends Component {
             //Fotos
             foto: '../../assets/icons/profile.png',
             capa: '../../assets/img/gatinho.jpg',
-            listPost: ''
+            listPost: '',
+            isAtleta: true
         };
     }
 
@@ -102,6 +103,12 @@ export default class Perfil extends Component {
                 //Localização
                 var estado = responseJson.user.estado;
                 var cidade = responseJson.user.cidade;
+
+                //Nivel
+                var nivel = responseJson.user.nivel;
+                if (nivel == 2) {
+                    this.setState({ isAtleta: false })
+                }
 
                 // Calculo idade
                 var saveNasc = nasc;
@@ -151,19 +158,12 @@ export default class Perfil extends Component {
 
     async componentDidUpdate() {
         const { navigation } = this.props;
-
-        if (navigation.getParam('atualizou') === 1) {
-            this.setState({ atualizou: 1 });
+        const atalizouPerfil = navigation.getParam('attPerfil');
+        if (atalizouPerfil === true) {
+            await this.getDados();
             this.props.navigation.navigate('Perfil', {
-                atualizou: 2
+                attPerfil: false
             })
-        }
-
-        if (this.state.atualizou === 1) {
-            this.getDados.call();
-            this.getPosts.call();
-            console.log('Posts atualizados')
-            await this.setState({ atualizou: 2 })
         }
     }
 
@@ -215,7 +215,8 @@ export default class Perfil extends Component {
                         idUser: idUser
                     },
                 };
-
+                this.getDados();
+                this.getPosts();
                 fetch(`http://${ip}:3000/uploadimg`, config);
                 this.setState({ atualizou: 1 })
             }
@@ -264,7 +265,7 @@ export default class Perfil extends Component {
                         idUser: idUser
                     },
                 };
-
+                this.getDados();
                 fetch(`http://${ip}:3000/uploadimgcapa`, config)
                 this.setState({ atualizou: 1 })
             }
@@ -281,6 +282,7 @@ export default class Perfil extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
+        const { isAtleta } = this.state;
         return (
             <ScrollView style={{
                 backgroundColor: '#fafafa',
@@ -288,8 +290,8 @@ export default class Perfil extends Component {
                 <View style={styles.container}>
 
                     <StatusBar
-                        barStyle="dark-content"
-                        backgroundColor="#f5f5f5"
+                        barStyle='light-content'
+                        backgroundColor="#572078"
                     />
 
                     <View style={styles.header}>
@@ -428,51 +430,51 @@ export default class Perfil extends Component {
                             </TouchableOpacity>
 
                         </View>
+                        {isAtleta && (
+                            <View>
+                                <View style={styles.sobreView}>
 
-                        <View style={styles.sobreView}>
+                                    <TouchableOpacity
+                                        onPress={() => navigate('PerfilCampeonato')}
+                                        style={{
+                                            marginLeft: '10%'
+                                        }}
+                                    >
 
-                            <TouchableOpacity
-                                onPress={() => navigate('PerfilCampeonato')}
-                                style={{
-                                    marginLeft: '10%'
-                                }}
-                            >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="trophy"
+                                                color="#000"
+                                                size={48}
+                                            />
+                                            <Text>Campeonatos</Text>
+                                        </View>
 
-                                <View style={styles.campView}>
-                                    <Icon
-                                        name="trophy"
-                                        color="#000"
-                                        size={48}
-                                    />
-                                    <Text>Campeonatos</Text>
+                                    </TouchableOpacity>
+
+
+                                    <TouchableOpacity
+                                        style={{
+                                            marginRight: '10%'
+                                        }}
+                                    >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="check"
+                                                color="#000"
+                                                size={48}
+                                            />
+                                            <Text>{this.state.estado}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
                                 </View>
 
-                            </TouchableOpacity>
-
-
-                            <TouchableOpacity
-                                style={{
-                                    marginRight: '10%'
-                                }}
-                            >
-                                <View style={styles.campView}>
-                                    <Icon
-                                        name="check"
-                                        color="#000"
-                                        size={48}
-                                    />
-                                    <Text>{this.state.estado}</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                        </View>
-
-
-
-
-                        <Text style={styles.destaqueTitulo}>
-                            Seus últimos posts
-                        </Text>
+                                <Text style={styles.destaqueTitulo}>
+                                    Seus últimos posts
+</Text>
+                            </View>
+                        )}
 
                         <FlatList
                             style={styles.containerFlatList}

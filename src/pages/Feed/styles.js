@@ -64,7 +64,44 @@ const styles = StyleSheet.create({
     },
     styleSelect: {
         marginLeft: '5%',
-    }
+    },
+
+    //Olheiro
+    busca: {
+        width: '90%',
+        borderRadius: 5,
+        borderWidth: 1
+    },
+    buscaTitleView: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    buscaTitle: {
+        fontSize: 17
+    },
+    textInputForm: {
+        width: '80%',
+        marginTop: 10,
+        height: 60,
+    },
+    inputSexo: {
+        width: '80%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    radioText: {
+        fontSize: 15,
+    },
+    textFormInput: {
+        fontSize: 18,
+        marginRight: 15
+    },
+    radioOpcao: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 });
 
 export default styles;

@@ -59,6 +59,7 @@ export default class PerfilUsuario extends Component {
     getDados = async () => {
         const { navigation } = this.props;
         var idUser = navigation.getParam('userId')
+        this.setState({ idUsuario: idUser })
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
         await fetch(`http://${ip}:3000/data/${idUser}`)
@@ -123,10 +124,6 @@ export default class PerfilUsuario extends Component {
 
     }
 
-    async componentDidUpdate() {
-        this.getDados.call();
-    }
-
     async componentDidMount() {
         this.getDados.call();
         this.getPosts.call();
@@ -137,6 +134,7 @@ export default class PerfilUsuario extends Component {
     }
 
     render() {
+        const { navigate } = this.props.navigation;
         return (
             <ScrollView style={{
                 backgroundColor: '#fafafa',
@@ -144,8 +142,8 @@ export default class PerfilUsuario extends Component {
                 <View style={styles.container}>
 
                     <StatusBar
-                        barStyle="dark-content"
-                        backgroundColor="#f5f5f5"
+                        barStyle='light-content'
+                        backgroundColor="#572078"
                     />
 
                     <View style={styles.header}>
@@ -159,7 +157,36 @@ export default class PerfilUsuario extends Component {
                                     alignItems: 'flex-end'
                                 }}
                             >
+
+                                <TouchableOpacity
+                                    onPress={this.handleUploadImageCapa}
+                                >
+                                    <Icon
+                                        name="image-plus"
+                                        color="#212121"
+                                        size={20}
+                                        style={{
+                                            backgroundColor: '#eeeeee',
+                                            borderRadius: 90,
+                                            marginRight: 10,
+                                            marginTop: 10,
+                                            padding: 5,
+                                            shadowOffset: {
+                                                width: 0,
+                                                height: 4,
+                                            },
+                                            shadowOpacity: 0.30,
+                                            shadowRadius: 4.65,
+
+                                            elevation: 8,
+                                        }}
+                                    />
+
+                                </TouchableOpacity>
+
                             </ImageBackground>
+
+
 
                         </View>
 
@@ -171,11 +198,38 @@ export default class PerfilUsuario extends Component {
                                     style={styles.fotoUsuario}
                                 />
                             </View>
+
+                            <TouchableOpacity
+                                onPress={this.handleUploadImage}
+                            >
+                                <Icon
+                                    name="image-plus"
+                                    color="#212121"
+                                    size={20}
+                                    style={{
+                                        backgroundColor: '#eeeeee',
+                                        borderRadius: 90,
+                                        marginRight: 10,
+                                        marginTop: 10,
+                                        padding: 5,
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 4,
+                                        },
+                                        shadowOpacity: 0.30,
+                                        shadowRadius: 4.65,
+
+                                        elevation: 8,
+                                    }}
+                                />
+                            </TouchableOpacity>
+
                         </View>
 
                     </View>
 
                     <View style={styles.body}>
+
 
                         <View style={styles.nomeView}>
                             <Text style={styles.nome}>
@@ -217,7 +271,7 @@ export default class PerfilUsuario extends Component {
                                 </View>
                             </TouchableOpacity>
 
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={this.verCidade}>
                                 <View style={styles.estadoView}>
                                     <Icon
                                         name="map-marker"
@@ -229,6 +283,47 @@ export default class PerfilUsuario extends Component {
                             </TouchableOpacity>
 
                         </View>
+
+                        <View style={styles.sobreView}>
+
+                            <TouchableOpacity
+                                onPress={() => navigate('PerfilUsuarioCampeonatos', {
+                                    idUsuario: this.state.idUsuario
+                                })}
+                                style={{
+                                    marginLeft: '10%'
+                                }}
+                            >
+
+                                <View style={styles.campView}>
+                                    <Icon
+                                        name="trophy"
+                                        color="#000"
+                                        size={48}
+                                    />
+                                    <Text>Campeonatos</Text>
+                                </View>
+
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity
+                                style={{
+                                    marginRight: '10%'
+                                }}
+                            >
+                                <View style={styles.campView}>
+                                    <Icon
+                                        name="check"
+                                        color="#000"
+                                        size={48}
+                                    />
+                                    <Text>{this.state.estado}</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+
 
                         <Text style={styles.destaqueTitulo}>
                             Últimos posts de {this.state.nomeUsuario}

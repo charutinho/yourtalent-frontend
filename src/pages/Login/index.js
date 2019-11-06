@@ -27,7 +27,7 @@ console.disableYellowBox = true;
 //api.pagar.me/1/zipcodes/CEP DO BAGULHO AQUI
 
 // IP local do seu PC:
-ip = '192.168.1.3';
+ip = '192.168.15.29';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -48,7 +48,7 @@ export default class Login extends Component {
         };
     }
     onIconPress = () => {
-        let iconName = (this.state.secureTextEntry) ? "eye-outline":"eye-off-outline";
+        let iconName = (this.state.secureTextEntry) ? "eye-outline" : "eye-off-outline";
 
         this.setState({
             secureTextEntry: !this.state.secureTextEntry,
@@ -63,7 +63,7 @@ export default class Login extends Component {
 
         Keyboard.dismiss();
 
-        var ip = '192.168.1.3';
+        var ip = '192.168.15.29';
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -137,8 +137,8 @@ export default class Login extends Component {
             <View style={styles.container}>
 
                 <StatusBar
-                    barStyle="light-content"
-                    backgroundColor="transparent"
+                    barStyle='light-content'
+                    backgroundColor="#572078"
                 />
 
                 <View style={styles.header}>
@@ -202,7 +202,7 @@ export default class Login extends Component {
                                 }}
                             />
                         </View>
-                        <TouchableOpacity style={{marginLeft:"60%", alignItems:"center", marginTop:5}}onPress={this.onIconPress}>
+                        <TouchableOpacity style={{ marginLeft: "60%", alignItems: "center", marginTop: 5 }} onPress={this.onIconPress}>
                             <Icon style={{}} name={this.state.iconName} size={30} color={"#616161"} />
                         </TouchableOpacity>
 

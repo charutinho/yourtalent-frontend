@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200,
     },
-    capa:{
+    capa: {
         position: 'absolute',
         height: 200,
         width: '100%',
@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
         height: '100%',
         marginTop: 75
     },
-    fotoPerfilView:{
-        marginBottom: -35,
+    fotoPerfilView: {
+        marginBottom: -75,
         alignItems: 'flex-end'
     },
     fotoPerfil: {
@@ -61,45 +61,50 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         alignItems: 'center'
     },
-    descricao:{
+    descricao: {
         fontSize: 15,
         textAlign: 'center',
     },
-    sobreView:{
+    sobreView: {
         width: 400,
         height: 70,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
     },
-    infoView:{
+    infoView: {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
     },
-    esporteView:{
+    esporteView: {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
     },
-    estadoView:{
+    estadoView: {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
     },
-    opcoesView:{
+    campView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+    },
+    opcoesView: {
         width: 300,
         height: 70,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
     },
-    chatView:{
+    chatView: {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
     },
-    esporteView:{
+    esporteView: {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
@@ -107,12 +112,12 @@ const styles = StyleSheet.create({
     destaqueView: {
         marginTop: 15,
     },
-    destaqueTitulo:{
+    destaqueTitulo: {
         fontSize: 20,
         textAlign: 'center',
         marginTop: '10%'
     },
-    destaqueVideo:{
+    destaqueVideo: {
         marginTop: '5%',
     }
 });

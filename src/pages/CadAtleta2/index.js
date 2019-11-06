@@ -69,6 +69,7 @@ export default class CadAtleta2 extends Component {
                                     <Picker.Item label="Basquete" value="Basquete" />
                                     <Picker.Item label="Counter Strike: Global Offensive" value="CS:GO" />
                                     <Picker.Item label="League of Legends" value="LoL" />
+                                    
                                 </Picker>
                             </View>
 

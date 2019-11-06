@@ -39,16 +39,19 @@ import Categorias from './pages/EscolherCategoriaBanco';
 import PageFeed from './pages/Feed';
 import Perfil from './pages/Perfil';
 import PerfilOpcoes from './pages/PerfilOpcoes';
+import PerfilOpcoesSenha from './pages/PerfilOpcoesSenha';
 import Chat from './pages/Chat';
 import PerfilCampeonato from './pages/PerfilCampeonatos';
 import NovoCampeonato from './pages/NovoCampeonato';
 import PerfilUsuario from './pages/PerfilUsuario';
+import PerfilUsuarioCampeonatos from './pages/PerfilUsuarioCampeonatos';
+import PerfilOpcoesSeguro from './pages/PerfilOpcoesSeguro';
 
-//Coisas
+//Logo
 import logoBranco from './assets/img/logoBrancoPNG.png';
 
 const PaginaFeed = createStackNavigator({
-    PageFeed: {
+    Feed: {
         screen: PageFeed,
         navigationOptions: {
             title: 'YourTalent',
@@ -73,7 +76,35 @@ const PaginaFeed = createStackNavigator({
                 }}
             />
         }
-    }
+    },
+    PerfilUsuario: {
+        screen: PerfilUsuario,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
+    PerfilUsuarioCampeonatos: {
+        screen: PerfilUsuarioCampeonatos,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
+    PerfilOpcoesSenha: {
+        screen: PerfilOpcoesSenha,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
+    PerfilOpcoesSeguro: {
+        screen: PerfilOpcoesSeguro,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
 });
 
 PaginaFeed.navigationOptions = {
@@ -95,8 +126,8 @@ const PaginaPerfil = createStackNavigator({
                 textAlign: 'center',
                 flex: 1,
                 fontSize: 20,
-                marginLeft:"-70%",
-                marginTop:4,
+                marginLeft: "-70%",
+                marginTop: 4,
             },
         },
     },
@@ -175,6 +206,7 @@ const Routes = (userLogged = false) => createAppContainer(
             ),
             Logado: createMaterialBottomTabNavigator(
                 {
+                    PerfilOpcoesSeguro,
                     PaginaFeed,
                     PaginaPerfil,
                     PaginaChat

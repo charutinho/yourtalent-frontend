@@ -8,6 +8,7 @@ import {
     Image,
     Picker,
 } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import styles from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,6 +25,7 @@ export default class PosicaoEsporte extends Component {
 
         this.state = {
             esporte: '',
+            loading: false
         }
     }
 
@@ -34,19 +36,11 @@ export default class PosicaoEsporte extends Component {
         });
     }
 
-    handleRegistro = async() => {
+    handleRegistro = async () => {
         ip = await AsyncStorage.getItem('@Ip:ip');
 
         var nome = await AsyncStorage.getItem('Nome');
         var nasc = await AsyncStorage.getItem('Nasc');
-        var nasc = nasc.split("/");
-        if (nasc[0] < 10) {
-            nasc[0] = "0" + nasc[0];
-        }
-        if (nasc[1] < 10) {
-            nasc[1] = "0" + nasc[1];
-        }
-        nasc = nasc[0] + "/" + nasc[1] + "/" + nasc[2];
         var sexo = await AsyncStorage.getItem('Sexo');
         var email = await AsyncStorage.getItem('Email');
         var senha = await AsyncStorage.getItem('Senha');
@@ -103,9 +97,8 @@ export default class PosicaoEsporte extends Component {
     }
 
     render() {
-
+        const { loading } = this.state;
         /*telaFutebol*/
-
         if (this.state.esporte === "Futebol") {
             return (
                 <ImageBackground
@@ -116,8 +109,8 @@ export default class PosicaoEsporte extends Component {
                     }}>
                     <View style={styles.container}>
 
-                        
-                    <StatusBar
+
+                        <StatusBar
                             barStyle="dark-content"
                             translucent
                             backgroundColor="transparent"
@@ -134,7 +127,7 @@ export default class PosicaoEsporte extends Component {
                         <View style={styles.body}>
                             <View>
 
-                            <Text>{this.state.PickerValue}</Text>
+                                <Text>{this.state.PickerValue}</Text>
 
                                 <Text style={styles.titleSport}>Qual sua principal posição em jogo?</Text>
                                 <View style={styles.styleSelect}>
@@ -163,6 +156,15 @@ export default class PosicaoEsporte extends Component {
 
                             </View>
                         </View>
+                        {loading && (
+                            <ActivityIndicator
+                                size="large"
+                                color='#9c27b0'
+                                style={{
+                                    position: 'absolute'
+                                }}
+                            />
+                        )}
                     </View>
                 </ImageBackground>
             );
@@ -224,6 +226,15 @@ export default class PosicaoEsporte extends Component {
 
                             </View>
                         </View>
+                        {loading && (
+                            <ActivityIndicator
+                                size="large"
+                                color='#9c27b0'
+                                style={{
+                                    position: 'absolute'
+                                }}
+                            />
+                        )}
                     </View>
                 </ImageBackground>
             );
@@ -242,8 +253,8 @@ export default class PosicaoEsporte extends Component {
                     }}>
                     <View style={styles.container}>
 
-                      
-                    <StatusBar
+
+                        <StatusBar
                             barStyle="dark-content"
                             translucent
                             backgroundColor="transparent"
@@ -283,6 +294,15 @@ export default class PosicaoEsporte extends Component {
 
                             </View>
                         </View>
+                        {loading && (
+                            <ActivityIndicator
+                                size="large"
+                                color='#9c27b0'
+                                style={{
+                                    position: 'absolute'
+                                }}
+                            />
+                        )}
                     </View>
                 </ImageBackground>
             );
@@ -300,8 +320,8 @@ export default class PosicaoEsporte extends Component {
                     }}>
                     <View style={styles.container}>
 
-                       
-                    <StatusBar
+
+                        <StatusBar
                             barStyle="dark-content"
                             translucent
                             backgroundColor="transparent"
@@ -342,6 +362,15 @@ export default class PosicaoEsporte extends Component {
 
                             </View>
                         </View>
+                        {loading && (
+                            <ActivityIndicator
+                                size="large"
+                                color='#9c27b0'
+                                style={{
+                                    position: 'absolute'
+                                }}
+                            />
+                        )}
                     </View>
                 </ImageBackground>
             );

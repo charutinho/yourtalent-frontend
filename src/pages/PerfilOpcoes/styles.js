@@ -46,13 +46,11 @@ const styles = StyleSheet.create({
     },
     iconArea:{
         backgroundColor:"#000",
-      
         height:50,
         width:60,
         justifyContent:"center",
         alignItems:"center",
         marginLeft:-2,
-
     },
     inputFormat: {
         width: '70%',
@@ -117,6 +115,16 @@ const styles = StyleSheet.create({
         marginTop: '2%',
         marginBottom: '2%'
     },
+    configPessoal: {
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+        marginBottom: 40
+    },
+    configPessoalText: {
+        fontSize: 15
+    }
 });
 
 export default styles;

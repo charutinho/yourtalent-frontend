@@ -61,8 +61,8 @@ export default class NovoCampeonato extends Component {
             if (data[1] > 12) {
                 data[1] = 12
             }
-            if (data[2] > 2018) {
-                data[2] = 2018
+            if (data[2] > 2019) {
+                data[2] = 2019
                 this.setState({
                     visible: true
                 })

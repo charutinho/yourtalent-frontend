@@ -23,8 +23,7 @@ export default class CadUsuario extends Component {
         header: null,
     }
 
-    nascimento = () => {
-        console.log(this.state.dataCel)
+    nascimento = async() => {
         var data = this.state.dataCel.split("/");
 
         if (this.state.dataCel.length == 10) {
@@ -51,7 +50,7 @@ export default class CadUsuario extends Component {
             }
 
             var nasc = data[0] + '/' + data[1] + '/' + data[2];
-            this.setState({
+            await this.setState({
                 dataCel: nasc,
             })
         }

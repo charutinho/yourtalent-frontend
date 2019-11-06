@@ -13,11 +13,9 @@ export default class Chat extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar
-                    barStyle="dark-content"
-                    backgroundColor="#6a1b9a"
+                    barStyle='light-content'
+                    backgroundColor="#572078"
                 />
-
-
 
                 <Text>
                     Tela de chat

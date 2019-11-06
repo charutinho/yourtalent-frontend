@@ -17,7 +17,6 @@ import {
     Divider,
     Button,
     RadioButton,
-
     ActivityIndicator
 } from 'react-native-paper';
 
@@ -149,12 +148,16 @@ export default class PerfilOpcoes extends Component {
                     }
                 )
             });
-        this.setState({ loading: false })
+        this.setState({ loading: false });
+        this.props.navigation.navigate('Perfil', {
+            attPerfil: true
+        });
     }
 
 
     render() {
         const { checked, loading } = this.state;
+        const { navigate } = this.props.navigation;
         return (
             <ImageBackground
                 source={require('../../assets/img/bk14.png')}
@@ -164,12 +167,11 @@ export default class PerfilOpcoes extends Component {
                 }}>
                 <View style={styles.container}>
                     <ScrollView>
-
-
-                        <StatusBar
-                            barStyle="dark-content"
-                            backgroundColor="#6a1b9a"
-                        />
+                        
+                    <StatusBar
+                        barStyle='light-content'
+                        backgroundColor="#572078"
+                    />
 
                         <View style={styles.header}>
                             <Text style={styles.headerTitle}>
@@ -242,7 +244,7 @@ export default class PerfilOpcoes extends Component {
                                         placeholder='00/00/0000'
                                         autoCorrect={true}
                                         mode="outlined"
-                                        disabled={true}
+                                        editable={true}
                                         caretHidden={false}
                                         value={this.state.nasc}
                                         onChangeText={(nasc) => this.setState({ nasc })}
@@ -449,7 +451,7 @@ export default class PerfilOpcoes extends Component {
                                         }}
                                         placeholder='São Paulo'
                                         keyboardType="phone-pad"
-                                        disabled={true}
+                                        editable={false}
                                         mode="outlined"
                                         value={this.state.estado}
                                         onChangeText={(estado) => this.setState({ estado })}
@@ -484,7 +486,7 @@ export default class PerfilOpcoes extends Component {
                                         }}
                                         placeholder='São Paulo'
                                         keyboardType="phone-pad"
-                                        disabled={true}
+                                        editable={false}
                                         mode="outlined"
                                         value={this.state.cidade}
                                         onChangeText={(cidade) => this.setState({ cidade })}
@@ -500,10 +502,7 @@ export default class PerfilOpcoes extends Component {
                                             }
                                         }}
                                     />
-
-
                                 </View>
-
 
                                 {loading && (
                                     <ActivityIndicator
@@ -526,7 +525,15 @@ export default class PerfilOpcoes extends Component {
                                     color='#000'
                                 >
                                     Salvar informações
-                            </Button>
+                                </Button>
+
+                                <TouchableOpacity style={styles.configPessoal} onPress={() => navigate('PerfilOpcoesSenha', {
+                                    email: this.state.email
+                                })}>
+                                    <Text style={styles.configPessoalText}>
+                                        Alterar dados pessoais
+                                    </Text>
+                                </TouchableOpacity>
 
                             </View>
 
