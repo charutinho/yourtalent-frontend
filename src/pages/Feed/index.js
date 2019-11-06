@@ -33,7 +33,7 @@ export default class PageFeed extends Component {
                 >
                     <Icon
                         name="dots-horizontal"
-                        color="#000"
+                        color="#fff"
                         size={25}
                         style={{
                             marginRight: 10
@@ -156,6 +156,7 @@ export default class PageFeed extends Component {
         await fetch(`http://${ip}:3000/esportes/getfavesporte/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
+                console.log(responseJson);
                 console.log(`http://${ip}:3000/esportes/getfavesporte/${idUser}`);
                 const esporteFeed = responseJson.esporte[0].esporteFeed;
 
@@ -221,8 +222,8 @@ export default class PageFeed extends Component {
                 <View style={styles.container} >
 
                     <StatusBar
-                        barStyle="dark-content"
-                        backgroundColor="#f5f5f5"
+                        barStyle='light-content'
+                        backgroundColor="#572078"
                     />
 
                     <View style={styles.header}>

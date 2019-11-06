@@ -173,7 +173,7 @@ export default class PerfilCampeonatos extends Component {
                     <TouchableOpacity
                         onPress={this.handleNovoCamp}
                     >
-                        <Image source={require('../../assets/icons/trophy.png')} />
+                        <Image source={require('../../assets/icons/trophy.png')} style={{ width: 220, height: 220 }} />
                     </TouchableOpacity>
                 </View>
 

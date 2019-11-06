@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
+    Image,
     TouchableOpacity
 } from 'react-native';
 import {
@@ -82,15 +83,26 @@ export default class NovoCampeonato extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.headerTitle}>
-                        Aqui você pode listar todos seu campeonatos disputados
-                    </Text>
+
+                    <View>
+                        <Text style={styles.headerTitle}>
+                            Coloque aqui seus campeonatos participados
+                        </Text>
+                    </View>
+                    <View style={styles.trofeuPosition}>
+                        <Image style={{
+                            width: 170,
+                            height: 170,
+                        }}
+                            source={require('../../assets/icons/trophyLouro.png')} />
+                    </View>
+
                 </View>
 
                 <View style={styles.bodyNovo}>
 
                     <TextInput
-                        style={{ width: '90%' }}
+                        style={{ width: '90%', }}
                         label="Nome do campeonato"
                         keyboardType='default'
                         placeholder='Ex: Campeonato Regional de São Paulo'
@@ -142,7 +154,7 @@ export default class NovoCampeonato extends Component {
                         />
 
                         <TextInput
-                            style={{ width: '49%' }}
+                            style={{ width: '49%', }}
                             label="Data do Campeonato"
                             placeholder='00/00/0000'
                             mode="outlined"
@@ -182,7 +194,7 @@ export default class NovoCampeonato extends Component {
                             borderWidth: 2,
                             borderRadius: 6,
                             flexDirection: 'row',
-                            marginTop: '3%'
+                            marginTop: '5%'
                         }}
                         onPress={this.handleCriarCamp}
                     >
@@ -190,7 +202,7 @@ export default class NovoCampeonato extends Component {
                             style={{
                                 fontSize: 17,
                                 color: '#424242',
-                                marginRight: '6%'
+                                marginRight: '6%',
                             }}
                         >
                             Adicionar campeonato

@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: '70%',
-        borderWidth: 1
     },
     headerTitle: {
         fontSize: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop:"50%",
     },
     //Body styles
     body: {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1
+        marginTop:"32%",
     },
     novoCampTitle: {
         fontSize: 20
@@ -37,7 +37,9 @@ const styles = StyleSheet.create({
         width: '90%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-    }
+    },
+    trofeuPosition:{
+    },
 });
 
 export default styles;

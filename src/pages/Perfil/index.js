@@ -30,7 +30,7 @@ export default class Perfil extends Component {
                 >
                     <Icon
                         name="settings"
-                        color="#000"
+                        color="#fff"
                         size={30}
                         style={{
                             marginRight: 10

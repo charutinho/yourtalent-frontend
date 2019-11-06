@@ -3,7 +3,13 @@ import {
     createSwitchNavigator,
 } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React from 'react';
+import {
+    View,
+    Image
+} from 'react-native';
 
 //Telas
 
@@ -36,8 +42,119 @@ import PerfilOpcoes from './pages/PerfilOpcoes';
 import Chat from './pages/Chat';
 import PerfilCampeonato from './pages/PerfilCampeonatos';
 import NovoCampeonato from './pages/NovoCampeonato';
-
 import PerfilUsuario from './pages/PerfilUsuario';
+
+//Coisas
+import logoBranco from './assets/img/logoBrancoPNG.png';
+
+const PaginaFeed = createStackNavigator({
+    PageFeed: {
+        screen: PageFeed,
+        navigationOptions: {
+            title: 'YourTalent',
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+                fontFamily: 'LemonJelly',
+                fontSize: 50,
+                marginBottom: 15
+            },
+            headerLeft: (
+                <Image source={logoBranco} style={{ width: 65, height: 65 }} />
+            )
+        },
+        headerLeft: () => {
+            <Image source={require('./assets/img/logoBrancoPNG.png')}
+                style={{
+                    width: 50,
+                    height: 50
+                }}
+            />
+        }
+    }
+});
+
+PaginaFeed.navigationOptions = {
+    tabBarLabel: 'Feed',
+    tabBarColor: '#7b1fa2',
+    tabBarIcon: ({ }) => {
+        return <Icon name={'home'} size={25} color={'#fff'} />;
+    }
+}
+
+const PaginaPerfil = createStackNavigator({
+    Perfil: {
+        screen: Perfil,
+        navigationOptions: {
+            title: 'Perfil',
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+                fontSize: 20,
+                marginLeft:"-70%",
+                marginTop:4,
+            },
+        },
+    },
+    PerfilOpcoes,
+    PerfilCampeonato,
+    NovoCampeonato: {
+        screen: NovoCampeonato,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
+});
+
+PaginaPerfil.navigationOptions = {
+    tabBarLabel: 'Perfil',
+    tabBarColor: '#6a1b9a',
+    tabBarIcon: ({ focused, tintColor }) => {
+        return <Icon name={'account'} size={25} color={'#fff'} />;
+    },
+}
+
+const PaginaChat = createStackNavigator({
+    Chat: {
+        screen: Chat,
+        navigationOptions: {
+            title: 'YourTalent',
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+            headerTitleStyle: {
+                textAlign: 'center',
+                flex: 1,
+                fontFamily: 'LemonJelly',
+                fontSize: 50,
+                marginBottom: 15
+            },
+            headerLeft: (
+                <Image source={logoBranco} style={{ width: 65, height: 65 }} />
+            )
+        },
+        headerLeft: () => {
+            <Image source={require('./assets/img/logoBrancoPNG.png')}
+                style={{
+                    width: 50,
+                    height: 50
+                }}
+            />
+        }
+    }
+});
+
+PaginaChat.navigationOptions = {
+    tabBarLabel: 'Chat',
+    tabBarColor: '#4a148c',
+    tabBarIcon: ({ focused, tintColor }) => {
+        return <Icon name={'chat'} size={25} color={'#fff'} />;
+    },
+}
 
 const Routes = (userLogged = false) => createAppContainer(
     createSwitchNavigator(
@@ -56,64 +173,17 @@ const Routes = (userLogged = false) => createAppContainer(
                     PosicaoEsporte,
                 }
             ),
-            Logado: createBottomTabNavigator(
+            Logado: createMaterialBottomTabNavigator(
                 {
-                    Feed: createStackNavigator({
-                        Feed: {
-                            screen: PageFeed,
-                            navigationOptions: {
-                                headerTitleStyle: {
-                                    textAlign: 'center',
-                                    flex: 1,
-                                    marginLeft: '22%'
-                                },
-                                headerTitle: 'YourTalent',
-                                tabBarLabel: 'Feed',
-                            },
-                        },
-                        PerfilUsuario: PerfilUsuario,
-                    }),
-
-                    Perfil: createStackNavigator({
-                        Perfil: {
-                            screen: Perfil,
-                            navigationOptions: {
-                                headerTitleStyle: {
-                                    textAlign: 'center',
-                                    flex: 1,
-                                    marginLeft: '22%'
-                                },
-                                headerTitle: 'Perfil',
-                                tabBarLabel: 'Perfil',
-                            }
-                        },
-                        PerfilOpcoes: PerfilOpcoes,
-                        NovoCampeonato: NovoCampeonato,
-                        PerfilCampeonato: PerfilCampeonato,
-                    }),
-
-                    Chat: createStackNavigator({
-                        Chat: {
-                            screen: Chat,
-                            navigationOptions: {
-                                headerTitleStyle: {
-                                    textAlign: 'center',
-                                    flex: 1,
-                                },
-                                headerTitle: 'Chat',
-                                tabBarLabel: 'Chat',
-                            }
-                        },
-                    }),
+                    PaginaFeed,
+                    PaginaPerfil,
+                    PaginaChat
                 },
                 {
-                    tabBarOptions: {
-                        activeTintColor: '#212121',
-                        activeBackgroundColor: '#f5f5f5',
-                        inactiveBackgroundColor: '#f5f5f5',
-                        labelStyle: { fontWeight: 'bold' },
-                        showIcon: true,
-                    },
+                    initialRouteName: "PaginaFeed",
+                    activeColor: '#f0edf6',
+                    inactiveColor: '#226557',
+                    shifting: true,
                 },
             ),
             Categoria: createSwitchNavigator(

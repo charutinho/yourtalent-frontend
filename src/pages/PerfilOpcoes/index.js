@@ -168,7 +168,7 @@ export default class PerfilOpcoes extends Component {
 
                         <StatusBar
                             barStyle="dark-content"
-                            backgroundColor="#f4f4f4"
+                            backgroundColor="#6a1b9a"
                         />
 
                         <View style={styles.header}>
