@@ -18,7 +18,11 @@ export default class PerfilOpcoesSeguro extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            esporte: 'Futebol'
+            esporte: 'Futebol',
+            padraoEsporte: '',
+            padraoEsporteValue: '',
+            padraoPosicao: '',
+            padraoPosicaoValue: ''
         }
     }
 
@@ -31,6 +35,7 @@ export default class PerfilOpcoesSeguro extends Component {
                 console.log(responseJson.user);
                 const email = responseJson.user.email;
                 const esporte = responseJson.user.esporte;
+                const esportePosicao = responseJson.user.esportePosicao;
 
                 if (esporte == 'Futebol') {
                     this.setState({ esporteFutebol: true })
@@ -44,7 +49,11 @@ export default class PerfilOpcoesSeguro extends Component {
 
                 this.setState({
                     email,
-                    esporte
+                    esporte,
+                    padraoEsporte: esporte,
+                    padraoEsporteValue: esporte,
+                    padraoPosicao: esportePosicao,
+                    padraoPosicaoValue: esportePosicao
                 })
             })
     }
@@ -82,7 +91,7 @@ export default class PerfilOpcoesSeguro extends Component {
                 await this.setState({ PickerValue: 'LoL' })
             }
         }
-        const ip = AsyncStorage.getItem('@Ip:ip');
+        const ip = await AsyncStorage.getItem('@Ip:ip');
         await fetch(`http://${ip}:3000/updateData`, {
             method: 'POST',
             headers: {
@@ -92,7 +101,7 @@ export default class PerfilOpcoesSeguro extends Component {
             body: JSON.stringify(
                 {
                     email: this.state.email,
-                    esporte: this.state.Picker,
+                    esporte: this.state.PickerValue,
                     esportePosicao: this.state.posicaoEscolhida
                 }
             )
@@ -153,6 +162,7 @@ export default class PerfilOpcoesSeguro extends Component {
                         selectedValue={this.state.PickerValue}
                         onValueChange={(itemValue, itemIndex) => this.setState({ PickerValue: itemValue })}
                     >
+                        <Picker.Item label={this.state.padraoEsporte} value={this.state.padraoEsporteValue} />
                         <Picker.Item label="Futebol" value="Futebol" />
                         <Picker.Item label="Basquete" value="Basquete" />
                         <Picker.Item label="Counter Strike: Global Offensive" value="CS:GO" />
@@ -167,6 +177,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
                             <Picker.Item label='Goleiro' value='Goleiro' />
                             <Picker.Item label='Lateral Direito' value='Lateral Direito' />
                             <Picker.Item label='Lateral Esquerdo ' value='Lateral Esquerdo' />
@@ -187,6 +198,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
                             <Picker.Item label="Armador Principal" value="Armador Principal" />
                             <Picker.Item label="Escolta" value="Escola / Ala Armador / Lançador" />
                             <Picker.Item label="Lateral" value="Lateral / Ala" />
@@ -204,6 +216,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
                             <Picker.Item label="Lurker" value="Lurker" />
                             <Picker.Item label="Fragger" value="Fragger" />
                             <Picker.Item label="Entry Fragger" value="Entry Fragger" />
@@ -222,6 +235,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
                             <Picker.Item label="Topo" value="Topo" />
                             <Picker.Item label="Caçador" value="Caçador" />
                             <Picker.Item label="Meio" value="Meio" />

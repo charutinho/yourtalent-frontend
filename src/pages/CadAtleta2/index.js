@@ -53,12 +53,10 @@ export default class CadAtleta2 extends Component {
                     <StatusBar
                         barStyle="dark-content"
                     />
-                    {/* <View>
-                        <Image style={styles.logoFormat} source={require('../../assets/img/logoRedondo.png')}></Image>
-                    </View> */}
-                    <View>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
                         <Text style={styles.titleSport}>   Qual esporte você pratica?</Text>
+                        
                         <View style={styles.styleSelect}>
                                 <Picker
                                     style={styles.selectFormat}

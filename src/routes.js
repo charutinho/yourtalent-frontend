@@ -90,21 +90,7 @@ const PaginaFeed = createStackNavigator({
             headerTintColor: '#fff',
             headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
         }
-    },
-    PerfilOpcoesSenha: {
-        screen: PerfilOpcoesSenha,
-        navigationOptions: {
-            headerTintColor: '#fff',
-            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
-        }
-    },
-    PerfilOpcoesSeguro: {
-        screen: PerfilOpcoesSeguro,
-        navigationOptions: {
-            headerTintColor: '#fff',
-            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
-        }
-    },
+    }
 });
 
 PaginaFeed.navigationOptions = {
@@ -135,6 +121,20 @@ const PaginaPerfil = createStackNavigator({
     PerfilCampeonato,
     NovoCampeonato: {
         screen: NovoCampeonato,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
+    PerfilOpcoesSenha: {
+        screen: PerfilOpcoesSenha,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
+    PerfilOpcoesSeguro: {
+        screen: PerfilOpcoesSeguro,
         navigationOptions: {
             headerTintColor: '#fff',
             headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
@@ -206,7 +206,6 @@ const Routes = (userLogged = false) => createAppContainer(
             ),
             Logado: createMaterialBottomTabNavigator(
                 {
-                    PerfilOpcoesSeguro,
                     PaginaFeed,
                     PaginaPerfil,
                     PaginaChat

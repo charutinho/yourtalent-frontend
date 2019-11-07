@@ -69,23 +69,21 @@ const styles = StyleSheet.create({
     //Olheiro
     busca: {
         width: '90%',
-        borderRadius: 5,
-        borderWidth: 1
+        borderRadius: 5
     },
     buscaTitleView: {
         width: '100%',
         alignItems: 'center',
+        marginTop: '5%'
     },
     buscaTitle: {
-        fontSize: 17
+        fontSize: 20,
     },
     textInputForm: {
         width: '80%',
-        marginTop: 10,
         height: 60,
     },
     inputSexo: {
-        width: '80%',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -95,13 +93,15 @@ const styles = StyleSheet.create({
     },
     textFormInput: {
         fontSize: 18,
-        marginRight: 15
     },
     radioOpcao: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
+    buscaSexo: {
+        marginTop: '1%'
+    }
 });
 
 export default styles;

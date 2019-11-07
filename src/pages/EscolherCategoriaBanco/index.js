@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, useCallback } from 'react';
+       import React, { Component, useEffect, useState, useCallback } from 'react';
 import {
     View,
     Text,
@@ -67,7 +67,8 @@ export default class Categorias extends Component {
                                 <TouchableOpacity onPress={() => this.navegar(item.nomeEsporte)}>
                                     <Text
                                         style={{
-                                            fontSize: 30
+                                            fontSize: 30,
+                                            color:"#fff",
                                         }}
                                     >
                                         {item.nomeEsporte}

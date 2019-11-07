@@ -15,7 +15,8 @@ import {
 } from 'react-native';
 import {
     RadioButton,
-    Button
+    Button,
+    Divider
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
@@ -312,154 +313,176 @@ export default class PageFeed extends Component {
                                     </Text>
                                 </View>
 
-                                <Text>Posição: </Text>
                                 {esporteFutebol && (
-                                    <Picker
-                                        style={{ height: 50, width: '100%' }}
-                                        selectedValue={this.state.posicaoEscolhida}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
-                                    >
-                                        <Picker.Item label='Goleiro' value='Goleiro' />
-                                        <Picker.Item label='Lateral Direito' value='Lateral Direito' />
-                                        <Picker.Item label='Lateral Esquerdo ' value='Lateral Esquerdo' />
-                                        <Picker.Item label='Zagueiro' value='Zagueiro' />
-                                        <Picker.Item label='Meio-Campo' value='Meio-Campo' />
-                                        <Picker.Item label='Volante' value='Volante' />
-                                        <Picker.Item label='Ponta' value='Ponta' />
-                                        <Picker.Item label='Centro-avante' value='Centro Avante' />
-                                        <Picker.Item label='Atacante' value='Atacante' />
-                                    </Picker>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.6, borderColor: '#bdbdbd' }}>
+                                        <Text style={{ fontSize: 17, width: '20%' }} >Posição: </Text>
+                                        <Picker
+                                            style={{ height: 50, width: '80%' }}
+                                            selectedValue={this.state.posicaoEscolhida}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
+                                        >
+                                            <Picker.Item label='Goleiro' value='Goleiro' />
+                                            <Picker.Item label='Lateral Direito' value='Lateral Direito' />
+                                            <Picker.Item label='Lateral Esquerdo ' value='Lateral Esquerdo' />
+                                            <Picker.Item label='Zagueiro' value='Zagueiro' />
+                                            <Picker.Item label='Meio-Campo' value='Meio-Campo' />
+                                            <Picker.Item label='Volante' value='Volante' />
+                                            <Picker.Item label='Ponta' value='Ponta' />
+                                            <Picker.Item label='Centro-avante' value='Centro Avante' />
+                                            <Picker.Item label='Atacante' value='Atacante' />
+                                        </Picker>
+                                    </View>
                                 )}
 
                                 {esporteBasquete && (
-                                    <Picker
-                                        style={{ height: 50, width: '100%' }}
-                                        selectedValue={this.state.posicaoEscolhida}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
-                                    >
-                                        <Picker.Item label="Armador Principal" value="Armador Principal" />
-                                        <Picker.Item label="Escolta" value="Escola / Ala Armador / Lançador" />
-                                        <Picker.Item label="Lateral" value="Lateral / Ala" />
-                                        <Picker.Item label="Líbero" value="Líbero / Ala Pivo" />
-                                        <Picker.Item label="Pivo " value="Pivo" />
-
-                                    </Picker>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.6, borderColor: '#bdbdbd' }}>
+                                        <Text style={{ fontSize: 17, width: '20%' }} >Posição: </Text>
+                                        <Picker
+                                            style={{ height: 50, width: '80%' }}
+                                            selectedValue={this.state.posicaoEscolhida}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
+                                        >
+                                            <Picker.Item label="Armador Principal" value="Armador Principal" />
+                                            <Picker.Item label="Escolta" value="Escola / Ala Armador / Lançador" />
+                                            <Picker.Item label="Lateral" value="Lateral / Ala" />
+                                            <Picker.Item label="Líbero" value="Líbero / Ala Pivo" />
+                                            <Picker.Item label="Pivo " value="Pivo" />
+                                        </Picker>
+                                    </View>
                                 )}
 
                                 {esportecsgo && (
-                                    <Picker
-                                        style={{ height: 50, width: '100%' }}
-                                        selectedValue={this.state.posicaoEscolhida}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
-                                    >
-                                        <Picker.Item label="Lurker" value="Lurker" />
-                                        <Picker.Item label="Fragger" value="Fragger" />
-                                        <Picker.Item label="Entry Fragger" value="Entry Fragger" />
-                                        <Picker.Item label="Capitão" value="Capitão" />
-                                        <Picker.Item label="AWPer" value="AWPer" />
-                                        <Picker.Item label="Suporte" value="Suporte" />
-
-                                    </Picker>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.6, borderColor: '#bdbdbd' }}>
+                                        <View style={{ width: '20%' }}>
+                                            <Text style={{ fontSize: 17 }} >Posição: </Text>
+                                        </View>
+                                        <Picker
+                                            style={{ height: 50, width: '80%' }}
+                                            selectedValue={this.state.posicaoEscolhida}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
+                                        >
+                                            <Picker.Item label="Lurker" value="Lurker" />
+                                            <Picker.Item label="Fragger" value="Fragger" />
+                                            <Picker.Item label="Entry Fragger" value="Entry Fragger" />
+                                            <Picker.Item label="Capitão" value="Capitão" />
+                                            <Picker.Item label="AWPer" value="AWPer" />
+                                            <Picker.Item label="Suporte" value="Suporte" />
+                                        </Picker>
+                                    </View>
                                 )}
 
                                 {esportelol && (
-                                    <Picker
-                                        style={{ height: 50, width: '100%' }}
-                                        selectedValue={this.state.posicaoEscolhida}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
-                                    >
-                                        <Picker.Item label="Topo" value="Topo" />
-                                        <Picker.Item label="Caçador" value="Caçador" />
-                                        <Picker.Item label="Meio" value="Meio" />
-                                        <Picker.Item label="Atirador" value="Atirador" />
-                                        <Picker.Item label="Suporte" value="Suporte" />
-
-                                    </Picker>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.6, borderColor: '#bdbdbd' }}>
+                                        <Text style={{ fontSize: 17, width: '20%' }} >Posição: </Text>
+                                        <Picker
+                                            style={{ height: 50, width: '80%' }}
+                                            selectedValue={this.state.posicaoEscolhida}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
+                                        >
+                                            <Picker.Item label="Topo" value="Topo" />
+                                            <Picker.Item label="Caçador" value="Caçador" />
+                                            <Picker.Item label="Meio" value="Meio" />
+                                            <Picker.Item label="Atirador" value="Atirador" />
+                                            <Picker.Item label="Suporte" value="Suporte" />
+                                        </Picker>
+                                    </View>
                                 )}
 
                                 <View style={styles.buscaCidade}>
-                                    <Text>Cidade: </Text>
-                                    <Picker
-                                        style={{ height: 50, width: '100%' }}
-                                        selectedValue={this.state.estadoEscolhido}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({ estadoEscolhido: itemValue })}
-                                    >
-                                        <Picker.Item label='Acre' value='AC' />
-                                        <Picker.Item label='Alagoas' value='AL' />
-                                        <Picker.Item label='Amapá' value='AP' />
-                                        <Picker.Item label='Amazonas' value='AM' />
-                                        <Picker.Item label='Bahia' value='BA' />
-                                        <Picker.Item label='Ceará' value='CE' />
-                                        <Picker.Item label='Distrito Federal' value='DF' />
-                                        <Picker.Item label='Espírito Santo' value='ES' />
-                                        <Picker.Item label='Goiás' value='GO' />
-                                        <Picker.Item label='Maranhão' value='MA' />
-                                        <Picker.Item label='Mato Grosso' value='MT' />
-                                        <Picker.Item label='Mato Grosso do Sul' value='MS' />
-                                        <Picker.Item label='Minas Gerais' value='MG' />
-                                        <Picker.Item label='Pará' value='PA' />
-                                        <Picker.Item label='Paraíba' value='PB' />
-                                        <Picker.Item label='Paraná' value='PR' />
-                                        <Picker.Item label='Pernambuco' value='PE' />
-                                        <Picker.Item label='Piauí' value='PI' />
-                                        <Picker.Item label='Rio de Janeiro' value='RJ' />
-                                        <Picker.Item label='Rio Grande do Norte' value='RN' />
-                                        <Picker.Item label='Rio Grande do Sul' value='RS' />
-                                        <Picker.Item label='Rondônia' value='RO' />
-                                        <Picker.Item label='Roraima' value='RR' />
-                                        <Picker.Item label='Santa Catarina' value='SC' />
-                                        <Picker.Item label='São Paulo' value='SP' />
-                                        <Picker.Item label='Sergipe' value='SE' />
-                                        <Picker.Item label='Tocantis' value='TO' />
-                                    </Picker>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.6, borderColor: '#bdbdbd' }}>
+                                    <View style={{ width: '20%' }}>
+                                            <Text style={{ fontSize: 17 }} >Estado: </Text>
+                                        </View>
+                                        <Picker
+                                            style={{ height: 50, width: '80%' }}
+                                            selectedValue={this.state.estadoEscolhido}
+                                            onValueChange={(itemValue, itemIndex) => this.setState({ estadoEscolhido: itemValue })}
+                                        >
+                                            <Picker.Item label='Acre' value='AC' />
+                                            <Picker.Item label='Alagoas' value='AL' />
+                                            <Picker.Item label='Amapá' value='AP' />
+                                            <Picker.Item label='Amazonas' value='AM' />
+                                            <Picker.Item label='Bahia' value='BA' />
+                                            <Picker.Item label='Ceará' value='CE' />
+                                            <Picker.Item label='Distrito Federal' value='DF' />
+                                            <Picker.Item label='Espírito Santo' value='ES' />
+                                            <Picker.Item label='Goiás' value='GO' />
+                                            <Picker.Item label='Maranhão' value='MA' />
+                                            <Picker.Item label='Mato Grosso' value='MT' />
+                                            <Picker.Item label='Mato Grosso do Sul' value='MS' />
+                                            <Picker.Item label='Minas Gerais' value='MG' />
+                                            <Picker.Item label='Pará' value='PA' />
+                                            <Picker.Item label='Paraíba' value='PB' />
+                                            <Picker.Item label='Paraná' value='PR' />
+                                            <Picker.Item label='Pernambuco' value='PE' />
+                                            <Picker.Item label='Piauí' value='PI' />
+                                            <Picker.Item label='Rio de Janeiro' value='RJ' />
+                                            <Picker.Item label='Rio Grande do Norte' value='RN' />
+                                            <Picker.Item label='Rio Grande do Sul' value='RS' />
+                                            <Picker.Item label='Rondônia' value='RO' />
+                                            <Picker.Item label='Roraima' value='RR' />
+                                            <Picker.Item label='Santa Catarina' value='SC' />
+                                            <Picker.Item label='São Paulo' value='SP' />
+                                            <Picker.Item label='Sergipe' value='SE' />
+                                            <Picker.Item label='Tocantis' value='TO' />
+                                        </Picker>
+                                    </View>
                                 </View>
 
                                 <View style={styles.buscaSexo}>
-                                    <Text>
-                                        Sexo:
-                                    </Text>
+
                                     <View style={styles.inputSexo}>
+                                        <Text style={{ fontSize: 17, width: '20%' }}>
+                                            Sexo:
+                                        </Text>
 
-                                        <TouchableOpacity
-                                            onPress={() => this.setState({ checked: "M" })}
-                                            style={styles.radioOpcao}
-                                        >
+                                        <View style={{ width: '80%', flexDirection: 'row' }}>
+                                            <TouchableOpacity
+                                                onPress={() => this.setState({ checked: "M" })}
+                                                style={styles.radioOpcao}
+                                            >
 
-                                            <RadioButton
-                                                style={styles.radioButton}
-                                                value="M"
-                                                status={checked === 'M' ? 'checked' : 'unchecked'}
-                                                color='#000'
-                                                uncheckedColor='#000'
-                                            />
+                                                <RadioButton
+                                                    style={styles.radioButton}
+                                                    value="M"
+                                                    status={checked === 'M' ? 'checked' : 'unchecked'}
+                                                    color='#000'
+                                                    uncheckedColor='#000'
+                                                />
 
-                                            <Text style={styles.radioText}>Masculino</Text>
+                                                <Text style={styles.radioText}>Masculino</Text>
 
-                                        </TouchableOpacity>
+                                            </TouchableOpacity>
 
-                                        <TouchableOpacity
-                                            onPress={() => this.setState({ checked: "F" })}
-                                            style={styles.radioOpcao}
-                                        >
+                                            <TouchableOpacity
+                                                onPress={() => this.setState({ checked: "F" })}
+                                                style={styles.radioOpcao}
+                                            >
 
-                                            <RadioButton
-                                                value="F"
-                                                status={checked === 'F' ? 'checked' : 'unchecked'}
-                                                color="#000"
-                                                uncheckedColor='#000'
-                                            />
+                                                <RadioButton
+                                                    value="F"
+                                                    status={checked === 'F' ? 'checked' : 'unchecked'}
+                                                    color="#000"
+                                                    uncheckedColor='#000'
+                                                />
 
-                                            <Text style={styles.radioText}>Feminino</Text>
+                                                <Text style={styles.radioText}>Feminino</Text>
 
-                                        </TouchableOpacity>
+                                            </TouchableOpacity>
+                                        </View>
+
                                     </View>
 
-                                    <Button icon="bone" onPress={this.handleBusca}
-                                        color='#000'
-                                    >
-                                        Buscar atletas
+                                    <View style>
+                                        <Button 
+                                        mode="contained"
+                                        onPress={this.handleBusca}
+                                        color='#6a1b9a'
+                                        style={{ marginTop: '2%', marginBottom: '5%' }}
+                                        >
+                                            Buscar atletas
                                     </Button>
-
+                                    </View>
                                 </View>
                             </View>
                         </View>

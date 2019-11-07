@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor:'#6a1b9a',
     },
     containerFlatList: {
         marginTop: '70%'
