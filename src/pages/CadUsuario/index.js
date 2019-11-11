@@ -4,8 +4,8 @@ import {
     Text,
     TouchableOpacity,
     StatusBar,
-    Alert,
     ImageBackground,
+    Keyboard
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import TextInputMask from 'react-native-text-input-mask';
@@ -13,7 +13,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
     RadioButton,
     TextInput,
-    Snackbar
+    Snackbar,
+    ActivityIndicator
 } from 'react-native-paper';
 
 import styles from './styles';
@@ -23,7 +24,8 @@ export default class CadUsuario extends Component {
         header: null,
     }
 
-    nascimento = async() => {
+    nascimento = () => {
+        console.log(this.state.dataCel)
         var data = this.state.dataCel.split("/");
 
         if (this.state.dataCel.length == 10) {
@@ -50,7 +52,7 @@ export default class CadUsuario extends Component {
             }
 
             var nasc = data[0] + '/' + data[1] + '/' + data[2];
-            await this.setState({
+            this.setState({
                 dataCel: nasc,
             })
         }
@@ -71,6 +73,11 @@ export default class CadUsuario extends Component {
             visible: false,
             secureTextEntry: true,
             iconName: "eye-off-outline",
+
+            //Erros
+            errorColorNome: '#9c27b0',
+            errorColorEmail: '#9c27b0',
+            errorColorSenha: '#9c27b0'
         };
     }
     onIconPress = () => {
@@ -83,42 +90,104 @@ export default class CadUsuario extends Component {
     }
 
     handleCadastro = async () => {
-        var ip = await AsyncStorage.getItem('@Ip:ip');
-        console.log(ip)
-        fetch(`http://${ip}:3000/auth/verificaremail`,
-            {
-                method: 'POST',
-                headers:
+        Keyboard.dismiss();
+        await this.validatorNome();
+        await this.validatorEmail();
+        await this.validatorSenha();
+        if (this.state.nomeOk == true && this.state.emailOk == true && this.state.senhaOk == true) {
+            var ip = await AsyncStorage.getItem('@Ip:ip');
+            this.setState({ loading: true })
+            fetch(`http://${ip}:3000/auth/verificaremail`,
                 {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json;charset=utf-8',
-                },
-                body: JSON.stringify(
+                    method: 'POST',
+                    headers:
                     {
-                        email: this.state.email
-                    })
-            })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                let emailCad = responseJson.message;
-                if (emailCad == 'O e-mail esta disponível') {
-                    this.props.navigation.navigate('CadEscolha');
-                    AsyncStorage.setItem('Nome', this.state.nome);
-                    AsyncStorage.setItem('Nasc', this.state.dataCel);
-                    AsyncStorage.setItem('Sexo', this.state.checked);
-                    AsyncStorage.setItem('Email', this.state.email);
-                    AsyncStorage.setItem('Senha', this.state.senha);
-                } else {
-                    Alert.alert("Erro", responseJson.error);
-                }
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=utf-8',
+                    },
+                    body: JSON.stringify(
+                        {
+                            email: this.state.email
+                        })
+                })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    let emailCad = responseJson.message;
+                    if (emailCad == 'O e-mail esta disponível') {
+                        this.props.navigation.navigate('CadEscolha');
+                        AsyncStorage.setItem('Nome', this.state.nome);
+                        AsyncStorage.setItem('Nasc', this.state.dataCel);
+                        AsyncStorage.setItem('Sexo', this.state.checked);
+                        AsyncStorage.setItem('Email', this.state.email);
+                        AsyncStorage.setItem('Senha', this.state.senha);
+                        this.setState({ loading: false })
+                    } else {
+                        this.setState({
+                            emailUsado: true,
+                            errorColorEmail: '#ff0000',
+                            loading: false
+                        })
+                    }
 
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } else {
+            this.setState({
+                camposIncorretos: true
             })
-            .catch((error) => {
-                console.error(error);
-            });
+        }
+    }
+
+    validatorNome = () => {
+        let regNome = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+        if (regNome.test(this.state.nome) === false) {
+            this.setState({
+                errorColorNome: '#ff0000',
+                nomeOk: false
+            })
+        } else {
+            this.setState({
+                errorColorNome: '#9c27b0',
+                nomeOk: true
+            })
+        }
+    }
+
+    validatorEmail = () => {
+        let regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (regEmail.test(this.state.email) === false) {
+            this.setState({
+                errorColorEmail: '#ff0000',
+                emailOk: false
+            })
+        } else {
+            this.setState({
+                errorColorEmail: '#9c27b0',
+                emailOk: true
+            })
+        }
+    }
+
+    validatorSenha = () => {
+        let regSenha = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        if (regSenha.test(this.state.senha) === false) {
+            this.setState({
+                errorColorSenha: '#ff0000',
+                visibleErrorSenha: true,
+                senhaOk: false
+            })
+        } else {
+            this.setState({
+                errorColorSenha: '#9c27b0',
+                senhaOk: true
+            })
+        }
     }
 
     render() {
+        const { loading } = this.state;
         const { checked } = this.state;
         const { visible } = this.state;
         return (
@@ -136,10 +205,7 @@ export default class CadUsuario extends Component {
                         backgroundColor="transparent"
                     />
 
-                    <View style={styles.header}>
-                        <Text style={styles.title}>
-                        </Text>
-                    </View>
+                    <View style={styles.header} />
 
                     <View style={styles.body}>
 
@@ -147,13 +213,14 @@ export default class CadUsuario extends Component {
 
                             <TextInput
                                 style={styles.textInputForm}
-                                label="Nome"
-                                placeholder='Digite seu nome'
+                                label="Nome completo"
+                                placeholder='Ex: Enzo Silva'
                                 autoCompleteType='name'
                                 autoCorrect={false}
                                 mode="outlined"
                                 caretHidden={false}
                                 value={this.state.nome}
+                                onEndEditing={this.validatorNome}
                                 onChangeText={(nome) => this.setState({ nome })}
                                 theme={{
                                     roundness: 10,
@@ -161,13 +228,12 @@ export default class CadUsuario extends Component {
                                         primary: '#9c27b0',
                                         accent: '#9c27b0',
                                         surface: '#9c27b0',
-                                        text: '#9c27b0',
+                                        text: this.state.errorColorNome,
                                         backdrop: '#9c27b0',
                                         background: '#fff'
                                     }
                                 }}
                             />
-
                             <TextInput
                                 style={styles.textInputForm}
                                 label="Data de Nascimento"
@@ -248,6 +314,7 @@ export default class CadUsuario extends Component {
                                 caretHidden={false}
                                 autoCompleteType={'email'}
                                 value={this.state.email}
+                                onEndEditing={this.validatorEmail}
                                 onChangeText={(email) => this.setState({ email })}
                                 theme={{
                                     roundness: 10,
@@ -255,7 +322,7 @@ export default class CadUsuario extends Component {
                                         primary: '#9c27b0',
                                         accent: '#9c27b0',
                                         surface: '#9c27b0',
-                                        text: '#9c27b0',
+                                        text: this.state.errorColorEmail,
                                         backdrop: '#9c27b0',
                                         background: '#fff'
                                     }
@@ -273,6 +340,7 @@ export default class CadUsuario extends Component {
                                     mode="outlined"
                                     caretHidden={false}
                                     value={this.state.senha}
+                                    onEndEditing={this.validatorSenha}
                                     onChangeText={(senha) => this.setState({ senha })}
                                     theme={{
                                         roundness: 10,
@@ -280,7 +348,7 @@ export default class CadUsuario extends Component {
                                             primary: '#9c27b0',
                                             accent: '#9c27b0',
                                             surface: '#9c27b0',
-                                            text: '#9c27b0',
+                                            text: this.state.errorColorSenha,
                                             backdrop: '#9c27b0',
                                             background: '#fff'
                                         }
@@ -288,7 +356,7 @@ export default class CadUsuario extends Component {
                                 />
                             </View>
                             <TouchableOpacity style={{ marginLeft: "60%", alignItems: "center", marginTop: 5 }} onPress={this.onIconPress}>
-                                <Icon style={{}} name={this.state.iconName} size={30} color={"#616161"} />
+                                <Icon name={this.state.iconName} size={30} color={"#616161"} />
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.botaoLogin} onPress={this.handleCadastro}>
@@ -296,34 +364,107 @@ export default class CadUsuario extends Component {
                                     Continuar
                                 </Text>
                             </TouchableOpacity>
-
                         </View>
-                        <Snackbar
-                            visible={this.state.visible}
-                            duration={3000}
-                            theme={{
-                                roundness: 10,
-                                colors: {
-                                    primary: '#9c27b0',
-                                    accent: '#9c27b0',
-                                    surface: '#9c27b0',
-                                    text: '#9c27b0',
-                                    backdrop: '#9c27b0',
-                                }
-                            }}
-                            onDismiss={() => this.setState({ visible: false })}
-                            action={{
-                                label: 'Ok',
-                                onPress: () => {
 
-                                },
+                        <View
+                            style={{
+                                position: 'absolute'
                             }}
                         >
-                            Confira sua data de nascimento
-                        </Snackbar>
-
+                            {loading && (
+                                <ActivityIndicator
+                                    color="#C00"
+                                    size="large"
+                                    color='#9c27b0'
+                                />
+                            )}
+                        </View>
+                        
                     </View>
 
+                    <Snackbar
+                        visible={this.state.visible}
+                        duration={3000}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#9c27b0',
+                                accent: '#9c27b0',
+                                surface: '#9c27b0',
+                                text: '#9c27b0',
+                                backdrop: '#9c27b0',
+                            }
+                        }}
+                        onDismiss={() => this.setState({ visible: false })}
+                        action={{
+                            label: 'Ok',
+                        }}
+                    >
+                        Confira sua data de nascimento
+                        </Snackbar>
+
+                    <Snackbar
+                        visible={this.state.emailUsado}
+                        duration={3000}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#9c27b0',
+                                accent: '#9c27b0',
+                                surface: '#9c27b0',
+                                text: '#9c27b0',
+                                backdrop: '#9c27b0',
+                            }
+                        }}
+                        onDismiss={() => this.setState({ emailUsado: false })}
+                        action={{
+                            label: 'Ok',
+                        }}
+                    >
+                        Este e-mail já está em uso!
+                        </Snackbar>
+
+                    <Snackbar
+                        visible={this.state.visibleErrorSenha}
+                        duration={3000}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#9c27b0',
+                                accent: '#9c27b0',
+                                surface: '#9c27b0',
+                                text: '#9c27b0',
+                                backdrop: '#9c27b0',
+                            }
+                        }}
+                        onDismiss={() => this.setState({ visibleErrorSenha: false })}
+                        action={{
+                            label: 'Ok',
+                        }}
+                    >
+                        Senha deve conter uma letra e um número
+                        </Snackbar>
+
+                    <Snackbar
+                        visible={this.state.camposIncorretos}
+                        duration={3000}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#9c27b0',
+                                accent: '#9c27b0',
+                                surface: '#9c27b0',
+                                text: '#9c27b0',
+                                backdrop: '#9c27b0',
+                            }
+                        }}
+                        onDismiss={() => this.setState({ camposIncorretos: false })}
+                        action={{
+                            label: 'Ok',
+                        }}
+                    >
+                        Preencha as informações corretamente
+                        </Snackbar>
                 </View>
             </ImageBackground>
         );

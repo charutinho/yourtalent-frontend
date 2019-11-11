@@ -9,20 +9,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     header: {
-        flex: 2,
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     body: {
-        marginTop: 30,
-        flex: 9,
+        flex: 5,
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
         justifyContent: 'center',
-
     },
     title: {
         paddingTop: 60,
@@ -81,7 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#9c27b0',
         borderRadius: 6,
         marginTop: 30,
-        marginBottom: 20,
     },
     textBotaoLogin: {
         fontSize: 22,
