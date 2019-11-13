@@ -27,7 +27,7 @@ console.disableYellowBox = true;
 //api.pagar.me/1/zipcodes/CEP DO BAGULHO AQUI
 
 // IP local do seu PC:
-ip = '10.0.0.138';
+ip = '192.168.15.29';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -63,7 +63,7 @@ export default class Login extends Component {
 
         Keyboard.dismiss();
 
-        var ip = '10.0.0.138';
+        var ip = '192.168.15.29';
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 

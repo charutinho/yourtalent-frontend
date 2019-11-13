@@ -133,6 +133,14 @@ export default class PerfilUsuario extends Component {
         Alert.alert("Data de nascimento", this.state.nasc);
     }
 
+    handleMsg = async () => {
+        const idOlheiro = await AsyncStorage.getItem('@Login:id');
+        this.props.navigation.navigate('ChatUsuario', {
+            idUsuario: this.state.idUsuario,
+            idOlheiro: idOlheiro
+        })
+    }
+
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -311,14 +319,15 @@ export default class PerfilUsuario extends Component {
                                 style={{
                                     marginRight: '10%'
                                 }}
+                                onPress={this.handleMsg}
                             >
                                 <View style={styles.campView}>
                                     <Icon
-                                        name="check"
+                                        name="chat"
                                         color="#000"
                                         size={48}
                                     />
-                                    <Text>{this.state.estado}</Text>
+                                    <Text>Enviar mensagem</Text>
                                 </View>
                             </TouchableOpacity>
 

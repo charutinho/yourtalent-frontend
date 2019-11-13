@@ -510,17 +510,14 @@ export default class PerfilOpcoes extends Component {
                                         size="large"
                                         color='#9c27b0'
                                         style={{
-                                            marginTop: 50
+                                            position: 'absolute'
                                         }}
                                     />
                                 )}
 
                                 <Button icon="save" onPress={this.handleUpdate}
                                     contentStyle={{
-                                        padding: 3,
-                                        marginTop: "5%",
-                                        marginBottom: "5%",
-
+                                        padding: 10
                                     }}
                                     color='#000'
                                 >

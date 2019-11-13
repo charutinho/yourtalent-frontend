@@ -68,6 +68,7 @@ export default class Perfil extends Component {
 
 
     getPosts = async () => {
+        console.log('Get posts');
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
@@ -156,18 +157,14 @@ export default class Perfil extends Component {
             })
     }
 
-    async componentDidUpdate() {
-        const { navigation } = this.props;
-        const atalizouPerfil = navigation.getParam('attPerfil');
-        if (atalizouPerfil === true) {
+    async componentDidUpdate(prevProps) {
+        if (prevProps.resource !== this.props.resource) {
             await this.getDados();
-            this.props.navigation.navigate('Perfil', {
-                attPerfil: false
-            })
         }
-    }
+    };
 
     async componentDidMount() {
+        console.log('Did Mount');
         this.getDados.call();
         this.getPosts.call();
     }
