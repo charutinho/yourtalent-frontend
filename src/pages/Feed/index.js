@@ -7,16 +7,13 @@ import {
     TextInput,
     FlatList,
     ScrollView,
-    ImageBackground,
     Image,
     Picker,
     ActivityIndicator,
-    Modal
 } from 'react-native';
 import {
     RadioButton,
     Button,
-    Divider
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
@@ -164,16 +161,15 @@ export default class PageFeed extends Component {
         await fetch(`http://${ip}:3000/esportes/getfavesporte/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(`http://${ip}:3000/esportes/getfavesporte/${idUser}`);
                 const esporteFeed = responseJson.esporte[0].esporteFeed;
                 this.setState({ esporteFeed: esporteFeed });
-                if (esporteFeed == 'futebol') {
+                if (esporteFeed == 'Futebol') {
                     this.setState({ esporteFutebol: true })
-                } else if (esporteFeed == 'basquete') {
+                } else if (esporteFeed == 'Basquete') {
                     this.setState({ esporteBasquete: true })
-                } else if (esporteFeed == 'cs:go') {
+                } else if (esporteFeed == 'CS:GO') {
                     this.setState({ esportecsgo: true })
-                } else if (esporteFeed == 'lol') {
+                } else if (esporteFeed == 'LoL') {
                     this.setState({ esportelol: true })
                 }
             })
@@ -183,7 +179,18 @@ export default class PageFeed extends Component {
             if (this.state.esporteFeed == undefined) {
                 var categoriaEsporte = await AsyncStorage.getItem('Esporte');
                 this.setState({ esporteFeed: categoriaEsporte })
-                await fetch(`http://${ip}:3000/listarposts/${this.state.esporteFeed}`)
+                await fetch(`http://${ip}:3000/listarposts`, {
+                    method: 'POST',
+                    headers:
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=utf-8',
+                    },
+                    body: JSON.stringify(
+                        {
+                            esporte: this.state.esporteFeed
+                        })
+                })
                     .then((response) => response.json())
                     .then((responseJson) => {
                         console.log(responseJson.post[0].autor)
@@ -195,10 +202,22 @@ export default class PageFeed extends Component {
                             atualizou: 1
                         });
                     })
+
             }
         }
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/listarposts/${this.state.esporteFeed}`)
+        await fetch(`http://${ip}:3000/listarposts`, {
+            method: 'POST',
+            headers:
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify
+                ({
+                    esporte: this.state.esporteFeed
+                })
+        })
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson.post[0].autor)
@@ -210,6 +229,12 @@ export default class PageFeed extends Component {
                 });
             })
     }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps.resource !== this.props.resource) {
+            await this.fetchData.call();
+        }
+    };
 
     async componentDidMount() {
         const ip = await AsyncStorage.getItem('@Ip:ip');
@@ -390,7 +415,7 @@ export default class PageFeed extends Component {
 
                                 <View style={styles.buscaCidade}>
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.6, borderColor: '#bdbdbd' }}>
-                                    <View style={{ width: '20%' }}>
+                                        <View style={{ width: '20%' }}>
                                             <Text style={{ fontSize: 17 }} >Estado: </Text>
                                         </View>
                                         <Picker
@@ -474,11 +499,11 @@ export default class PageFeed extends Component {
                                     </View>
 
                                     <View style>
-                                        <Button 
-                                        mode="contained"
-                                        onPress={this.handleBusca}
-                                        color='#6a1b9a'
-                                        style={{ marginTop: '2%', marginBottom: '5%' }}
+                                        <Button
+                                            mode="contained"
+                                            onPress={this.handleBusca}
+                                            color='#6a1b9a'
+                                            style={{ marginTop: '2%', marginBottom: '5%' }}
                                         >
                                             Buscar atletas
                                     </Button>
@@ -549,10 +574,10 @@ export default class PageFeed extends Component {
                                         selectedValue={this.state.PickerValue}
                                         onValueChange={(itemValue, itemIndex) => this.setState({ PickerValue: itemValue })}
                                     >
-                                        <Picker.Item label="Futebol" value="futebol" />
-                                        <Picker.Item label="Basquete" value="basquete" />
-                                        <Picker.Item label="Counter Strike: Global Offensive" value="cs:go" />
-                                        <Picker.Item label="League of Legends" value="lol" />
+                                        <Picker.Item label="Futebol" value="Futebol" />
+                                        <Picker.Item label="Basquete" value="Basquete" />
+                                        <Picker.Item label="Counter Strike: Global Offensive" value="CS:GO" />
+                                        <Picker.Item label="League of Legends" value="LoL" />
                                     </Picker>
 
                                 </View>
