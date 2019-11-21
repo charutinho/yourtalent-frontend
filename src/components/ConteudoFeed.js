@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Video from 'react-native-video';
+import { ActivityIndicator } from 'react-native-paper';
 
 export default class ConteudoFeed extends Component {
     constructor(props) {
@@ -24,6 +25,8 @@ export default class ConteudoFeed extends Component {
             ignoreSilentSwitch: null,
             isBuffering: false,
             imageHeight: 0,
+            zindexvideo: 0,
+            loading: true
         }
 
         this.onLoad = this.onLoad.bind(this);
@@ -35,7 +38,8 @@ export default class ConteudoFeed extends Component {
     onLoad(data) {
         this.setState({
             duration: data.duration,
-            paused: true
+            paused: true,
+            loading: false
         });
     }
 
@@ -47,11 +51,12 @@ export default class ConteudoFeed extends Component {
         this.setState({ isBuffering });
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         this.onLoad.call();
     }
 
     render() {
+        const { loading } = this.state;
         if (this.props.type == 'image') {
             return (
                 <View>
@@ -69,12 +74,18 @@ export default class ConteudoFeed extends Component {
             <TouchableOpacity
                 onPress={() => this.setState({ paused: !this.state.paused })}
                 activeOpacity={0.85}
+                style={{
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
             >
                 <Video
                     source={{ uri: this.props.source.uri }}
                     style={{
                         width: '100%',
                         height: 470,
+                        backgroundColor: '#fafafa',
+                        zIndex: this.state.zindexvideo
                     }}
                     rate={this.state.rate}
                     paused={this.state.paused}
@@ -88,6 +99,26 @@ export default class ConteudoFeed extends Component {
                     onEnd={() => null}
                     repeat={true}
                 />
+
+                {loading && (
+                    <ActivityIndicator
+                        color="#C00"
+                        size="large"
+                        color='#9c27b0'
+                        style={{
+                            position: 'absolute'
+                        }}
+                    />
+                )}
+
+                {/* <ImageBackground
+                    source={require('../assets/icons/playbutton.png')}
+                    style={{
+                        width: 150,
+                        height: 150,
+                        position: 'absolute'
+                    }}
+                /> */}
             </TouchableOpacity>
         );
     }
