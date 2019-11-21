@@ -40,7 +40,6 @@ export default class Categorias extends Component {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const idUser = await AsyncStorage.getItem('@Login:id');
         await fetch(`http://${ip}:3000/esportes/favesporte/${esporte}/${idUser}`);
-        await AsyncStorage.setItem('Esporte', esporte)
         this.props.navigation.navigate('PaginaFeed');
     }
 
@@ -58,14 +57,14 @@ export default class Categorias extends Component {
 
                 {esporte && (
                     <View style={{ width: '100%' }}>
-                        <TouchableOpacity onPress={this.navegar('Futebol')} style={styles.touchableView}>
+                        <TouchableOpacity onPress={() => this.navegar('Futebol')} style={styles.touchableView}>
                             <ImageBackground source={require(`../../assets/img/futebol.gif`)} style={{ width: '100%', height: '100%', }}>
                                 <Text style={styles.flatlistText}>
                                     Futebol
-                                       </Text>
+                                </Text>
                             </ImageBackground>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.navegar('Basquete')} style={styles.touchableView}>
+                        <TouchableOpacity onPress={() => this.navegar('Basquete')} style={styles.touchableView}>
                             <ImageBackground source={require(`../../assets/img/basquete.gif`)} style={{ width: '100%', height: '100%' }}>
                                 <Text style={styles.flatlistText}>
                                    Basquete
@@ -77,18 +76,18 @@ export default class Categorias extends Component {
 
                 {esport && (
                     <View style={{ width: '100%' }}>
-                        <TouchableOpacity onPress={this.navegar('CS:GO')} style={styles.touchableView}>
+                        <TouchableOpacity onPress={() => this.navegar('CS:GO')} style={styles.touchableView}>
                             <ImageBackground source={require(`../../assets/img/coldGif.gif`)} style={{ width: '100%', height: '100%', }}>
                                 <Text style={styles.flatlistText}>
                                     CS:GO
-                        </Text>
+                                </Text>
                             </ImageBackground>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.navegar('LoL')} style={styles.touchableView}>
+                        <TouchableOpacity onPress={() => this.navegar('LoL')} style={styles.touchableView}>
                             <ImageBackground source={require(`../../assets/img/giphy.webp`)} style={{ width: '100%', height: '100%' }}>
                                 <Text style={styles.flatlistText}>
                                     League Of Legends
-                        </Text>
+                                </Text>
                             </ImageBackground>
                         </TouchableOpacity>
                     </View>
