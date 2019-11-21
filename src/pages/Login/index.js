@@ -6,7 +6,9 @@ import {
     Alert,
     TouchableOpacity,
     Image,
-    Keyboard
+    Keyboard,
+    Modal,
+    TouchableHighlight
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -45,6 +47,7 @@ export default class Login extends Component {
             erroEmail: '',
             secureTextEntry: true,
             iconName: "eye-off-outline",
+            modalVisible: false
         };
     }
     onIconPress = () => {
@@ -97,7 +100,6 @@ export default class Login extends Component {
                 .then((responseJson) => {
                     var login = JSON.stringify(responseJson.login);
                     if (login == 1) {
-                        Alert.alert("Login", "Login realizado com sucesso");
                         let idUser = responseJson.user._id;
                         let id = idUser;
 
@@ -175,6 +177,7 @@ export default class Login extends Component {
                                 }
                             }}
                         />
+
                         <View style={styles.passwordContainer}>
 
                             <TextInput

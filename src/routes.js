@@ -41,11 +41,15 @@ import Perfil from './pages/Perfil';
 import PerfilOpcoes from './pages/PerfilOpcoes';
 import PerfilOpcoesSenha from './pages/PerfilOpcoesSenha';
 import Chat from './pages/Chat';
+import ChatUsuario from './pages/ChatUsuario';
 import PerfilCampeonato from './pages/PerfilCampeonatos';
 import NovoCampeonato from './pages/NovoCampeonato';
 import PerfilUsuario from './pages/PerfilUsuario';
 import PerfilUsuarioCampeonatos from './pages/PerfilUsuarioCampeonatos';
 import PerfilOpcoesSeguro from './pages/PerfilOpcoesSeguro';
+
+//Ademiro
+import PerfilAdm from './pages/PerfilAdm';
 
 //Logo
 import logoBranco from './assets/img/logoBrancoPNG.png';
@@ -140,6 +144,14 @@ const PaginaPerfil = createStackNavigator({
             headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
         }
     },
+
+    PerfilAdm: {
+        screen: PerfilAdm,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
 });
 
 PaginaPerfil.navigationOptions = {
@@ -176,7 +188,14 @@ const PaginaChat = createStackNavigator({
                 }}
             />
         }
-    }
+    },
+    ChatUsuario: {
+        screen: ChatUsuario,
+        navigationOptions: {
+            headerTintColor: '#fff',
+            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+        }
+    },
 });
 
 PaginaChat.navigationOptions = {

@@ -86,7 +86,8 @@ export default class PerfilUsuario extends Component {
                 var nivel = responseJson.user.nivel;
 
                 if (nivel == 1) {
-                    var nivelIcone = 'google-controller'
+                    var nivelIcone = 'google-controller';
+                    this.setState({ isAtleta: true })
                 } else {
                     var nivelIcone = 'account-tie'
                 }
@@ -142,6 +143,7 @@ export default class PerfilUsuario extends Component {
     }
 
     render() {
+        const { isAtleta } = this.state;
         const { navigate } = this.props.navigation;
         return (
             <ScrollView style={{
@@ -292,46 +294,48 @@ export default class PerfilUsuario extends Component {
 
                         </View>
 
-                        <View style={styles.sobreView}>
+                        {isAtleta && (
+                            <View style={styles.sobreView}>
 
-                            <TouchableOpacity
-                                onPress={() => navigate('PerfilUsuarioCampeonatos', {
-                                    idUsuario: this.state.idUsuario
-                                })}
-                                style={{
-                                    marginLeft: '10%'
-                                }}
-                            >
+                                <TouchableOpacity
+                                    onPress={() => navigate('PerfilUsuarioCampeonatos', {
+                                        idUsuario: this.state.idUsuario
+                                    })}
+                                    style={{
+                                        marginLeft: '10%'
+                                    }}
+                                >
 
-                                <View style={styles.campView}>
-                                    <Icon
-                                        name="trophy"
-                                        color="#000"
-                                        size={48}
-                                    />
-                                    <Text>Campeonatos</Text>
-                                </View>
+                                    <View style={styles.campView}>
+                                        <Icon
+                                            name="trophy"
+                                            color="#000"
+                                            size={48}
+                                        />
+                                        <Text>Campeonatos</Text>
+                                    </View>
 
-                            </TouchableOpacity>
+                                </TouchableOpacity>
 
 
-                            <TouchableOpacity
-                                style={{
-                                    marginRight: '10%'
-                                }}
-                                onPress={this.handleMsg}
-                            >
-                                <View style={styles.campView}>
-                                    <Icon
-                                        name="chat"
-                                        color="#000"
-                                        size={48}
-                                    />
-                                    <Text>Enviar mensagem</Text>
-                                </View>
-                            </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{
+                                        marginRight: '10%'
+                                    }}
+                                    onPress={this.handleMsg}
+                                >
+                                    <View style={styles.campView}>
+                                        <Icon
+                                            name="chat"
+                                            color="#000"
+                                            size={48}
+                                        />
+                                        <Text>Enviar mensagem</Text>
+                                    </View>
+                                </TouchableOpacity>
 
-                        </View>
+                            </View>
+                        )}
 
 
                         <Text style={styles.destaqueTitulo}>

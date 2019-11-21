@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
-
+import { ActivityIndicator } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './styles';
@@ -36,11 +36,9 @@ export default class Perfil extends Component {
                             marginRight: 10
                         }}
                     />
-
-                </TouchableOpacity >
+                </TouchableOpacity>
             )
         };
-
     };
 
     //Dados Usuário
@@ -61,14 +59,11 @@ export default class Perfil extends Component {
             foto: '../../assets/icons/profile.png',
             capa: '../../assets/img/gatinho.jpg',
             listPost: '',
-            isAtleta: true
+            loading: false
         };
     }
 
-
-
     getPosts = async () => {
-        console.log('Get posts');
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
@@ -77,10 +72,17 @@ export default class Perfil extends Component {
             .then((responseJson) => {
                 const post = responseJson.post;
 
-                this.setState({
-                    listData: post,
-                    loading: false
-                });
+                if (post == '') {
+                    this.setState({
+                        naoPost: true
+                    })
+                } else {
+                    this.setState({
+                        listData: post,
+                        loading: false,
+                        temPost: true
+                    });
+                }
             })
     }
 
@@ -89,10 +91,11 @@ export default class Perfil extends Component {
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
+        this.setState({ loading: true })
         await fetch(`http://${ip}:3000/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
-
+                console.log('Data')
                 //Dados do usuário
                 var nomeUsuario = responseJson.user.nome;
                 var nasc = responseJson.user.nasc;
@@ -107,8 +110,14 @@ export default class Perfil extends Component {
 
                 //Nivel
                 var nivel = responseJson.user.nivel;
+                if (nivel == 1) {
+                    this.setState({ isAtleta: true })
+                }
                 if (nivel == 2) {
                     this.setState({ isAtleta: false })
+                }
+                if (nivel == 3) {
+                    this.setState({ isAdm: true })
                 }
 
                 // Calculo idade
@@ -153,18 +162,25 @@ export default class Perfil extends Component {
                     descricao: descricao,
                     nivel: nivel,
                     nivelIcon: nivelIcone,
+                    loading: false
                 });
             })
     }
 
     async componentDidUpdate(prevProps) {
+        const { navigation } = this.props;
+        var att = (navigation.getParam('attPerf'));
+        if (att == true) {
+            await this.getDados();
+            this.props.navigation.setParams({ attPerf: false })
+        }
+
         if (prevProps.resource !== this.props.resource) {
             await this.getDados();
         }
     };
 
     async componentDidMount() {
-        console.log('Did Mount');
         this.getDados.call();
         this.getPosts.call();
     }
@@ -280,6 +296,10 @@ export default class Perfil extends Component {
     render() {
         const { navigate } = this.props.navigation;
         const { isAtleta } = this.state;
+        const { temPost } = this.state;
+        const { naoPost } = this.state;
+        const { isAdm } = this.state;
+        const { loading } = this.state;
         return (
             <ScrollView style={{
                 backgroundColor: '#fafafa',
@@ -330,8 +350,6 @@ export default class Perfil extends Component {
                                 </TouchableOpacity>
 
                             </ImageBackground>
-
-
 
                         </View>
 
@@ -427,6 +445,25 @@ export default class Perfil extends Component {
                             </TouchableOpacity>
 
                         </View>
+
+                        {isAdm && (
+                            <TouchableOpacity
+                                style={{
+                                    marginTop: '5%'
+                                }}
+                                onPress={() => this.props.navigation.navigate('PerfilAdm')}
+                            >
+                                <View style={styles.campView}>
+                                    <Icon
+                                        name="shield-key"
+                                        color="#00c853"
+                                        size={48}
+                                    />
+                                    <Text style={{ color: '#1b5e20' }}>Área de Administração</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+
                         {isAtleta && (
                             <View>
                                 <View style={styles.sobreView}>
@@ -449,7 +486,6 @@ export default class Perfil extends Component {
 
                                     </TouchableOpacity>
 
-
                                     <TouchableOpacity
                                         style={{
                                             marginRight: '10%'
@@ -466,10 +502,17 @@ export default class Perfil extends Component {
                                     </TouchableOpacity>
 
                                 </View>
+                                {temPost && (
+                                    <Text style={styles.destaqueTitulo}>
+                                        Seus últimos posts
+                                    </Text>
+                                )}
 
-                                <Text style={styles.destaqueTitulo}>
-                                    Seus últimos posts
-</Text>
+                                {naoPost && (
+                                    <Text style={styles.destaqueTitulo}>
+                                        Você ainda não postou nada
+                                    </Text>
+                                )}
                             </View>
                         )}
 
@@ -558,6 +601,15 @@ export default class Perfil extends Component {
                         />
 
                     </View>
+                    {loading && (
+                        <ActivityIndicator
+                            size="large"
+                            color='#9c27b0'
+                            style={{
+                                position: 'absolute'
+                            }}
+                        />
+                    )}
                 </View>
             </ScrollView>
 

@@ -150,7 +150,7 @@ export default class PerfilOpcoes extends Component {
             });
         this.setState({ loading: false });
         this.props.navigation.navigate('Perfil', {
-            attPerfil: true
+            attPerf: true
         });
     }
 
@@ -207,6 +207,7 @@ export default class PerfilOpcoes extends Component {
                                         autoCorrect={true}
                                         mode="outlined"
                                         caretHidden={false}
+                                        maxLength={30}
                                         value={this.state.nome}
                                         onChangeText={(nome) => this.setState({ nome })}
                                         theme={{
