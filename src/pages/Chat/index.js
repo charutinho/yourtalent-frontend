@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import io from 'socket.io-client';
 import {
     List,
     Divider
@@ -29,7 +30,7 @@ export default class Chat extends Component {
 
     async componentDidUpdate() {
         countLopp = 0;
-        if (this.countLopp == 0){
+        if (this.countLopp == 0) {
             this.getChats.call();
             this.countLopp = 1;
         }

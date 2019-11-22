@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import io from 'socket.io-client';
 
 import styles from './styles';
 
@@ -21,14 +22,21 @@ export default class ChatUsuario extends Component {
     }
 
     async componentDidUpdate() {
-        // this.getMsg.call();
+        this.socket.on("chat message", msg => {
+            if (msg == 'getmsg') {
+                this.socket.emit('chat message', 'attmsg')
+                this.getMsg.call();
+            }
+        })
     };
-
 
     async componentDidMount() {
         // this.refs.chatScroll.scrollToEnd({ animated: false })
         await this.getProf.call();
         this.getMsg.call();
+
+        var ip = await AsyncStorage.getItem('@Ip:ip');
+        this.socket = io(`http://${ip}:3000`)
     }
 
     getProf = async () => {
@@ -95,6 +103,7 @@ export default class ChatUsuario extends Component {
                 }
             )
         })
+        this.socket.emit('chat message', 'envioumsg')
         await this.setState({
             msg: ''
         })
@@ -134,13 +143,16 @@ export default class ChatUsuario extends Component {
                     />
                 </View>
 
+                <Text> {this.state.ncontador} </Text>
+
                 <View style={styles.bottom}>
                     <View style={styles.input}>
 
                         <TextInput
                             style={{
                                 width: '88%',
-                                marginLeft: 15
+                                marginLeft: 15,
+                                marginRight: -17
                             }}
                             placeholder="Digite uma mensagem"
                             value={this.state.msg}
@@ -157,7 +169,6 @@ export default class ChatUsuario extends Component {
                                     backgroundColor: '#4a148c',
                                     borderRadius: 90,
                                     padding: 10,
-                                    marginLeft: 1
                                 }}
                             />
 
