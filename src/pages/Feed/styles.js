@@ -74,10 +74,14 @@ const styles = StyleSheet.create({
     buscaTitleView: {
         width: '100%',
         alignItems: 'center',
-        marginTop: '5%'
+        justifyContent: 'center',
+        marginTop: '2%',
+        flexDirection: 'row'
     },
     buscaTitle: {
-        fontSize: 20,
+        fontSize: 22,
+        width: '100%',
+        textAlign: 'center'
     },
     textInputForm: {
         width: '80%',
@@ -101,6 +105,12 @@ const styles = StyleSheet.create({
     },
     buscaSexo: {
         marginTop: '1%'
+    },
+    olheiroOption: {
+        width: '50%',
+        height: 140,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
