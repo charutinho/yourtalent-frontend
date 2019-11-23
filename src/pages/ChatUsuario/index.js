@@ -127,13 +127,13 @@ export default class ChatUsuario extends Component {
                             if (item.autor == this.state.idUsuario) {
                                 return (
                                     <View style={{ alignItems: 'flex-end', marginBottom: 5 }}>
-                                        <Text style={{ fontSize: 18, marginRight: 10, backgroundColor: '#01579b', borderRadius: 10, color: '#fff', padding: 7 }}> {item.msg} </Text>
+                                        <Text style={{ fontSize: 18, marginRight: 10, backgroundColor: '#01579b', borderRadius: 10, color: '#fff', padding: 9.5 }}> {item.msg} </Text>
                                     </View>
                                 )
                             } else {
                                 return (
                                     <View style={{ alignItems: 'flex-start', marginBottom: 5 }}>
-                                        <Text style={{ fontSize: 18, marginLeft: 10, backgroundColor: '#0288d1', borderRadius: 10, color: '#fff', padding: 7 }}>
+                                        <Text style={{ fontSize: 18, marginLeft: 10, backgroundColor: '#0288d1', borderRadius: 10, color: '#fff', padding: 9.5 }}>
                                             {item.msg}
                                         </Text>
                                     </View>

@@ -123,6 +123,7 @@ export default class Login extends Component {
 
                     } else {
                         Alert.alert("Login", "Login ou senha incorreto");
+                        this.setState({ loading: false})
                     }
                 }).catch((error) => {
                     console.error(error);
