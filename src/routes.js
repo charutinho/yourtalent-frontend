@@ -60,7 +60,7 @@ const PaginaFeed = createStackNavigator({
         navigationOptions: {
             title: 'YourTalent',
             headerTintColor: '#fff',
-            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+            headerStyle: { backgroundColor: '#7b1fa2', borderBottomColor: '#fff' },
             headerTitleStyle: {
                 textAlign: 'center',
                 flex: 1,
@@ -168,7 +168,7 @@ const PaginaChat = createStackNavigator({
         navigationOptions: {
             title: 'YourTalent',
             headerTintColor: '#fff',
-            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+            headerStyle: { backgroundColor: '#4a148c', borderBottomColor: '#fff' },
             headerTitleStyle: {
                 textAlign: 'center',
                 flex: 1,
@@ -193,7 +193,7 @@ const PaginaChat = createStackNavigator({
         screen: ChatUsuario,
         navigationOptions: {
             headerTintColor: '#fff',
-            headerStyle: { backgroundColor: '#6a1b9a', borderBottomColor: '#fff' },
+            headerStyle: { backgroundColor: '#4a148c', borderBottomColor: '#fff' },
         }
     },
 });
