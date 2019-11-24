@@ -4,7 +4,7 @@ import {
     Text,
     TouchableOpacity
 } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, ActivityIndicator } from 'react-native-paper';
 import styles from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -13,7 +13,8 @@ export default class PerfilOpcoesSenha extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            senha: ''
+            senha: '',
+            loading: false
         }
     }
 
@@ -25,6 +26,7 @@ export default class PerfilOpcoesSenha extends Component {
 
     handlePerfil = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
+        this.setState({ loading: true })
         await fetch(`http://${ip}:3000/auth/authenticate`, {
             method: 'POST',
             headers: {
@@ -37,21 +39,31 @@ export default class PerfilOpcoesSenha extends Component {
                     senha: this.state.senha
                 })
         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            if (responseJson.error == undefined){
-                this.props.navigation.navigate('PerfilOpcoesSeguro');
-            } else {
-                const senhaErro = responseJson.error;
-                this.setState({ senhaErro: senhaErro })
-            }            
-        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson.error == undefined) {
+                    this.setState({ loading: false })
+                    this.props.navigation.navigate('PerfilOpcoesSeguro');
+                } else {
+                    const senhaErro = responseJson.error;
+                    this.setState({ senhaErro: senhaErro, loading: false })
+                }
+            })
     }
 
     render() {
+        const { loading } = this.state;
         return (
             <View style={styles.container}>
-                <Text style={{color: 'red'}}>
+                {loading && (
+                    <ActivityIndicator
+                        color="#C00"
+                        size="large"
+                        color='#9c27b0'
+                        style={{ position: 'absolute' }}
+                    />
+                )}
+                <Text style={{ color: 'red' }}>
                     {this.state.senhaErro}
                 </Text>
                 <TextInput

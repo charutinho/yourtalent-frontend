@@ -4,12 +4,14 @@ import {
     Text,
     TextInput,
     Picker,
+    Alert
 } from 'react-native';
 import {
     Divider,
     Button
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import RNRestart from 'react-native-restart';
 
 import styles from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -58,54 +60,55 @@ export default class PerfilOpcoesSeguro extends Component {
             })
     }
 
+    async componentDidUpdate(){
+        var novoEsporte = this.state.PickerValue; //Opcao do Picker
+        var esporteAtual = this.state.padraoEsporte //Opcao do Fetch 
+
+        alert('Novo esporte:', novoEsporte);
+        alert('Esporte atual:' ,esporteAtual)
+
+        // var esportePadrao = await this.state.padraoEsporte;
+        // // alert(this.state.padraoEsporte)
+        // if (this.state.PickerValue == null){
+        //     await this.setState({ PickerValue: esportePadrao })
+        //     alert(this.state.PickerValue)
+        // } else {
+
+        // }
+        // if (this.state.PickerValue !== this.state.padraoEsporte){
+            
+        // }
+    }
+
     handleUpdate = async () => {
-        if (this.state.esporte == 'Futebol') {
-            if (this.state.posicaoEscolhida == undefined) {
-                await this.setState({ posicaoEscolhida: 'Goleiro' })
-            }
-            if (this.state.PickerValue == undefined && this.state.esporte == 'Futebol') {
-                await this.setState({ PickerValue: 'Futebol' })
-            }
+        var novaPosicao = this.state.posicaoEscolhida; //Opcao do Picker
+        var posicaoAtual = this.state.padraoPosicao //Opcao do Fetch
+
+        if(novaPosicao == null){
+            novaPosicao = this.state.padraoPosicao;
+            alert(novaPosicao)
         }
-        if (this.state.esporte == 'Basquete') {
-            if (this.state.posicaoEscolhida == undefined) {
-                await this.setState({ posicaoEscolhida: 'Armador Principal' })
-            }
-            if (this.state.PickerValue == undefined && this.state.esporte == 'Basquete') {
-                await this.setState({ PickerValue: 'Basquete' })
-            }
-        }
-        if (this.state.esporte == 'CS:GO') {
-            if (this.state.posicaoEscolhida == undefined) {
-                await this.setState({ posicaoEscolhida: 'Lurker' })
-            }
-            if (this.state.PickerValue == undefined && this.state.esporte == 'CS:GO') {
-                await this.setState({ PickerValue: 'CS:GO' })
-            }
-        }
-        if (this.state.esporte == 'LoL') {
-            if (this.state.posicaoEscolhida == undefined) {
-                await this.setState({ posicaoEscolhida: 'Topo' })
-            }
-            if (this.state.PickerValue == undefined && this.state.esporte == 'LoL') {
-                await this.setState({ PickerValue: 'LoL' })
-            }
-        }
+
+    }
+
+    handleExcluir = async () => {
+        Alert.alert(
+            'Atenção',
+            'Você deseja realmente excluir sua conta?',
+            [
+                { text: 'Cancelar' },
+                { text: 'Confirmar', onPress: () => this.excluirOk.call() },
+            ],
+        );
+    }
+
+    excluirOk = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/updateData`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(
-                {
-                    email: this.state.email,
-                    esporte: this.state.PickerValue,
-                    esportePosicao: this.state.posicaoEscolhida
-                }
-            )
-        })
+        const id = await AsyncStorage.getItem('@Login:id');
+        fetch(`http://${ip}:3000/deleteuser/${id}`);
+        AsyncStorage.clear();
+        RNRestart.Restart();
+        Alert.alert('Tchau', 'Esperamos te ver novamente')
     }
 
     render() {
@@ -131,7 +134,6 @@ export default class PerfilOpcoesSeguro extends Component {
                             width: '65%',
                         }}
                         placeholder='Email'
-                        label='Email'
                         autoCorrect={true}
                         mode="outlined"
                         caretHidden={false}
@@ -150,10 +152,75 @@ export default class PerfilOpcoesSeguro extends Component {
                         }}
                         ref={(input) => { this.inputEmail = input; }}
                     />
-
                     <Divider />
+                </View>
 
+                <View style={styles.bodyListItem1}>
+                    <View style={styles.iconArea}>
+                        <Icon
+                            color={"#fff"}
+                            name='lock'
+                            size={30}
+                            onPress={() => { this.inputEmail.focus(); }}
+                        />
+                    </View>
+                    <TextInput
+                        style={{
+                            width: '65%',
+                        }}
+                        placeholder='Senha atual'
+                        secureTextEntry={true}
+                        mode="outlined"
+                        caretHidden={false}
+                        value={this.state.senhaAtual}
+                        onChangeText={(senhaAtual) => this.setState({ senhaAtual })}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#000',
+                                accent: '#000',
+                                surface: '#000000',
+                                text: '#000',
+                                backdrop: '#000',
+                                background: '#fff'
+                            }
+                        }}
+                        ref={(input) => { this.inputEmail = input; }}
+                    />
+                </View>
 
+                <View style={styles.bodyListItem1}>
+                    <View style={styles.iconArea}>
+                        <Icon
+                            color={"#fff"}
+                            name='lock'
+                            size={30}
+                            onPress={() => { this.inputEmail.focus(); }}
+                        />
+                    </View>
+                    <TextInput
+                        style={{
+                            width: '65%',
+                        }}
+                        placeholder='Nova senha'
+                        secureTextEntry={true}
+                        mode="outlined"
+                        caretHidden={false}
+                        value={this.state.senhaAtual}
+                        onChangeText={(senhaAtual) => this.setState({ senhaAtual })}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#000',
+                                accent: '#000',
+                                surface: '#000000',
+                                text: '#000',
+                                backdrop: '#000',
+                                background: '#fff'
+                            }
+                        }}
+                        ref={(input) => { this.inputEmail = input; }}
+                    />
                 </View>
 
                 <View style={styles.styleSelect}>
@@ -177,7 +244,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
-                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue} />
                             <Picker.Item label='Goleiro' value='Goleiro' />
                             <Picker.Item label='Lateral Direito' value='Lateral Direito' />
                             <Picker.Item label='Lateral Esquerdo ' value='Lateral Esquerdo' />
@@ -198,7 +265,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
-                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue} />
                             <Picker.Item label="Armador Principal" value="Armador Principal" />
                             <Picker.Item label="Escolta" value="Escola / Ala Armador / Lançador" />
                             <Picker.Item label="Lateral" value="Lateral / Ala" />
@@ -216,7 +283,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
-                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue} />
                             <Picker.Item label="Lurker" value="Lurker" />
                             <Picker.Item label="Fragger" value="Fragger" />
                             <Picker.Item label="Entry Fragger" value="Entry Fragger" />
@@ -235,7 +302,7 @@ export default class PerfilOpcoesSeguro extends Component {
                             selectedValue={this.state.posicaoEscolhida}
                             onValueChange={(itemValue, itemIndex) => this.setState({ posicaoEscolhida: itemValue })}
                         >
-                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue}/>
+                            <Picker.Item label={this.state.padraoPosicao} value={this.state.padraoPosicaoValue} />
                             <Picker.Item label="Topo" value="Topo" />
                             <Picker.Item label="Caçador" value="Caçador" />
                             <Picker.Item label="Meio" value="Meio" />
@@ -248,15 +315,29 @@ export default class PerfilOpcoesSeguro extends Component {
 
                 <Button icon="save" onPress={this.handleUpdate}
                     contentStyle={{
-                        padding: 3,
-                        marginTop: "5%",
-                        marginBottom: "5%",
-
+                        padding: 15,
                     }}
                     color='#000'
+                    style={{
+                        width: '100%',
+                        marginTop: 15
+                    }}
                 >
                     Salvar informações
                 </Button>
+
+                <Button icon="close" onPress={this.handleExcluir}
+                    contentStyle={{
+                        padding: 15
+                    }}
+                    color='#c62828'
+                    style={{
+                        width: '100%',
+                    }}
+                >
+                    Excluir conta
+                </Button>
+
             </View>
         )
     }

@@ -13,8 +13,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        marginTop: '12%',
-
+        marginTop: '6%',
     },
     headerTitle: {
         fontSize: 28,
@@ -23,25 +22,20 @@ const styles = StyleSheet.create({
     headerIcon: {
         marginLeft: '3%'
     },
-
-
     //Body
     body: {
         flex: 5,
         width: '100%',
         alignItems: 'center',
-
     },
     bodyList: {
         width: '80%',
-        marginTop: 15,
     },
     bodyListItem1: {
         flexDirection: 'row',
         alignItems: 'center',
         height: 50,
         borderWidth:1,
-        
         marginTop:15,
     },
     iconArea:{
