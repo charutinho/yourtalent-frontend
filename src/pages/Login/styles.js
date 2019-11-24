@@ -17,26 +17,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    containerText:{
-        flex:1,
-        flexDirection: 'row',
-    },  
-    containerText2:{
-        flex:1,
-    },
-    logoFormat:{
-    },
-    logoPosition:{
-        height:180,
-        width:180,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loginText: {
-        color: '#fff',
-        fontSize: 20,
-        padding: 40,
-    },
     body: {
         flex: 5,
         flexDirection: 'column',
@@ -44,69 +24,57 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%'
     },
-    formArea: {
+    logo: {
+        width: 180,
+        height: 180
+    },
+    formulario: {
         width: '100%',
+        marginTop: '10%',
         alignItems: 'center',
-        marginTop: '15%'
     },
-    textInputFormEmail: {
-        width: '80%',
-        borderColor: '#9c27b0',
+    inputEmail: {
+        width: '88%',
+        marginBottom: '5%'
     },
-    textInputFormSenha: {
-        width: '80%',
-        borderColor: '#9c27b0',
-        marginTop: 15,
-        height:65,
+    inputSenha: {
+        width: '88%',
     },
-    passwordContainer: {
-        flexDirection: 'row',
-        paddingBottom: 30,
-        flex: 1,
-      },
-      iconFormat:{
-        paddingLeft:"60%",
-        paddingTop:3,
+    olho: {
+        marginTop: '-10.98%',
+        marginRight: '-74%',
+        zIndex: 1
     },
-    ContainerEsqueciSenha:{
-        marginLeft:"45%",
-        marginTop:50,
+    esqueceuView: {
+        marginTop: '7%',
+        width: '88%',
+        alignItems: 'flex-end',
+        marginBottom: '10%'
     },
-    
     botaoLogin: {
-        width: '80%',
-        height: 50,
+        width: '88%',
+        height: 55,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#9c27b0',
         borderRadius: 6,
-        marginTop: 20,
-        marginBottom: 20,
     },
-    textBotaoLogin: {
-        fontSize: 19,
-        fontWeight: 'bold',
-        color: '#fff'
+    loginText: {
+        fontSize: 18,
+        color: '#fff',
+        fontFamily:"Roboto-Bold",
+        fontSize:22,
     },
-    titleCad: {
-        fontSize: 17,
-        textAlign: 'center',
-        color: '#000',
+    novaconta: {
+        flexDirection: 'row',
+        marginBottom: 14
     },
-    titleCadRegitro:{
-        fontSize: 17,
-        marginLeft: 5,
+    novacontaText: {
+        fontSize: 18
+    },
+    novacontaRegistro: {
+        fontSize: 18,
         color: '#9c27b0'
-    },
-    containerCad: {
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        width: '100%',
-        height: 45,
-        justifyContent: 'center',
-    },
-    TextEsqueciSenha:{
-        color:"#424242",
-        marginTop:"-20%",
     }
 });
 

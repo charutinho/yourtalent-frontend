@@ -25,7 +25,8 @@ export default class CadCep extends Component {
             estado: '',
             cidade: '',
             loading: false,
-            visible: false,
+            cepVazio: false,
+            cepErrado: false,
         }
     }
 
@@ -67,9 +68,9 @@ export default class CadCep extends Component {
         console.log(opcao);
 
         if (this.state.cep == '') {
-            Alert.alert("Erro", "Preencha o CEP");
+            this.setState({ cepVazio : true })
         } else if (this.state.estado == '') {
-            Alert.alert("Erro", "CEP inválido");
+            this.setState({ cepErrado : true })
         } else {
             if (opcao == 'Atleta') {
                 this.props.navigation.navigate('CadAtleta2');
@@ -200,9 +201,12 @@ export default class CadCep extends Component {
                                 }}
                             />
                         )}
+                        
+
+                        {/* Alerta de Cep vazio */}
 
                         <Snackbar
-                            visible={this.state.visible}
+                            visible={this.state.cepVazio}
                             duration={3000}
                             theme={{
                                 roundness: 10,
@@ -220,6 +224,31 @@ export default class CadCep extends Component {
                                 onPress: () => {
 
                                 },
+                            }}
+                        >
+                            Campo de CEP não pode ficar vazio :D
+                        </Snackbar>
+
+
+                        {/* Alerta de Cep Não encontrado */}
+                        <Snackbar
+                            visible={this.state.cepErrado}
+                            duration={3000}
+                            theme={{
+                                roundness: 10,
+                                colors: {
+                                    primary: '#9c27b0',
+                                    accent: '#9c27b0',
+                                    surface: '#9c27b0',
+                                    text: '#9c27b0',
+                                    backdrop: '#9c27b0',
+                                }
+                            }}
+                            onDismiss={() => this.setState({ visible: false })}
+                            action={{
+                                label: 'Ok',
+                                onPress: () => {
+                                this.setState({ visible: false })                                },
                             }}
                         >
                             CEP não encontrado

@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
         color: '#000',
      },
      selectFormat:{
-        backgroundColor: 'rgba(123, 31, 162, 0.1)',
     },  
      styleSelect:{
         borderWidth:2,
         borderColor:'#7B1FA2', 
+        backgroundColor: 'rgba(123, 31, 162, 0.1)',
         width: 300, 
         height:50,
         justifyContent: 'center',

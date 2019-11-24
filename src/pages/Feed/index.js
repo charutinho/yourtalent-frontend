@@ -329,7 +329,7 @@ export default class PageFeed extends Component {
 
                     <StatusBar
                         barStyle='light-content'
-                        backgroundColor="#572078"
+                        backgroundColor="#6a1b9a"
                     />
 
                     {nivelOlheiro && (
@@ -354,7 +354,7 @@ export default class PageFeed extends Component {
 
                                 <TouchableOpacity style={styles.olheiroOption}
                                     activeOpacity={.9}
-                                    onPress={() => this.setState({ nivelOlheiro: false, nivel: true, placeholderValue: 'Eae olheiro, o que há de novo?' })}>
+                                    onPress={() => this.setState({ nivelOlheiro: false, nivel: true, placeholderValue: 'Olá olheiro, o que há de novo?' })}>
                                     <Icon
                                         name="pencil-plus"
                                         color="#572078"

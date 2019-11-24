@@ -7,13 +7,12 @@ import {
     TouchableOpacity,
     Image,
     Keyboard,
-    Modal,
-    TouchableHighlight
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    Button
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
@@ -26,10 +25,8 @@ import createNavigator from '../../routes';
  */
 console.disableYellowBox = true;
 
-//api.pagar.me/1/zipcodes/CEP DO BAGULHO AQUI
-
 // IP local do seu PC:
-ip = '192.168.15.29';
+ip = '192.168.1.3';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -47,7 +44,8 @@ export default class Login extends Component {
             erroEmail: '',
             secureTextEntry: true,
             iconName: "eye-off-outline",
-            modalVisible: false
+            modalVisible: false,
+            novasenha: false
         };
     }
     onIconPress = () => {
@@ -66,7 +64,8 @@ export default class Login extends Component {
 
         Keyboard.dismiss();
 
-        var ip = '192.168.15.29';
+        // var ip = '192.168.1.3';
+        const ip = await AsyncStorage.getItem('@Ip:ip')
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -123,7 +122,7 @@ export default class Login extends Component {
 
                     } else {
                         Alert.alert("Login", "Login ou senha incorreto");
-                        this.setState({ loading: false})
+                        this.setState({ loading: false })
                     }
                 }).catch((error) => {
                     console.error(error);
@@ -132,10 +131,29 @@ export default class Login extends Component {
         };
     };
 
+    novasenha = async () => {
+        const ip = await AsyncStorage.getItem('@Ip:ip');
+        this.setState({ loading: true })
+        await fetch(`http://${ip}:3000/novasenha/${this.state.email}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({ loading: false })
+                Alert.alert('E-mail', responseJson.message)
+            })
+    }
+
+    novasenhaModal = () => {
+        if (this.state.novasenha == false) {
+            this.setState({ novasenha: true })
+        } else {
+            this.setState({ novasenha: false })
+        }
+    }
 
     render() {
         const { navigate } = this.props.navigation;
         const { loading } = this.state;
+        const { novasenha } = this.state;
         return (
             <View style={styles.container}>
 
@@ -145,17 +163,112 @@ export default class Login extends Component {
                 />
 
                 <View style={styles.header}>
-
-                    <View style={styles.logoFormat}>
-                        <Image style={styles.logoPosition} source={require('../../assets/img/logoBrancoPNG.png')}
-                        ></Image>
-                    </View>
+                    <Image style={styles.logo} source={require('../../assets/img/logoBrancoPNG.png')} />
                 </View>
+
                 <View style={styles.body}>
-                    <View style={styles.formArea}>
+                    <View style={styles.formulario}>
 
                         <TextInput
-                            style={styles.textInputFormEmail}
+                            style={styles.inputEmail}
+                            label="Email"
+                            textContentType='emailAddress'
+                            keyboardType='email-address'
+                            placeholder='Digite seu e-mail'
+                            autoCorrect={false}
+                            mode="outlined"
+                            caretHidden={false}
+                            autoCompleteType={'email'}
+                            value={this.state.email}
+                            onChangeText={(email) => this.setState({ email })}
+                            maxLength={80}
+                            theme={{
+                                roundness: 10,
+                                colors: {
+                                    primary: '#9c27b0',
+                                    accent: '#9c27b0',
+                                    surface: '#9c27b0',
+                                    text: '#9c27b0',
+                                    backdrop: '#9c27b0',
+                                    background: '#fff'
+                                }
+                            }}
+                        />
+
+                        <TextInput
+                            style={styles.inputSenha}
+                            label="Senha"
+                            keyboardType='default'
+                            placeholder='Sua senha segura'
+                            secureTextEntry={this.state.secureTextEntry}
+                            autoCorrect={false}
+                            mode="outlined"
+                            caretHidden={false}
+                            value={this.state.senha}
+                            onChangeText={(senha) => this.setState({ senha })}
+                            onSubmitEditing={this.Login}
+                            maxLength={30}
+                            theme={{
+                                roundness: 10,
+                                colors: {
+                                    primary: '#9c27b0',
+                                    accent: '#9c27b0',
+                                    surface: '#9c27b0',
+                                    text: '#9c27b0',
+                                    backdrop: '#9c27b0',
+                                    background: '#fff'
+                                }
+                            }}
+                        />
+                        <TouchableOpacity onPress={this.onIconPress} style={styles.olho}>
+                            <Icon name={this.state.iconName} size={30} color={"#616161"} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.esqueceuView} onPress={this.novasenhaModal}>
+                            <Text>Esqueceu sua senha?</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.botaoLogin} onPress={this.Login}>
+                            <Text style={styles.loginText}>
+                                Entrar
+                            </Text>
+                        </TouchableOpacity>
+                        {loading && (
+                            <ActivityIndicator
+                                color="#C00"
+                                size="large"
+                                color='#9c27b0'
+                                style={{
+                                    marginTop: 50
+                                }}
+                            />
+                        )}
+                    </View>
+                </View>
+
+                <View style={styles.novaconta}>
+                    <Text style={styles.novacontaText}> Ainda não tem uma conta? </Text>
+                    <TouchableOpacity onPress={() => navigate('CadUsuario')} activeOpacity={.4}>
+                        <Text style={styles.novacontaRegistro}> Registre-se </Text>
+                    </TouchableOpacity>
+                </View>
+
+                {novasenha && (
+                    <View style={{
+                        position: 'absolute',
+                        borderWidth: 1,
+                        width: '90%',
+                        backgroundColor: '#fff',
+                        alignItems: 'center',
+                        borderRadius: 9,
+                        height: 150,
+                        zIndex: 2
+                    }}>
+                        <TouchableOpacity style={{ alignItems: 'flex-end', width: '100%', marginRight: 15, marginTop: 1 }} onPress={this.novasenhaModal}>
+                            <Text style={{ fontSize: 20, fontStyle: 'bold', color: '#b71c1c' }}> X </Text>
+                        </TouchableOpacity>
+                        <TextInput
+                            style={{ width: '95%' }}
                             label="Email"
                             textContentType='emailAddress'
                             keyboardType='email-address'
@@ -178,81 +291,13 @@ export default class Login extends Component {
                                 }
                             }}
                         />
-
-                        <View style={styles.passwordContainer}>
-
-                            <TextInput
-                                style={styles.textInputFormSenha}
-                                label="Senha"
-                                keyboardType='default'
-                                placeholder='Sua senha segura'
-                                secureTextEntry={this.state.secureTextEntry}
-                                autoCorrect={false}
-                                mode="outlined"
-                                caretHidden={false}
-                                value={this.state.senha}
-                                onChangeText={(senha) => this.setState({ senha })}
-                                onSubmitEditing={this.Login}
-                                theme={{
-                                    roundness: 10,
-                                    colors: {
-                                        primary: '#9c27b0',
-                                        accent: '#9c27b0',
-                                        surface: '#9c27b0',
-                                        text: '#9c27b0',
-                                        backdrop: '#9c27b0',
-                                        background: '#fff'
-                                    }
-                                }}
-                            />
-                        </View>
-                        <TouchableOpacity style={{ marginLeft: "60%", alignItems: "center", marginTop: 5 }} onPress={this.onIconPress}>
-                            <Icon style={{}} name={this.state.iconName} size={30} color={"#616161"} />
-                        </TouchableOpacity>
-
+                        <Button icon="mail" onPress={this.novasenha}
+                            color='#4a148c'>
+                            Enviar e-mail
+                        </Button>
                     </View>
-
-
-
-                    <View style={styles.ContainerEsqueciSenha}>
-                        <TouchableOpacity>
-                            <Text style={styles.TextEsqueciSenha}>Esqueceu sua senha?</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity style={styles.botaoLogin} onPress={this.Login}>
-                        <Text style={styles.textBotaoLogin}>
-                            Entrar
-                        </Text>
-                    </TouchableOpacity>
-
-                    <View style={{
-                        flexDirection: 'row',
-                        marginTop: 18
-                    }}>
-                        <Text style={styles.titleCad}>
-                            Ainda não tem um conta?
-                    </Text>
-                        <TouchableOpacity onPress={() => navigate('CadUsuario')}>
-                            <Text style={styles.titleCadRegitro}>
-                                Registre-se
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {loading && (
-                        <ActivityIndicator
-                            color="#C00"
-                            size="large"
-                            color='#9c27b0'
-                            style={{
-                                marginTop: 50
-                            }}
-                        />
-                    )}
-
-
-                </View>
-            </View>
+                )}
+            </View >
         );
     }
 }
