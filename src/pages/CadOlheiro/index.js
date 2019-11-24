@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import {
     TextInput,
-    RadioButton
+    RadioButton,
+    Snackbar,
 } from 'react-native-paper';
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -26,14 +27,15 @@ export default class CadOlheiro extends Component {
             marca: '',
             checked: 'freelancer',
             freelancer: true,
-            tempo: ''
+            tempo: '',
+            visible: false,
         }
     }
 
     handleContinuar = async () => {
 
         if (this.state.tempo == '') {
-            Alert.alert("Aviso", "Você deve preencher todos os campos!")
+            this.setState({ visible: true })
         } else {
             await AsyncStorage.setItem('Olheiro', this.state.checked)
             await AsyncStorage.setItem('Marca', this.state.marca)
@@ -51,7 +53,7 @@ export default class CadOlheiro extends Component {
         const { checked } = this.state;
         return (
             <ImageBackground
-                source={require('../../assets/img/BkBolado.png')}
+                source={require('../../assets/img/bk5.png')}
                 style={{
                     width: '100%',
                     height: '100%'
@@ -67,20 +69,20 @@ export default class CadOlheiro extends Component {
                     />
 
                     <View style={styles.header}>
-                        <Text style={styles.title}>
-                            Olá olheiro
-                        </Text>
+
                     </View>
 
                     <View style={styles.body}>
 
                         <View style={styles.bodyList}>
 
+                            <Text style={styles.textFormInput}>
+                                Você é:
+                            </Text>
+
                             <View style={styles.inputSexo}>
 
-                                <Text style={styles.textFormInput}>
-                                    Você é:
-                                 </Text>
+
 
                                 <TouchableOpacity
                                     onPress={() => this.setState({ checked: "freelancer", freelancer: true, marca: '' })}
@@ -144,7 +146,7 @@ export default class CadOlheiro extends Component {
                                     name='comment-question-outline'
                                     size={24}
                                     style={{
-                                        marginLeft: 18
+                                        marginLeft: 12
                                     }}
                                     onPress={() => Alert.alert("O que é?", "Caso você represente alguma marca ou empresa deve preencher este campo, caso seja freelancer o campo deve permanecer em branco")}
                                 />
@@ -182,7 +184,7 @@ export default class CadOlheiro extends Component {
                                     name='comment-question-outline'
                                     size={24}
                                     style={{
-                                        marginLeft: 18
+                                        marginLeft: 12
                                     }}
                                     onPress={() => Alert.alert("O que é?", "A quantos anos representa esta empresa?")}
                                 />
@@ -197,6 +199,30 @@ export default class CadOlheiro extends Component {
                         </TouchableOpacity>
 
                     </View>
+
+                    <Snackbar
+                        visible={this.state.visible}
+                        onDismiss={() => this.setState({ visible: false })}
+                        duration={3000}
+                        theme={{
+                            roundness: 10,
+                            colors: {
+                                primary: '#9c27b0',
+                                accent: '#9c27b0',
+                                surface: '#9c27b0',
+                                text: '#9c27b0',
+                                backdrop: '#9c27b0',
+                            }
+                        }}
+                        action={{
+                            label: 'Ok',
+                            onPress: () => {
+                                // Do something
+                            },
+                        }}
+                    >
+                        Preencha todos os campos corretamente
+                    </Snackbar>
 
                 </View>
 

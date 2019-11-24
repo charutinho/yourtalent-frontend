@@ -11,22 +11,22 @@ const styles = StyleSheet.create({
         flex: 2,
         alignItems: 'flex-start',
         width: '100%',
-        borderWidth: 2,
-        borderColor: '#123'
+      
     },
     title: {
         padding: 20,
-        fontSize: 30
+        fontSize: 30,
+        color:"#fff",
+        marginLeft:"25%",
+        marginTop:"15%",
     },
     body: {
         flex: 5,
         alignItems: 'center',
-        width: '100%',
-        borderWidth: 2,
-        borderColor: '#321'
-    },
+        width: '100%',    },
     campoForm:{
-        width: '80%'
+        width: '80%',
+        height:68,
     },
 
     //form
@@ -46,26 +46,28 @@ const styles = StyleSheet.create({
     inputSexo: {
         width: '80%',
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
         marginTop: 10,
-     
+        marginLeft:"-25%",
     },
     radioText: {
         fontSize: 18,
         paddingTop: 15,
+        fontFamily:"Roboto-Medium",
         paddingBottom: 15,
     },
     textFormInput: {
-        fontSize: 18,
-        marginRight: 15
+        fontSize: 25,
+        fontFamily:"Roboto-Bold",
+        marginLeft:"-68%",
+        color: "#9c27b0"
+
     },
     radioOpcao: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
+        alignItems: 'center',
+        paddingLeft:30,
 
+    },
     //botao
     botaoLogin: {
         width: '80%',
@@ -74,11 +76,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 50,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     textBotaoLogin: {
-        fontSize: 20,
-        color: '#fff'
+        color: '#fff',
+        fontFamily:"Roboto-Bold",
+        fontSize:27,
     },
 
 
