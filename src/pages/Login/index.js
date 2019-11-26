@@ -26,7 +26,7 @@ import createNavigator from '../../routes';
 console.disableYellowBox = true;
 
 // IP local do seu PC:
-ip = '192.168.1.3';
+ip = '192.168.15.29';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -98,6 +98,12 @@ export default class Login extends Component {
                 .then((response) => response.json())
                 .then((responseJson) => {
                     var login = JSON.stringify(responseJson.login);
+                    const banido = responseJson.message;
+                    if (banido == 'banido'){
+                        Alert.alert('Banido', 'Este usuário foi banido por violar as politicas do aplicaitivo.');
+                        this.setState({ loading: false })
+                        return;
+                    }
                     if (login == 1) {
                         let idUser = responseJson.user._id;
                         let id = idUser;
@@ -159,7 +165,6 @@ export default class Login extends Component {
 
                 <StatusBar
                     barStyle='light-content'
-                    backgroundColor="#572078"
                 />
 
                 <View style={styles.header}>
