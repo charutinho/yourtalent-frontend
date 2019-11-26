@@ -12,8 +12,12 @@ const styles = StyleSheet.create({
     header: {
         flex: 3,
         flexDirection: 'column',
-        width: '100%',
-        alignItems: 'center'
+        width: '95%',
+        borderColor: '#eeeeee',
+        borderWidth: 1,
+        padding: 5,
+        marginTop: '5%',
+        borderRadius: 8
     },
     body: {
         flex: 4,
@@ -23,11 +27,6 @@ const styles = StyleSheet.create({
     },
     desc: {
         width: '95%',
-        borderColor: '#eeeeee',
-        borderWidth: 1,
-        padding: 5,
-        marginTop: '5%',
-        borderRadius: 8
     },
     textArea: {
         padding: 15,
@@ -56,6 +55,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         marginLeft: '5%',
         marginRight: '5%',
+        zIndex: 2
     },
     selectImg: {
         flexDirection: 'row',
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
     },
     styleSelect: {
         marginLeft: '5%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
     },
 
     //Olheiro
@@ -111,6 +114,12 @@ const styles = StyleSheet.create({
         height: 140,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+
+    checkboxDenuncia: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 6
     }
 });
 

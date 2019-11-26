@@ -10,10 +10,14 @@ import {
     Image,
     Picker,
     ActivityIndicator,
+    Alert,
+    Modal
 } from 'react-native';
 import {
     RadioButton,
     Button,
+    Checkbox,
+    Snackbar
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
@@ -62,7 +66,18 @@ export default class PageFeed extends Component {
             notFound: false,
             buscaAtleta: false,
             placeholderValue: 'Eai atleta, quais são as novidades?',
-            nivelPost: false
+            nivelPost: false,
+            modalDenuncia: false,
+
+            //Denuncias
+            spam: false,
+            violencia: false,
+            assedio: false,
+            falsosa: false,
+            discurso: false,
+            outro: false,
+            outroTxt: '',
+            feedback: false
         }
     }
 
@@ -309,6 +324,81 @@ export default class PageFeed extends Component {
             })
     }
 
+    denuncia = async (nomeDenuncia, idDenuncia, idPost) => {
+        const id = await AsyncStorage.getItem('@Login:id');
+        if (id == idDenuncia) {
+            Alert.alert(
+                'Opções',
+                `Algo de errado com seu post?`,
+                [
+                    { text: 'Cancelar' },
+                    { text: 'Alterar', },
+                    { text: 'Excluir', },
+                ],
+            );
+        } else {
+            this.setState({ idDenuncia, idPost })
+            Alert.alert(
+                'Opções',
+                `Algum problema com ${nomeDenuncia} ?`,
+                [
+                    { text: 'Cancelar' },
+                    { text: 'Denúnciar', onPress: () => this.setState({ modalDenuncia: true }) },
+                    {
+                        text: 'Bloquear', onPress: () => Alert.alert(
+                            'Bloquar usuário',
+                            `Você deseja realmente bloquear ${nomeDenuncia} ?`,
+                            [
+                                { text: 'Sim' },
+                                { text: 'Não' }
+                            ]
+                        )
+                    },
+                ],
+            );
+        }
+    }
+
+    enviarDenuncia = async () => {
+        const ip = await AsyncStorage.getItem('@Ip:ip');
+        this.setState({ loadingDenuncia: true });
+        fetch(`http://${ip}:3000/enviardenuncia`,
+            {
+                method: 'POST',
+                headers:
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=utf-8',
+                },
+                body: JSON.stringify(
+                    {
+                        spam: this.state.spam,
+                        violencia: this.state.violencia,
+                        assedio: this.state.assedio,
+                        falsosa: this.state.falsosa,
+                        discurso: this.state.discurso,
+                        outro: this.state.outro,
+                        outroTxt: this.state.outroTxt,
+                        idDenuncia: this.state.idDenuncia,
+                        idPost: this.state.idPost,
+                        tipo: 'newspaper'
+                    })
+            })
+        await this.setState({
+            modalDenuncia: false,
+            feedback: true,
+            loadingDenuncia: false,
+            spam: false,
+            violencia: false,
+            assedio: false,
+            falsosa: false,
+            discurso: false,
+            outro: false,
+            outroTxt: '',
+            idDenuncia: null
+        })
+    }
+
     render() {
         const { checked } = this.state;
         const { nivel } = this.state;
@@ -321,6 +411,17 @@ export default class PageFeed extends Component {
         const { notFound } = this.state;
         const { buscaAtleta } = this.state;
         const { nivelPost } = this.state;
+
+        //Denuncias
+        const { spam } = this.state;
+        const { violencia } = this.state;
+        const { assedio } = this.state;
+        const { falsosa } = this.state;
+        const { discurso } = this.state;
+        const { outro } = this.state;
+        const { outroTxt } = this.state;
+        const { loadingDenuncia } = this.state;
+
         return (
             <ScrollView style={{
                 backgroundColor: '#fafafa',
@@ -331,6 +432,116 @@ export default class PageFeed extends Component {
                         barStyle='light-content'
                         backgroundColor="#6a1b9a"
                     />
+
+                    <Modal visible={this.state.modalDenuncia} transparent={true} animationType='fade' onRequestClose={() => this.setState({ modalDenuncia: false })}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'rgba(0,0,0,0.5)'
+                        }}>
+                            <View style={{
+                                width: 310,
+                                height: 410,
+                                backgroundColor: '#fafafa',
+                                borderRadius: 8,
+                                justifyContent: 'center',
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 12,
+                                },
+                                shadowOpacity: 0.58,
+                                shadowRadius: 16.00,
+                                elevation: 24,
+                                justifyContent: 'flex-start'
+                            }}>
+
+                                <Text style={{
+                                    fontSize: 15,
+                                    padding: 10,
+                                    marginTop: '1.5%'
+                                }}> Quais infrações o usuário cometeu? </Text>
+
+                                <View style={styles.checkboxDenuncia}>
+                                    <Checkbox
+                                        status={spam ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ spam: !spam }); }}
+                                    />
+                                    <Text> Spam </Text>
+                                </View>
+
+                                <View style={styles.checkboxDenuncia}>
+                                    <Checkbox
+                                        status={violencia ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ violencia: !violencia }); }}
+                                    />
+                                    <Text> Violência </Text>
+                                </View>
+
+                                <View style={styles.checkboxDenuncia}>
+                                    <Checkbox
+                                        status={assedio ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ assedio: !assedio }); }}
+                                    />
+                                    <Text> Assédio </Text>
+                                </View>
+
+                                <View style={styles.checkboxDenuncia}>
+                                    <Checkbox
+                                        status={falsosa ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ falsosa: !falsosa }); }}
+                                    />
+                                    <Text> Falsos anúncios </Text>
+                                </View>
+
+                                <View style={styles.checkboxDenuncia}>
+                                    <Checkbox
+                                        status={discurso ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ discurso: !discurso }); }}
+                                    />
+                                    <Text> Discurdo de ódio </Text>
+                                </View>
+
+                                <View style={styles.checkboxDenuncia}>
+                                    <Checkbox
+                                        status={outro ? 'checked' : 'unchecked'}
+                                        onPress={() => { this.setState({ outro: !outro }); }}
+                                    />
+                                    <Text> Outro: </Text>
+                                    <TextInput
+                                        underlineColorAndroid={'#000'}
+                                        style={{
+                                            width: '68%'
+                                        }}
+                                        maxLength={50}
+                                        value={this.state.outroTxt}
+                                        onChangeText={(outroTxt) => this.setState({ outroTxt })}
+                                    />
+                                </View>
+
+                                <View style={{
+                                    width: '100%',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginTop: '3%'
+                                }}>
+                                    <Button
+                                        icon="block"
+                                        mode="contained"
+                                        onPress={this.enviarDenuncia}
+                                        style={{
+                                            width: '80%',
+                                        }}
+                                        color='#fafafa'
+                                    >
+                                        Enviar denúncia
+                                </Button>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
 
                     {nivelOlheiro && (
                         <View style={styles.header}>
@@ -668,6 +879,7 @@ export default class PageFeed extends Component {
                                             backgroundColor: '#fafafa',
                                             borderRadius: 8,
                                             padding: 5,
+                                            paddingHorizontal: 15,
                                             shadowOffset: {
                                                 width: 0,
                                                 height: 1,
@@ -746,6 +958,7 @@ export default class PageFeed extends Component {
                                             }}>
 
                                                 <TouchableOpacity
+                                                    onPress={() => this.denuncia(item.autor.nome, item.autor._id, item._id)}
                                                 >
                                                     <Icon
                                                         name="dots-vertical"
@@ -776,6 +989,26 @@ export default class PageFeed extends Component {
                                 );
                             }}
                         />
+                        <Snackbar
+                            visible={this.state.feedback}
+                            duration={3000}
+                            theme={{
+                                roundness: 10,
+                                colors: {
+                                    primary: '#9c27b0',
+                                    accent: '#9c27b0',
+                                    surface: '#9c27b0',
+                                    text: '#9c27b0',
+                                    backdrop: '#9c27b0',
+                                }
+                            }}
+                            onDismiss={() => this.setState({ feedback: false })}
+                            action={{
+                                label: 'Ok',
+                            }}
+                        >
+                            Agradecemos o seu feedback!
+                        </Snackbar>
                     </View>
 
                     {loading && (
@@ -785,6 +1018,17 @@ export default class PageFeed extends Component {
                             color='#9c27b0'
                             style={{
                                 marginTop: 50
+                            }}
+                        />
+                    )}
+
+                    {loadingDenuncia && (
+                        <ActivityIndicator
+                            color="#C00"
+                            size="large"
+                            color='#9c27b0'
+                            style={{
+                                position: 'absolute'
                             }}
                         />
                     )}
