@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
     //Header
     head: {
         flex: 1,
-        borderWidth: 1,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -23,15 +22,12 @@ const styles = StyleSheet.create({
     //Body
     body: {
         flex: 5,
-        borderWidth: 1,
         width: '100%',
-        flexDirection: 'row'
     },
     iconButton: {
         width: '50%',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1
     },
     flatlistItem: {
         width: '100%',
@@ -40,16 +36,52 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
+        backgroundColor: '#6a1b9a',
+        borderRadius: 5,
         margin: 4,
         flexGrow: 1,
-        width: '50%',
         height: 150,
         flexBasis: 0,
     },
     itemText: {
         fontSize: 20,
-        marginRight: '5%'
+        marginRight: '5%',
+        color: '#fff'
+    },
+
+    //Denuncias
+    denunciasView: {
+        width: '100%',
+    },
+    denunciasFlatlist: {
+        width: '100%',
+        backgroundColor: '#fafafa'
+    },
+    denunciasHeader: {
+        width: '100%',
+        padding: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
+        marginBottom: 10,
+    },
+    denunciasIcon: {
+    },
+    denunciasTouchable: {
+        width: '45%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: '#fafafa',
+        borderRadius: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        elevation: 2,
     }
 })
 
