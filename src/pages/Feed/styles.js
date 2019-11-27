@@ -11,13 +11,7 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 3,
-        flexDirection: 'column',
         width: '95%',
-        borderColor: '#eeeeee',
-        borderWidth: 1,
-        padding: 5,
-        marginTop: '5%',
-        borderRadius: 8
     },
     body: {
         flex: 4,
@@ -26,11 +20,31 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     desc: {
-        width: '95%',
+        borderColor: '#eeeeee',
+        borderWidth: 1,
+        padding: 5,
+        marginTop: '5%',
+        borderRadius: 8,
+    },
+    descBody: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: '4%',
+        marginBottom: '6%'
+    },
+    descBodyItem: {
+        width: '33%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     textArea: {
-        padding: 15,
-        textAlignVertical: 'top'
+        padding: 12,
+        textAlignVertical: 'top',
+    },
+    descricaoText: {
+        height: 160,
+        marginBottom: 10,
     },
     novoPostContainer: {
         flexDirection: 'row',
@@ -48,8 +62,8 @@ const styles = StyleSheet.create({
     },
     //Style da miniatura e botão de confirmar 
     miniaturaImg: {
-        width: 40,
-        height: 40,
+        width: 70,
+        height: 70,
         marginRight: 20,
         borderRadius: 4,
         overflow: 'hidden',

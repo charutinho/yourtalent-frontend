@@ -87,7 +87,11 @@ export default class PageFeed extends Component {
             var idUser = await AsyncStorage.getItem('@Login:id');
             var ip = await AsyncStorage.getItem('@Ip:ip');
 
-            const config = {
+            if (this.state.olheiroPost == true) {
+                await this.setState({ esporteUsuario: this.state.esporteFeed })
+            }
+
+            await fetch(`http://${ip}:3000/novopost`, {
                 method: 'POST',
                 body: this.state.data,
                 headers: {
@@ -95,11 +99,30 @@ export default class PageFeed extends Component {
                     'Cache-Control': 'no-cache, no-store, must-revalidate',
 
                     idUser,
-                    categoria: this.state.PickerValue,
-                    desc: this.state.desc
+                    categoria: this.state.esporteUsuario,
                 },
-            };
-            await fetch(`http://${ip}:3000/novopost`, config);
+            })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    const idPost = responseJson.message
+                    this.setState({ idPost })
+                })
+            await fetch(`http://${ip}:3000/novopostdesc`,
+                {
+                    method: 'POST',
+                    headers:
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json;charset=utf-8',
+                    },
+                    body: JSON.stringify(
+                        {
+                            desc: this.state.desc,
+                            idPost: this.state.idPost,
+                            olheiro: this.state.olheiroPost
+                        })
+
+                })
             RNRestart.Restart();
         } else {
             const options = {
@@ -178,7 +201,7 @@ export default class PageFeed extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 const esporteFeed = responseJson.esporte[0].esporteFeed;
-                this.setState({ esporteFeed: esporteFeed });
+                this.setState({ esporteFeed });
                 if (esporteFeed == 'Futebol') {
                     this.setState({ esporteFutebol: true })
                 } else if (esporteFeed == 'Basquete') {
@@ -189,7 +212,6 @@ export default class PageFeed extends Component {
                     this.setState({ esportelol: true })
                 }
             })
-
 
         if (this.state.esporteFeed == undefined) {
             if (this.state.esporteFeed == undefined) {
@@ -259,8 +281,11 @@ export default class PageFeed extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 const nivel = responseJson.user.nivel;
+                const esporte = responseJson.user.esporte;
                 if (nivel == 2) {
-                    this.setState({ nivel: false, nivelOlheiro: true, nivelPost: true })
+                    this.setState({ nivel: false, nivelOlheiro: true, nivelPost: true, olheiroPost: true })
+                } else {
+                    this.setState({ esporteUsuario: esporte })
                 }
             })
         this.fetchData.call();
@@ -343,17 +368,8 @@ export default class PageFeed extends Component {
                 `Algum problema com ${nomeDenuncia} ?`,
                 [
                     { text: 'Cancelar' },
-                    { text: 'Denúnciar', onPress: () => this.setState({ modalDenuncia: true }) },
-                    {
-                        text: 'Bloquear', onPress: () => Alert.alert(
-                            'Bloquar usuário',
-                            `Você deseja realmente bloquear ${nomeDenuncia} ?`,
-                            [
-                                { text: 'Sim' },
-                                { text: 'Não' }
-                            ]
-                        )
-                    },
+                    { text: ' ' },
+                    { text: 'Denúnciar', onPress: () => this.setState({ modalDenuncia: true }) }
                 ],
             );
         }
@@ -565,7 +581,7 @@ export default class PageFeed extends Component {
 
                                 <TouchableOpacity style={styles.olheiroOption}
                                     activeOpacity={.9}
-                                    onPress={() => this.setState({ nivelOlheiro: false, nivel: true, placeholderValue: 'Olá olheiro, o que há de novo?' })}>
+                                    onPress={() => this.setState({ nivelOlheiro: false, nivel: true, placeholderValue: "Olá olheiro, o que há de novo?" })}>
                                     <Icon
                                         name="pencil-plus"
                                         color="#572078"
@@ -591,9 +607,9 @@ export default class PageFeed extends Component {
                                     style={{
                                         marginLeft: '5%',
                                         marginRight: '-10%',
-                                        zIndex: 1
+                                        zIndex: 888
                                     }}
-                                    onPress={() => this.setState({ nivel: true, buscaAtleta: false, placeholderValue: 'Eae olheiro, o que há de novo?' })}
+                                    onPress={() => this.setState({ nivel: true, buscaAtleta: false, placeholderValue: 'Olá olheiro, o que há de novo?' })}
                                 >
                                     <Icon
                                         name="pencil-plus"
@@ -782,7 +798,6 @@ export default class PageFeed extends Component {
 
                     {nivel && (
                         <View style={styles.header}>
-
                             <View style={styles.desc}>
                                 {nivelPost && (
                                     <TouchableOpacity
@@ -801,96 +816,76 @@ export default class PageFeed extends Component {
                                         />
                                     </TouchableOpacity>
                                 )}
-                                <TextInput
-                                    style={styles.textArea}
-                                    placeholder={this.state.placeholderValue}
-                                    autoCorrect={true}
-                                    placeholderTextColor="grey"
-                                    selectionColor='#000'
-                                    caretHidden={false}
-                                    multiline={true}
-                                    numberOfLines={8}
-                                    underlineColorAndroid="transparent"
-                                    onChangeText={(desc) => this.setState({ desc })}
-                                />
-                            </View>
-
-                            <View style={styles.selectImg}>
-
-                                <TouchableOpacity
-                                    style={{
-                                        padding: 5,
-                                        fontSize: 22,
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                    }}
-                                    onPress={this.novoPost}
-                                >
-                                    <Icon
-                                        name="image-plus"
-                                        color="#212121"
-                                        size={25}
-                                        style={{
-                                            marginLeft: 5,
-                                            backgroundColor: '#fafafa',
-                                            borderRadius: 90,
-                                            padding: 5,
-                                            shadowOffset: {
-                                                width: 0,
-                                                height: 1,
-                                            },
-                                            shadowOpacity: 0.20,
-                                            shadowRadius: 1.41,
-                                            elevation: 2,
-                                        }}
+                                <View style={styles.descricaoText}>
+                                    <TextInput
+                                        style={styles.textArea}
+                                        placeholder={this.state.placeholderValue}
+                                        autoCorrect={true}
+                                        placeholderTextColor='grey'
+                                        multiline={true}
+                                        numberOfLines={8}
+                                        maxLength={200}
+                                        value={this.state.desc}
+                                        onChangeText={(desc) => this.setState({ desc })}
                                     />
-
-                                </TouchableOpacity>
-
-                                <Image source={this.state.miniatura}
-                                    style={styles.miniaturaImg}
-                                />
-
-                                <View style={styles.styleSelect}>
-
-                                    <Picker
-                                        style={{ height: 50, width: 150 }}
-                                        selectedValue={this.state.PickerValue}
-                                        onValueChange={(itemValue, itemIndex) => this.setState({ PickerValue: itemValue })}
-                                    >
-                                        <Picker.Item label="Futebol" value="Futebol" />
-                                        <Picker.Item label="Basquete" value="Basquete" />
-                                        <Picker.Item label="Counter Strike: Global Offensive" value="CS:GO" />
-                                        <Picker.Item label="League of Legends" value="LoL" />
-                                    </Picker>
-
                                 </View>
-
-
-                                <TouchableOpacity
-                                    onPress={() => this.novoPost(true)}
-                                >
-                                    <Icon
-                                        name="send"
-                                        color="#212121"
-                                        size={25}
-                                        style={{
-                                            marginLeft: 5,
-                                            backgroundColor: '#fafafa',
-                                            borderRadius: 8,
-                                            padding: 5,
-                                            paddingHorizontal: 15,
-                                            shadowOffset: {
-                                                width: 0,
-                                                height: 1,
-                                            },
-                                            shadowOpacity: 0.20,
-                                            shadowRadius: 1.41,
-                                            elevation: 2,
-                                        }}
+                            </View>
+                            <View style={styles.descBody}>
+                                <View style={styles.descBodyItem}>
+                                    <TouchableOpacity
+                                        onPress={this.novoPost}
+                                        activeOpacity={0.8}
+                                    >
+                                        <Icon
+                                            name="image-plus"
+                                            color="#212121"
+                                            size={25}
+                                            style={{
+                                                backgroundColor: '#fafafa',
+                                                borderRadius: 10,
+                                                padding: 10,
+                                                paddingHorizontal: 20,
+                                                shadowOffset: {
+                                                    width: 0,
+                                                    height: 1,
+                                                },
+                                                shadowOpacity: 0.20,
+                                                shadowRadius: 1.41,
+                                                elevation: 2,
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.descBodyItem}>
+                                    <Image source={this.state.miniatura}
+                                        style={styles.miniaturaImg}
                                     />
-                                </TouchableOpacity>
-
+                                </View>
+                                <View style={styles.descBodyItem}>
+                                    <TouchableOpacity
+                                        onPress={() => this.novoPost(true)}
+                                        activeOpacity={0.8}
+                                    >
+                                        <Icon
+                                            name="send"
+                                            color="#212121"
+                                            size={25}
+                                            style={{
+                                                backgroundColor: '#fafafa',
+                                                borderRadius: 10,
+                                                padding: 10,
+                                                paddingHorizontal: 20,
+                                                shadowOffset: {
+                                                    width: 0,
+                                                    height: 1,
+                                                },
+                                                shadowOpacity: 0.20,
+                                                shadowRadius: 1.41,
+                                                elevation: 2,
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                     )}
