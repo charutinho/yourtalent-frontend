@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     loginText: {
         fontSize: 18,
         color: '#fff',
-        fontFamily:"Roboto-Bold",
-        fontSize:22,
+        fontFamily: "Roboto-Bold",
+        fontSize: 22,
     },
     novaconta: {
         flexDirection: 'row',
@@ -75,6 +75,30 @@ const styles = StyleSheet.create({
     novacontaRegistro: {
         fontSize: 18,
         color: '#9c27b0'
+    },
+    modalFundo: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)'
+    },
+    modalDentro: {
+        width: '95%',
+        backgroundColor: '#fafafa',
+        padding: 10,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+        elevation: 24,
+        justifyContent: 'flex-start'
     }
 });
 

@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     Image,
     Keyboard,
+    Modal
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -44,8 +45,7 @@ export default class Login extends Component {
             erroEmail: '',
             secureTextEntry: true,
             iconName: "eye-off-outline",
-            modalVisible: false,
-            novasenha: false
+            modalSenha: false
         };
     }
     onIconPress = () => {
@@ -99,7 +99,7 @@ export default class Login extends Component {
                 .then((responseJson) => {
                     var login = JSON.stringify(responseJson.login);
                     const banido = responseJson.message;
-                    if (banido == 'banido'){
+                    if (banido == 'banido') {
                         Alert.alert('Banido', 'Este usuário foi banido por violar as politicas do aplicaitivo.');
                         this.setState({ loading: false })
                         return;
@@ -143,17 +143,9 @@ export default class Login extends Component {
         await fetch(`http://${ip}:3000/novasenha/${this.state.email}`)
             .then((response) => response.json())
             .then((responseJson) => {
-                this.setState({ loading: false })
+                this.setState({ loading: false, modalSenha: false })
                 Alert.alert('E-mail', responseJson.message)
             })
-    }
-
-    novasenhaModal = () => {
-        if (this.state.novasenha == false) {
-            this.setState({ novasenha: true })
-        } else {
-            this.setState({ novasenha: false })
-        }
     }
 
     render() {
@@ -229,7 +221,7 @@ export default class Login extends Component {
                             <Icon name={this.state.iconName} size={30} color={"#616161"} />
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.esqueceuView} onPress={this.novasenhaModal}>
+                        <TouchableOpacity style={styles.esqueceuView} onPress={() => this.setState({ modalSenha: true })}>
                             <Text>Esqueceu sua senha?</Text>
                         </TouchableOpacity>
 
@@ -272,36 +264,44 @@ export default class Login extends Component {
                         <TouchableOpacity style={{ alignItems: 'flex-end', width: '100%', marginRight: 15, marginTop: 1 }} onPress={this.novasenhaModal}>
                             <Text style={{ fontSize: 20, fontStyle: 'bold', color: '#b71c1c' }}> X </Text>
                         </TouchableOpacity>
-                        <TextInput
-                            style={{ width: '95%' }}
-                            label="Email"
-                            textContentType='emailAddress'
-                            keyboardType='email-address'
-                            placeholder='Digite seu e-mail'
-                            autoCorrect={false}
-                            mode="outlined"
-                            caretHidden={false}
-                            autoCompleteType={'email'}
-                            value={this.state.email}
-                            onChangeText={(email) => this.setState({ email })}
-                            theme={{
-                                roundness: 10,
-                                colors: {
-                                    primary: '#9c27b0',
-                                    accent: '#9c27b0',
-                                    surface: '#9c27b0',
-                                    text: '#9c27b0',
-                                    backdrop: '#9c27b0',
-                                    background: '#fff'
-                                }
-                            }}
-                        />
-                        <Button icon="mail" onPress={this.novasenha}
-                            color='#4a148c'>
-                            Enviar e-mail
-                        </Button>
+
                     </View>
                 )}
+                <Modal visible={this.state.modalSenha} transparent={true} animationType='fade' onRequestClose={() => this.setState({ modalSenha: false })}>
+                    <TouchableOpacity activeOpacity={1} style={styles.modalFundo} onPress={() => this.setState({ modalSenha: false })}>
+                        <View style={styles.modalDentro}>
+                            <Text style={{ fontSize: 18 }}> Recuperação de senha </Text>
+                            <TextInput
+                                style={{ width: '100%' }}
+                                label="Email"
+                                textContentType='emailAddress'
+                                keyboardType='email-address'
+                                placeholder='Digite seu e-mail'
+                                autoCorrect={false}
+                                mode="outlined"
+                                caretHidden={false}
+                                autoCompleteType={'email'}
+                                value={this.state.email}
+                                onChangeText={(email) => this.setState({ email })}
+                                theme={{
+                                    roundness: 10,
+                                    colors: {
+                                        primary: '#9c27b0',
+                                        accent: '#9c27b0',
+                                        surface: '#9c27b0',
+                                        text: '#9c27b0',
+                                        backdrop: '#9c27b0',
+                                        background: '#fff'
+                                    }
+                                }}
+                            />
+                            <Button icon="mail" onPress={this.novasenha}
+                                color='#4a148c'>
+                                Enviar e-mail
+                        </Button>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
             </View >
         );
     }
