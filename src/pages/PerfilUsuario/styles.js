@@ -36,8 +36,11 @@ const styles = StyleSheet.create({
         height: 150,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: -40,
         borderRadius: 90,
+        borderTopWidth:5,
+        borderStartWidth:5,
+        borderEndWidth:5,
+        borderColor:"#fafafa",
         overflow: 'hidden'
     },
     fotoUsuario: {

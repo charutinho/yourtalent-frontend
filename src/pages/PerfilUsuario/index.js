@@ -166,37 +166,7 @@ export default class PerfilUsuario extends Component {
                                     height: '100%',
                                     alignItems: 'flex-end'
                                 }}
-                            >
-
-                                <TouchableOpacity
-                                    onPress={this.handleUploadImageCapa}
-                                >
-                                    <Icon
-                                        name="image-plus"
-                                        color="#212121"
-                                        size={20}
-                                        style={{
-                                            backgroundColor: '#eeeeee',
-                                            borderRadius: 90,
-                                            marginRight: 10,
-                                            marginTop: 10,
-                                            padding: 5,
-                                            shadowOffset: {
-                                                width: 0,
-                                                height: 4,
-                                            },
-                                            shadowOpacity: 0.30,
-                                            shadowRadius: 4.65,
-
-                                            elevation: 8,
-                                        }}
-                                    />
-
-                                </TouchableOpacity>
-
-                            </ImageBackground>
-
-
+                            />
 
                         </View>
 
@@ -208,31 +178,6 @@ export default class PerfilUsuario extends Component {
                                     style={styles.fotoUsuario}
                                 />
                             </View>
-
-                            <TouchableOpacity
-                                onPress={this.handleUploadImage}
-                            >
-                                <Icon
-                                    name="image-plus"
-                                    color="#212121"
-                                    size={20}
-                                    style={{
-                                        backgroundColor: '#eeeeee',
-                                        borderRadius: 90,
-                                        marginRight: 10,
-                                        marginTop: 10,
-                                        padding: 5,
-                                        shadowOffset: {
-                                            width: 0,
-                                            height: 4,
-                                        },
-                                        shadowOpacity: 0.30,
-                                        shadowRadius: 4.65,
-
-                                        elevation: 8,
-                                    }}
-                                />
-                            </TouchableOpacity>
 
                         </View>
 
