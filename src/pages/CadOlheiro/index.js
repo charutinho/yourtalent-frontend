@@ -25,7 +25,7 @@ export default class CadOlheiro extends Component {
 
         this.state = {
             marca: '',
-            checked: 'freelancer',
+            checked: 'Freelancer',
             freelancer: true,
             tempo: '',
             visible: false,
@@ -85,14 +85,14 @@ export default class CadOlheiro extends Component {
 
 
                                 <TouchableOpacity
-                                    onPress={() => this.setState({ checked: "freelancer", freelancer: true, marca: '' })}
+                                    onPress={() => this.setState({ checked: "Freelancer", freelancer: true, marca: '' })}
                                     style={styles.radioOpcao}
                                 >
 
                                     <RadioButton
                                         style={styles.radioButton}
-                                        value="freelancer"
-                                        status={checked === 'freelancer' ? 'checked' : 'unchecked'}
+                                        value="Freelancer"
+                                        status={checked === 'Freelancer' ? 'checked' : 'unchecked'}
                                         color='#000'
                                         uncheckedColor='#000'
                                     />

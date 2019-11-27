@@ -37,14 +37,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#6a1b9a',
-        borderRadius: 5,
+        borderRadius: 15,
+        borderWidth: 7,
+        borderColor: '#fafafa',
         margin: 4,
         flexGrow: 1,
         height: 150,
         flexBasis: 0,
     },
     itemText: {
-        fontSize: 20,
+        fontSize: 30,
         marginRight: '5%',
         color: '#fff'
     },

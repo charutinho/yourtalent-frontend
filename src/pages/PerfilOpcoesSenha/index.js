@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    Keyboard
 } from 'react-native';
 import { TextInput, ActivityIndicator } from 'react-native-paper';
 import styles from './styles';
@@ -25,6 +26,7 @@ export default class PerfilOpcoesSenha extends Component {
     }
 
     handlePerfil = async () => {
+        Keyboard.dismiss();
         const ip = await AsyncStorage.getItem('@Ip:ip');
         this.setState({ loading: true })
         await fetch(`http://${ip}:3000/auth/authenticate`, {

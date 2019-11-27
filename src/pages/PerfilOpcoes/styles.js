@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontSize: 28,
-        color:"#000"
+        color:"#000",
+        fontWeight: '700'
     },
     headerIcon: {
         marginLeft: '3%'
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
         marginBottom: '2%'
     },
     configPessoal: {
+        flexDirection: 'row',
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',

@@ -139,14 +139,14 @@ export default class PerfilAdm extends Component {
                             style={styles.flatlistItem}
                             data={this.state.opcoes}
                             keyExtractor={item => item.id}
-                            numColumns={2}
+                            numColumns={1}
                             renderItem={({ item }) => {
                                 return (
                                     <TouchableOpacity style={styles.item} onPress={() => this.setState({ opcaoAdmin: item.id, verOpcoes: false, nomePagina: 'denúncias' })}>
                                         <Text style={styles.itemText}>{item.nome}</Text>
                                         <Icon
                                             name={item.icon}
-                                            size={30}
+                                            size={45}
                                             color={item.iconcolor}
                                         />
                                     </TouchableOpacity>
@@ -171,12 +171,6 @@ export default class PerfilAdm extends Component {
                                             <TouchableOpacity style={styles.denunciasHeader} onPress={() => this.opcoesDenuncia(item.idDenuncia.nome, item.tipo, item.idPost.descricao, item.idPost.conteudoPost, item.idPost.tipo, item._id, item.spam, item.violencia, item.assedio, item.falsosa, item.discurso, item.outro, item.outroTxt, item.idDenuncia._id)} >
                                                 <Image style={{ width: 50, height: 50, borderRadius: 90, overflow: 'hidden' }} source={{ uri: `http://${ip}:3000/${item.idDenuncia.fotoPerfil}` }} />
                                                 <Text> {item.idDenuncia.nome} </Text>
-                                                <Icon
-                                                    name={item.tipo}
-                                                    size={30}
-                                                    color={'#000'}
-                                                    style={styles.denunciasIcon}
-                                                />
                                             </TouchableOpacity>
                                         </View>
                                     )

@@ -379,7 +379,6 @@ export default class CadUsuario extends Component {
                                 />
                             )}
                         </View>
-                        
                     </View>
 
                     <Snackbar

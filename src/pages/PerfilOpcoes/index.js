@@ -167,16 +167,16 @@ export default class PerfilOpcoes extends Component {
                 }}>
                 <View style={styles.container}>
                     <ScrollView>
-                        
-                    <StatusBar
-                        barStyle='light-content'
-                        backgroundColor="#572078"
-                    />
+
+                        <StatusBar
+                            barStyle='light-content'
+                            backgroundColor="#572078"
+                        />
 
                         <View style={styles.header}>
                             <Text style={styles.headerTitle}>
-                                Configurações da conta
-                    </Text>
+                                Alterar dados
+                            </Text>
                             <Icon
                                 name="settings"
                                 size={30}
@@ -529,8 +529,13 @@ export default class PerfilOpcoes extends Component {
                                     email: this.state.email
                                 })}>
                                     <Text style={styles.configPessoalText}>
-                                        Alterar dados pessoais
+                                        Configurações da conta
                                     </Text>
+                                    <Icon
+                                        name="settings"
+                                        size={25}
+                                        style={styles.headerIcon}
+                                    />
                                 </TouchableOpacity>
 
                             </View>
