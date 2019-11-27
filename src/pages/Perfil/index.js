@@ -516,6 +516,22 @@ export default class Perfil extends Component {
                             </View>
                         )}
 
+                        {this.state.isAtleta == false && (
+                            <View>
+                                {temPost && (
+                                    <Text style={styles.destaqueTitulo}>
+                                        Seus últimos posts
+                                    </Text>
+                                )}
+
+                                {naoPost && (
+                                    <Text style={styles.destaqueTitulo}>
+                                        Você ainda não postou nada
+                                    </Text>
+                                )}
+                            </View>
+                        )}
+
                         <FlatList
                             style={styles.containerFlatList}
                             data={this.state.listData}
