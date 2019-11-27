@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 30,
     },
+    olho: {
+        marginTop: '-10.5%',
+        marginRight: '-65%',
+        zIndex: 1
+    },
 });
 
 export default styles;
