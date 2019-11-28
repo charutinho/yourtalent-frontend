@@ -104,6 +104,12 @@ export default class Chat extends Component {
         }
     }
 
+    handlePerfil = async (id) => {
+        this.props.navigation.navigate('PerfilUsuario', {
+            userId: id,
+        });
+    }
+
     render() {
         const { isAtleta } = this.state;
         const { isOlheiro } = this.state;
@@ -139,6 +145,15 @@ export default class Chat extends Component {
                                                         }}
                                                     />
                                                 }
+                                                right={props =>
+                                                    <TouchableOpacity style={{ justifyContent: 'center' }} onPress={() => this.handlePerfil(item.autor._id)}>
+                                                        <Icon
+                                                            name="account-arrow-right"
+                                                            color="#000"
+                                                            size={35}
+                                                        />
+                                                    </TouchableOpacity>
+                                                }
                                             />
                                             <Divider />
                                         </TouchableOpacity>
@@ -149,15 +164,25 @@ export default class Chat extends Component {
                                             <List.Item
                                                 title={item.destinatario.nome}
                                                 left={props =>
-
-                                                    <ImageBackground source={{ uri: `http://${ip}:3000/${item.destinatario.fotoPerfil}` }}
-                                                        style={{
-                                                            width: 50,
-                                                            height: 50,
-                                                            borderRadius: 90,
-                                                            overflow: 'hidden'
-                                                        }}
-                                                    />
+                                                    <View style={{ flexDirection: 'row' }}>
+                                                        <ImageBackground source={{ uri: `http://${ip}:3000/${item.destinatario.fotoPerfil}` }}
+                                                            style={{
+                                                                width: 50,
+                                                                height: 50,
+                                                                borderRadius: 90,
+                                                                overflow: 'hidden'
+                                                            }}
+                                                        />
+                                                    </View>
+                                                }
+                                                right={props =>
+                                                    <TouchableOpacity style={{ justifyContent: 'center' }} onPress={() => this.handlePerfil(item.destinatario._id)}>
+                                                        <Icon
+                                                            name="account-arrow-right"
+                                                            color="#000"
+                                                            size={35}
+                                                        />
+                                                    </TouchableOpacity>
                                                 }
                                             />
                                             <Divider />

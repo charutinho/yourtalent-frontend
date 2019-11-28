@@ -241,7 +241,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
-                                            color:"#757575"
+                                            color:"#000"
                                         }}
                                         placeholder='00/00/0000'
                                         autoCorrect={true}
@@ -317,44 +317,6 @@ export default class PerfilOpcoes extends Component {
 
                                 <Divider />
 
-                                <View style={styles.bodyListItem1}>
-                                    <View style={styles.iconArea}>
-                                        <Icon
-                                            color={"#fff"}
-                                            name='email'
-                                            size={30}
-                                            onPress={() => { this.inputEmail.focus(); }}
-                                        />
-                                    </View>
-                                    <TextInput
-                                        style={{
-                                            width: '82%',
-                                            color: "#757575",
-                                        }}
-                                        placeholder='Digite seu nome'
-                                        autoCorrect={true}
-                                        mode="outlined"
-                                        caretHidden={false}
-                                        value={this.state.email}
-                                        onChangeText={(email) => this.setState({ email })}
-                                        theme={{
-                                            roundness: 10,
-                                            colors: {
-                                                primary: '#000',
-                                                accent: '#000',
-                                                surface: '#000000',
-                                                text: '#000',
-                                                backdrop: '#000',
-                                                background: '#fff'
-                                            }
-                                        }}
-                                        ref={(input) => { this.inputEmail = input; }}
-                                    />
-
-                                </View>
-
-                                <Divider />
-
                                 <View style={styles.bodyListItem2}>
                                     <View style={styles.iconArea2}>
                                         <Icon
@@ -368,7 +330,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
-                                            color: "#757575",
+                                            color: "#000",
                                         }}
                                         placeholder='Fale um pouco mais sobre você...'
                                         multiline={true}
@@ -410,7 +372,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
-                                            color: "#757575",
+                                            color: "#000",
                                         }}
                                         placeholder='00000-000'
                                         keyboardType="phone-pad"

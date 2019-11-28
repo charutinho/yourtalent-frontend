@@ -102,13 +102,13 @@ export default class CadOlheiro extends Component {
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
-                                    onPress={() => this.setState({ checked: "contratado", freelancer: false })}
+                                    onPress={() => this.setState({ checked: "Contratado", freelancer: false })}
                                     style={styles.radioOpcao}
                                 >
 
                                     <RadioButton
-                                        value="contratado"
-                                        status={checked === 'contratado' ? 'checked' : 'unchecked'}
+                                        value="Contratado"
+                                        status={checked === 'Contratado' ? 'checked' : 'unchecked'}
                                         color="#000"
                                         uncheckedColor='#000'
                                     />

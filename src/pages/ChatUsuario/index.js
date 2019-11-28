@@ -5,7 +5,8 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    ImageBackground
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,10 +15,17 @@ import io from 'socket.io-client';
 import styles from './styles';
 
 export default class ChatUsuario extends Component {
+    static navigationOptions = {
+        headerRight: () => (
+            <View>
+            </View>
+        ),
+    };
     constructor(props) {
         super(props);
         this.state = {
-            msg: ''
+            msg: '',
+            
         }
     }
 
@@ -30,11 +38,26 @@ export default class ChatUsuario extends Component {
         })
     };
 
+    getInfo = async () => {
+        var { navigation } = this.props;
+        if (this.state.nivel == 1) {
+            var idUser = navigation.getParam('idOlheiro');
+        } else {
+            var idUser = navigation.getParam('idUsuario')
+        }
+        await fetch(`http://${ip}:3000/data/${idUser}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                var img = responseJson.user.fotoPerfil;
+                var nome = responseJson.user.nome;
+                this.setState({ urlimg: img, nome })
+            })
+    }
+
     async componentDidMount() {
-        // this.refs.chatScroll.scrollToEnd({ animated: false })
         await this.getProf.call();
         this.getMsg.call();
-
+        this.getInfo.call();
         var ip = await AsyncStorage.getItem('@Ip:ip');
         this.socket = io(`http://${ip}:3000`)
     }
@@ -142,8 +165,6 @@ export default class ChatUsuario extends Component {
                         }}
                     />
                 </View>
-
-                <Text> {this.state.ncontador} </Text>
 
                 <View style={styles.bottom}>
                     <View style={styles.input}>

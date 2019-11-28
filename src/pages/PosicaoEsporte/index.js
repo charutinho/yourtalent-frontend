@@ -127,8 +127,6 @@ export default class PosicaoEsporte extends Component {
                         <View style={styles.body}>
                             <View>
 
-                                <Text>{this.state.PickerValue}</Text>
-
                                 <Text style={styles.titleSport}>Qual sua principal posição em jogo?</Text>
                                 <View style={styles.styleSelect}>
                                     <Picker

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         height: 35,
         marginLeft: "1%",
         borderBottomColor: "#6a1b9a",
-        color: "#757575",
+        color: "#000",
         borderTopLeftRadius: 20,
         borderBottomEndRadius: 20,
     },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     radioText: {
         paddingLeft: 5,
         fontSize: 14,
-        color:"#757575",
+        color:"#000",
     },
     radioOpcao: {
         flexDirection: 'row',

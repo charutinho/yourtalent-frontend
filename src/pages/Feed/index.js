@@ -17,7 +17,8 @@ import {
     RadioButton,
     Button,
     Checkbox,
-    Snackbar
+    Snackbar,
+    Divider
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
@@ -979,7 +980,7 @@ export default class PageFeed extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ConteudoFeed type={item.tipo} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
+                                        <ConteudoFeed type={item.tipo} ratio={item.ratio} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}
