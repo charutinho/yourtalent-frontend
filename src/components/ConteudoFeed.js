@@ -3,6 +3,7 @@ import {
     View,
     ImageBackground,
     TouchableOpacity,
+    Text
 } from 'react-native';
 import Video from 'react-native-video';
 import { ActivityIndicator } from 'react-native-paper';
@@ -63,7 +64,7 @@ export default class ConteudoFeed extends Component {
                     <ImageBackground source={{ uri: this.props.source.uri }}
                         style={{
                             width: '100%',
-                            height: 470,
+                            aspectRatio: 0.90
                         }}
                     />
                 </View>
@@ -83,7 +84,7 @@ export default class ConteudoFeed extends Component {
                     source={{ uri: this.props.source.uri }}
                     style={{
                         width: '100%',
-                        height: 470,
+                        aspectRatio: 1.4444444444,
                         backgroundColor: '#fafafa',
                         zIndex: this.state.zindexvideo
                     }}
@@ -110,15 +111,6 @@ export default class ConteudoFeed extends Component {
                         }}
                     />
                 )}
-
-                {/* <ImageBackground
-                    source={require('../assets/icons/playbutton.png')}
-                    style={{
-                        width: 150,
-                        height: 150,
-                        position: 'absolute'
-                    }}
-                /> */}
             </TouchableOpacity>
         );
     }
