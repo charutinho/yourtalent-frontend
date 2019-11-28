@@ -14,7 +14,6 @@ import {
 //Telas
 
 //Telas do usuário não logad
-import Splash from './pages/Splash';
 import Login from './pages/Login';
 
 //Cadastro
@@ -64,12 +63,12 @@ const PaginaFeed = createStackNavigator({
             headerTitleStyle: {
                 textAlign: 'center',
                 flex: 1,
-                fontFamily: 'LemonJelly',
-                fontSize: 50,
-                marginBottom: 15
+                fontFamily: 'Roboto-Bold',
+                fontSize: 30,
+                marginBottom: 5
             },
             headerLeft: (
-                <Image source={logoBranco} style={{ width: 65, height: 65 }} />
+                <Image source={logoBranco} style={{ width: 70, height: 70 }} />
             )
         },
         headerLeft: () => {
@@ -211,7 +210,6 @@ const Routes = (userLogged = false) => createAppContainer(
         {
             NaoLogado: createStackNavigator(
                 {
-                    Splash,
                     Login,
                     CadUsuario,
                     CadEscolha,

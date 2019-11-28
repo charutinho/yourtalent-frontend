@@ -241,6 +241,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
+                                            color:"#757575"
                                         }}
                                         placeholder='00/00/0000'
                                         autoCorrect={true}
@@ -252,7 +253,7 @@ export default class PerfilOpcoes extends Component {
                                         theme={{
                                             roundness: 10,
                                             colors: {
-                                                primary: '#000',
+                                                primary:'#000',
                                                 accent: '#000',
                                                 surface: '#000',
                                                 text: '#000',
@@ -290,8 +291,8 @@ export default class PerfilOpcoes extends Component {
                                         <RadioButton
                                             value="M"
                                             status={checked === 'M' ? 'checked' : 'unchecked'}
-                                            color='#000'
-                                            uncheckedColor='#000'
+                                            color='#6a1b9a'
+                                            uncheckedColor='#6a1b9a'
                                         />
                                     </TouchableOpacity>
 
@@ -306,8 +307,8 @@ export default class PerfilOpcoes extends Component {
                                         <RadioButton
                                             value="F"
                                             status={checked === 'F' ? 'checked' : 'unchecked'}
-                                            color="#000"
-                                            uncheckedColor='#000'
+                                            color="#6a1b9a"
+                                            uncheckedColor='#6a1b9a'
                                         />
 
                                     </TouchableOpacity>
@@ -328,6 +329,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
+                                            color: "#757575",
                                         }}
                                         placeholder='Digite seu nome'
                                         autoCorrect={true}
@@ -366,6 +368,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
+                                            color: "#757575",
                                         }}
                                         placeholder='Fale um pouco mais sobre você...'
                                         multiline={true}
@@ -407,6 +410,7 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
+                                            color: "#757575",
                                         }}
                                         placeholder='00000-000'
                                         keyboardType="phone-pad"
@@ -449,6 +453,8 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
+                                            color: "#757575",
+
                                         }}
                                         placeholder='São Paulo'
                                         keyboardType="phone-pad"
@@ -484,6 +490,8 @@ export default class PerfilOpcoes extends Component {
                                     <TextInput
                                         style={{
                                             width: '82%',
+                                            color: "#757575",
+
                                         }}
                                         placeholder='São Paulo'
                                         keyboardType="phone-pad"
@@ -521,6 +529,7 @@ export default class PerfilOpcoes extends Component {
                                         padding: 10
                                     }}
                                     color='#000'
+
                                 >
                                     Salvar informações
                                 </Button>

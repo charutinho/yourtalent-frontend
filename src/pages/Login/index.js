@@ -27,7 +27,7 @@ import createNavigator from '../../routes';
 console.disableYellowBox = true;
 
 // IP local do seu PC:
-ip = '192.168.15.29';
+ip = '192.168.1.3';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
