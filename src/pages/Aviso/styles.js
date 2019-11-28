@@ -45,6 +45,15 @@ const styles = StyleSheet.create({
     },
     bottomText: {
         color: '#fafafa'
+    },
+    termosTitle: {
+        fontWeight: 'bold',
+        marginTop: '2%',
+        marginBottom: '2%',
+        fontSize: 15
+    },
+    termosText: {
+        textAlign: 'justify'
     }
 });
 
