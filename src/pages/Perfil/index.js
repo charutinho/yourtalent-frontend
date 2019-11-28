@@ -100,6 +100,7 @@ export default class Perfil extends Component {
                 var nomeUsuario = responseJson.user.nome;
                 var nasc = responseJson.user.nasc;
                 var descricao = responseJson.user.desc;
+                var posicao = responseJson.user.esportePosicao;
                 //Foto
                 var fotoUsuario = responseJson.user.fotoPerfil;
                 var fotoCapa = responseJson.user.fotoCapa;
@@ -114,7 +115,18 @@ export default class Perfil extends Component {
                     this.setState({ isAtleta: true })
                 }
                 if (nivel == 2) {
-                    this.setState({ isAtleta: false })
+                    this.setState({ isAtleta: false });
+                    var tipo = responseJson.user.tipo;
+                    if (tipo == 'Contratado') {
+                        var empresa = responseJson.user.empresa;
+                        this.setState({ empresa })
+                    }
+                    if (tipo == 'Freelancer') {
+                        var empresa = responseJson.user.empresa;
+                        this.setState({ empresa: 'Sem organização' })
+                    }
+                    var tempo = responseJson.user.tempo;
+                    this.setState({ tempo })
                 }
                 if (nivel == 3) {
                     this.setState({ isAdm: true })
@@ -162,6 +174,7 @@ export default class Perfil extends Component {
                     descricao: descricao,
                     nivel: nivel,
                     nivelIcon: nivelIcone,
+                    posicao,
                     loading: false
                 });
             })
@@ -492,12 +505,8 @@ export default class Perfil extends Component {
                                         }}
                                     >
                                         <View style={styles.campView}>
-                                            <Icon
-                                                name="check"
-                                                color="#000"
-                                                size={48}
-                                            />
-                                            <Text>{this.state.estado}</Text>
+                                            <Image source={require('../../assets/icons/position.png')} style={{ width: 40, height: 40 }} />
+                                            <Text>{this.state.posicao}</Text>
                                         </View>
                                     </TouchableOpacity>
 
@@ -513,6 +522,44 @@ export default class Perfil extends Component {
                                         Você ainda não postou nada
                                     </Text>
                                 )}
+                            </View>
+                        )}
+
+                        {this.state.isAtleta == false && (
+                            <View>
+                                <View style={styles.sobreView}>
+                                    <TouchableOpacity
+                                        style={{
+                                            marginLeft: '10%'
+                                        }}
+                                    >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="briefcase"
+                                                color="#000"
+                                                size={45}
+                                            />
+                                            <Text> {this.state.empresa} </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        onPress={() => Alert.alert('Tempo de trabalho', `Este olheiro já trabalha há ${this.state.tempo} neste ramo`)}
+                                        style={{
+                                            marginRight: '10%'
+                                        }}
+                                    >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="account-clock"
+                                                color="#000"
+                                                size={48}
+                                            />
+                                            <Text>{this.state.tempo}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         )}
 

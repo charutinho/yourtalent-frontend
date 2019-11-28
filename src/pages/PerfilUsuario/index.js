@@ -55,6 +55,20 @@ export default class PerfilUsuario extends Component {
             })
     }
 
+    getUser = async () => {
+        var idUser = await AsyncStorage.getItem('@Login:id');
+        var ip = await AsyncStorage.getItem('@Ip:ip');
+        await fetch(`http://${ip}:3000/data/${idUser}`)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                var nivelUsuario = responseJson.user.nivel;
+
+                if (nivelUsuario == 2) {
+                    this.setState({ userOlheiro: true })
+                }
+            });
+    }
+
     // Função de obter dados
     getDados = async () => {
         const { navigation } = this.props;
@@ -71,6 +85,7 @@ export default class PerfilUsuario extends Component {
                 var nasc = responseJson.user.nasc;
                 var estado = responseJson.user.estado;
                 var descricao = responseJson.user.desc;
+                var posicao = responseJson.user.esportePosicao;
                 //Foto
                 var fotoUsuario = responseJson.user.fotoPerfil;
                 var fotoCapa = responseJson.user.fotoCapa;
@@ -89,6 +104,18 @@ export default class PerfilUsuario extends Component {
                     var nivelIcone = 'google-controller';
                     this.setState({ isAtleta: true })
                 } else {
+                    this.setState({ isAtleta: false });
+                    var tipo = responseJson.user.tipo;
+                    if (tipo == 'Contratado') {
+                        var empresa = responseJson.user.empresa;
+                        this.setState({ empresa })
+                    }
+                    if (tipo == 'Freelancer') {
+                        var empresa = responseJson.user.empresa;
+                        this.setState({ empresa: 'Sem organização' })
+                    }
+                    var tempo = responseJson.user.tempo;
+                    this.setState({ tempo })
                     var nivelIcone = 'account-tie'
                 }
 
@@ -116,7 +143,8 @@ export default class PerfilUsuario extends Component {
                     estado: estado,
                     descricao: descricao,
                     nivel: nivel,
-                    nivelIcon: nivelIcone
+                    nivelIcon: nivelIcone,
+                    posicao
                 });
 
             }).catch((error) => {
@@ -128,6 +156,7 @@ export default class PerfilUsuario extends Component {
     async componentDidMount() {
         this.getDados.call();
         this.getPosts.call();
+        this.getUser.call();
     }
 
     verIdade = async () => {
@@ -239,16 +268,51 @@ export default class PerfilUsuario extends Component {
 
                         </View>
 
+                        {this.state.isAtleta == false && (
+                            <View>
+                                <View style={styles.sobreView}>
+                                    <TouchableOpacity
+                                        style={{
+                                            marginLeft: '10%'
+                                        }}
+                                    >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="briefcase"
+                                                color="#000"
+                                                size={45}
+                                            />
+                                            <Text> {this.state.empresa} </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        onPress={() => Alert.alert('Tempo de trabalho', `Este olheiro já trabalha há ${this.state.tempo} neste ramo`)}
+                                        style={{
+                                            marginRight: '10%'
+                                        }}
+                                    >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="account-clock"
+                                                color="#000"
+                                                size={48}
+                                            />
+                                            <Text>{this.state.tempo}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )}
+
                         {isAtleta && (
-                            <View style={styles.sobreView}>
+                            <View style={{ ...styles.sobreView, marginTop: 25, marginLeft: 10 }}>
 
                                 <TouchableOpacity
                                     onPress={() => navigate('PerfilUsuarioCampeonatos', {
                                         idUsuario: this.state.idUsuario
                                     })}
-                                    style={{
-                                        marginLeft: '10%'
-                                    }}
                                 >
 
                                     <View style={styles.campView}>
@@ -262,20 +326,25 @@ export default class PerfilUsuario extends Component {
 
                                 </TouchableOpacity>
 
+                                {this.state.userOlheiro == true && (
+                                    <TouchableOpacity
+                                        onPress={this.handleMsg}
+                                    >
+                                        <View style={styles.campView}>
+                                            <Icon
+                                                name="chat"
+                                                color="#000"
+                                                size={48}
+                                            />
+                                            <Text>Enviar mensagem</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
 
-                                <TouchableOpacity
-                                    style={{
-                                        marginRight: '10%'
-                                    }}
-                                    onPress={this.handleMsg}
-                                >
+                                <TouchableOpacity>
                                     <View style={styles.campView}>
-                                        <Icon
-                                            name="chat"
-                                            color="#000"
-                                            size={48}
-                                        />
-                                        <Text>Enviar mensagem</Text>
+                                        <Image source={require('../../assets/icons/position.png')} style={{ width: 40, height: 40 }} />
+                                        <Text style={{ marginTop: 12 }}> {this.state.posicao} </Text>
                                     </View>
                                 </TouchableOpacity>
 
