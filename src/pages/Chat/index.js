@@ -45,7 +45,7 @@ export default class Chat extends Component {
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 var nivel = responseJson.user.nivel;
@@ -60,7 +60,7 @@ export default class Chat extends Component {
     getChats = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const autorId = await AsyncStorage.getItem('@Login:id')
-        await fetch(`http://${ip}:3000/getconversa`, {
+        await fetch(`https://yourtalent-backend.herokuapp.com/getconversa`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -136,7 +136,7 @@ export default class Chat extends Component {
                                                 title={item.autor.nome}
                                                 left={props =>
 
-                                                    <ImageBackground source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                    <ImageBackground source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.autor.fotoPerfil}` }}
                                                         style={{
                                                             width: 50,
                                                             height: 50,
@@ -165,7 +165,7 @@ export default class Chat extends Component {
                                                 title={item.destinatario.nome}
                                                 left={props =>
                                                     <View style={{ flexDirection: 'row' }}>
-                                                        <ImageBackground source={{ uri: `http://${ip}:3000/${item.destinatario.fotoPerfil}` }}
+                                                        <ImageBackground source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.destinatario.fotoPerfil}` }}
                                                             style={{
                                                                 width: 50,
                                                                 height: 50,

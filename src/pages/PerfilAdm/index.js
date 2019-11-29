@@ -80,7 +80,7 @@ export default class PerfilAdm extends Component {
 
     getDenuncias = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip')
-        await fetch(`http://${ip}:3000/getdenuncias`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/getdenuncias`)
             .then((response) => response.json())
             .then((responseJson) => {
                 const denuncias = responseJson;
@@ -100,7 +100,7 @@ export default class PerfilAdm extends Component {
     anularDenuncia = async (idDenuncia) => {
         await this.setState({ denuncias: null })
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        fetch(`http://${ip}:3000/anulardenuncia/${idDenuncia}`)
+        fetch(`https://yourtalent-backend.herokuapp.com/anulardenuncia/${idDenuncia}`)
         await this.getDenuncias.call();
         await this.setState({ modalDenuncia: false, nomeDenuncia: '', tipo: '', postDesc: '', postConteudo: '', postTipo: '', idPost: '' })
     }
@@ -108,7 +108,7 @@ export default class PerfilAdm extends Component {
     banirUsuario = async (idUser) => {
         await this.setState({ denuncias: null })
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/banirusuario/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/banirusuario/${idUser}`)
         await this.getDenuncias.call();
         await this.setState({ modalDenuncia: false, nomeDenuncia: '', tipo: '', postDesc: '', postConteudo: '', postTipo: '', idPost: '' })
     }
@@ -169,7 +169,7 @@ export default class PerfilAdm extends Component {
                                     return (
                                         <View style={styles.denunciasFlatlist}>
                                             <TouchableOpacity style={styles.denunciasHeader} onPress={() => this.opcoesDenuncia(item.idDenuncia.nome, item.tipo, item.idPost.descricao, item.idPost.conteudoPost, item.idPost.tipo, item._id, item.spam, item.violencia, item.assedio, item.falsosa, item.discurso, item.outro, item.outroTxt, item.idDenuncia._id)} >
-                                                <Image style={{ width: 50, height: 50, borderRadius: 90, overflow: 'hidden' }} source={{ uri: `http://${ip}:3000/${item.idDenuncia.fotoPerfil}` }} />
+                                                <Image style={{ width: 50, height: 50, borderRadius: 90, overflow: 'hidden' }} source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.idDenuncia.fotoPerfil}` }} />
                                                 <Text> {item.idDenuncia.nome} </Text>
                                             </TouchableOpacity>
                                         </View>
@@ -240,7 +240,7 @@ export default class PerfilAdm extends Component {
                                                 <Text style={{ fontSize: 15, marginBottom: '1.85%' }}> {this.state.postDesc} </Text>
                                             </View>
                                             {this.state.postTipo == 'image' && (
-                                                <Image style={{ width: 350, height: 350 }} source={{ uri: `http://${ip}:3000/${this.state.postConteudo}` }} />
+                                                <Image style={{ width: 350, height: 350 }} source={{ uri: `https://yourtalent-backend.herokuapp.com/${this.state.postConteudo}` }} />
                                             )}
                                             {this.state.postTipo == 'video' && (
                                                 <TouchableOpacity
@@ -252,7 +252,7 @@ export default class PerfilAdm extends Component {
                                                     }}
                                                 >
                                                     <Video
-                                                        source={{ uri: `http://${ip}:3000/${this.state.postConteudo}` }}
+                                                        source={{ uri: `https://yourtalent-backend.herokuapp.com/${this.state.postConteudo}` }}
                                                         style={{
                                                             width: 350,
                                                             height: 350,

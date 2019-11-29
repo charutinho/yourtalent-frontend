@@ -32,7 +32,7 @@ export default class PerfilOpcoesSeguro extends Component {
     async componentDidMount() {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const idUser = await AsyncStorage.getItem('@Login:id');
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 const email = responseJson.user.email;
@@ -47,7 +47,7 @@ export default class PerfilOpcoesSeguro extends Component {
         Keyboard.dismiss();
         const idUser = await AsyncStorage.getItem('@Login:id')
         const ip = await AsyncStorage.getItem('@Ip:ip')
-        await fetch(`http://${ip}:3000/novasenha`,
+        await fetch(`https://yourtalent-backend.herokuapp.com/novasenha`,
             {
                 method: 'POST',
                 headers:
@@ -90,7 +90,7 @@ export default class PerfilOpcoesSeguro extends Component {
     excluirOk = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const id = await AsyncStorage.getItem('@Login:id');
-        fetch(`http://${ip}:3000/deleteuser/${id}`);
+        fetch(`https://yourtalent-backend.herokuapp.com/deleteuser/${id}`);
         AsyncStorage.clear();
         RNRestart.Restart();
         Alert.alert('Tchau', 'Esperamos te ver novamente')

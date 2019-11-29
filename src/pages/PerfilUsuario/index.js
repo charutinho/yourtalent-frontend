@@ -45,7 +45,7 @@ export default class PerfilUsuario extends Component {
         var idUser = navigation.getParam('userId')
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/listarposts/user/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 const post = responseJson.post;
@@ -58,7 +58,7 @@ export default class PerfilUsuario extends Component {
     getUser = async () => {
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 var nivelUsuario = responseJson.user.nivel;
@@ -76,7 +76,7 @@ export default class PerfilUsuario extends Component {
         this.setState({ idUsuario: idUser })
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
 
@@ -104,7 +104,7 @@ export default class PerfilUsuario extends Component {
                     var nivelIcone = 'google-controller';
                     this.setState({ isAtleta: true })
                 } else {
-                    this.setState({ isAtleta: false });
+                    this.setState({ isAtleta: false, isAdmin: false });
                     var tipo = responseJson.user.tipo;
                     if (tipo == 'Contratado') {
                         var empresa = responseJson.user.empresa;
@@ -119,6 +119,10 @@ export default class PerfilUsuario extends Component {
                     var nivelIcone = 'account-tie'
                 }
 
+                if(nivel == 3){
+                    this.setState({ isAdmin: true })
+                }
+
                 //Esporte x Tipo
                 var esporte = responseJson.user.esporte;
 
@@ -128,10 +132,10 @@ export default class PerfilUsuario extends Component {
 
 
                 //Foto do usuário
-                var imgUser = `http://${ip}:3000/${fotoUsuario}`;
+                var imgUser = `https://yourtalent-backend.herokuapp.com/${fotoUsuario}`;
 
                 //Capa do usuário
-                var capaUser = `http://${ip}:3000/${fotoCapa}`;
+                var capaUser = `https://yourtalent-backend.herokuapp.com/${fotoCapa}`;
 
                 this.setState({
                     nomeUsuario: nomeUsuario,
@@ -268,7 +272,7 @@ export default class PerfilUsuario extends Component {
 
                         </View>
 
-                        {this.state.isAtleta == false && (
+                        {this.state.isAtleta == false && this.state.isAdmin == false && (
                             <View>
                                 <View style={styles.sobreView}>
                                     <TouchableOpacity
@@ -385,7 +389,7 @@ export default class PerfilUsuario extends Component {
                                             }}>
 
                                                 <Image
-                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                    source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.autor.fotoPerfil}` }}
                                                     style={{
                                                         width: 50,
                                                         height: 50,
@@ -438,7 +442,7 @@ export default class PerfilUsuario extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ConteudoFeed type={item.tipo} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
+                                        <ConteudoFeed type={item.tipo} source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}

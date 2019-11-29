@@ -53,7 +53,7 @@ export default class Aviso extends Component {
         var tempo = await AsyncStorage.getItem('Temp')
 
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/auth/register`,
+        await fetch(`https://yourtalent-backend.herokuapp.com//auth/register`,
             {
                 method: 'POST',
                 headers:

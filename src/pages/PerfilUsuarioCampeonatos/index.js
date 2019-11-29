@@ -25,7 +25,7 @@ export default class PerfilUsuarioCampeonatos extends Component {
         var idUser = navigation.getParam('idUsuario');
         console.log('==== ', idUser);
         console.log(navigation.getParam('idUsuario'))
-        await fetch(`http://${ip}:3000/camp/getcampeonatos/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/camp/getcampeonatos/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.message == 'Nenhum campeonato encontrado') {

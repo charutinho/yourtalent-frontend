@@ -60,7 +60,7 @@ export default class PerfilCampeonatos extends Component {
     getCampeonatos = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const idUser = await AsyncStorage.getItem('@Login:id')
-        await fetch(`http://${ip}:3000/camp/getcampeonatos/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/camp/getcampeonatos/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson.message == 'Nenhum campeonato encontrado') {
@@ -86,7 +86,7 @@ export default class PerfilCampeonatos extends Component {
 
     handleDeletar = async (id) => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/camp/delcampeonato/${id}`);
+        await fetch(`https://yourtalent-backend.herokuapp.com/camp/delcampeonato/${id}`);
         this.getCampeonatos.call();
     }
 

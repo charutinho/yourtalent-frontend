@@ -45,7 +45,7 @@ export default class ChatUsuario extends Component {
         } else {
             var idUser = navigation.getParam('idUsuario')
         }
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 var img = responseJson.user.fotoPerfil;
@@ -66,7 +66,7 @@ export default class ChatUsuario extends Component {
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 var nivel = responseJson.user.nivel;
@@ -83,7 +83,7 @@ export default class ChatUsuario extends Component {
         var idUsuario = navigation.getParam('idUsuario')
         var idOlheiro = navigation.getParam('idOlheiro')
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/getchat`, {
+        await fetch(`https://yourtalent-backend.herokuapp.com/getchat`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -111,7 +111,7 @@ export default class ChatUsuario extends Component {
         var idUsuario = navigation.getParam('idUsuario')
         var idOlheiro = navigation.getParam('idOlheiro')
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/chat`, {
+        await fetch(`https://yourtalent-backend.herokuapp.com/chat`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

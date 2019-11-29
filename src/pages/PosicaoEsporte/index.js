@@ -50,7 +50,7 @@ export default class PosicaoEsporte extends Component {
         var esporte = await AsyncStorage.getItem('EsporteCad')
 
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/auth/register`,
+        await fetch(`https://yourtalent-backend.herokuapp.com/auth/register`,
             {
                 method: 'POST',
                 headers:

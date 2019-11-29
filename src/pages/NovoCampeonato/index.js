@@ -41,7 +41,7 @@ export default class NovoCampeonato extends Component {
             )
         }
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/camp/novocampeonato`, config);
+        await fetch(`https://yourtalent-backend.herokuapp.com/camp/novocampeonato`, config);
         this.props.navigation.navigate('Perfil');
     }
 

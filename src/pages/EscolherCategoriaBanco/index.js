@@ -39,7 +39,7 @@ export default class Categorias extends Component {
     navegar = async (esporte) => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const idUser = await AsyncStorage.getItem('@Login:id');
-        await fetch(`http://${ip}:3000/esportes/favesporte/${esporte}/${idUser}`);
+        await fetch(`https://yourtalent-backend.herokuapp.com/esportes/favesporte/${esporte}/${idUser}`);
         this.props.navigation.navigate('PaginaFeed');
     }
 

@@ -97,7 +97,7 @@ export default class CadUsuario extends Component {
         if (this.state.nomeOk == true && this.state.emailOk == true && this.state.senhaOk == true) {
             var ip = await AsyncStorage.getItem('@Ip:ip');
             this.setState({ loading: true })
-            fetch(`http://${ip}:3000/auth/verificaremail`,
+            fetch(`https://yourtalent-backend.herokuapp.com/auth/verificaremail`,
                 {
                     method: 'POST',
                     headers:

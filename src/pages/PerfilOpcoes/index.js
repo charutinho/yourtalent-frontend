@@ -63,7 +63,7 @@ export default class PerfilOpcoes extends Component {
     async componentDidMount() {
         id = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/data/${id}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${id}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 //console.log(responseJson);
@@ -126,7 +126,7 @@ export default class PerfilOpcoes extends Component {
         let estado = this.state.estado;
         let cidade = this.state.cidade;
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/updateData`,
+        await fetch(`https://yourtalent-backend.herokuapp.com/updateData`,
             {
                 method: 'POST',
                 headers:

@@ -67,7 +67,7 @@ export default class Perfil extends Component {
         var idUser = await AsyncStorage.getItem('@Login:id');
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
-        await fetch(`http://${ip}:3000/listarposts/user/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/listarposts/user/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 const post = responseJson.post;
@@ -92,7 +92,7 @@ export default class Perfil extends Component {
         var ip = await AsyncStorage.getItem('@Ip:ip');
 
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log('Data')
@@ -157,10 +157,10 @@ export default class Perfil extends Component {
 
 
                 //Foto do usuário
-                var imgUser = `http://${ip}:3000/${fotoUsuario}`;
+                var imgUser = `https://yourtalent-backend.herokuapp.com/${fotoUsuario}`;
 
                 //Capa do usuário
-                var capaUser = `http://${ip}:3000/${fotoCapa}`;
+                var capaUser = `https://yourtalent-backend.herokuapp.com/${fotoCapa}`;
 
                 this.setState({
                     nomeUsuario: nomeUsuario,
@@ -243,7 +243,7 @@ export default class Perfil extends Component {
                 };
                 this.getDados();
                 this.getPosts();
-                fetch(`http://${ip}:3000/uploadimg`, config);
+                fetch(`https://yourtalent-backend.herokuapp.com/uploadimg`, config);
                 this.setState({ atualizou: 1 })
             }
         });
@@ -292,7 +292,7 @@ export default class Perfil extends Component {
                     },
                 };
                 this.getDados();
-                fetch(`http://${ip}:3000/uploadimgcapa`, config)
+                fetch(`https://yourtalent-backend.herokuapp.com/uploadimgcapa`, config)
                 this.setState({ atualizou: 1 })
             }
         });
@@ -604,7 +604,7 @@ export default class Perfil extends Component {
                                             }}>
 
                                                 <Image
-                                                    source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                    source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.autor.fotoPerfil}` }}
                                                     style={{
                                                         width: 50,
                                                         height: 50,
@@ -657,7 +657,7 @@ export default class Perfil extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ConteudoFeed type={item.tipo} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
+                                        <ConteudoFeed type={item.tipo} source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}

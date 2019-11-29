@@ -29,7 +29,7 @@ export default class PerfilOpcoesSenha extends Component {
         Keyboard.dismiss();
         const ip = await AsyncStorage.getItem('@Ip:ip');
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/auth/authenticate`, {
+        await fetch(`https://yourtalent-backend.herokuapp.com/auth/authenticate`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

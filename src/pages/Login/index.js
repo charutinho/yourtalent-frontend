@@ -27,7 +27,7 @@ import createNavigator from '../../routes';
 console.disableYellowBox = true;
 
 // IP local do seu PC:
-ip = '192.168.1.3';
+ip = '192.168.43.145';
 AsyncStorage.setItem('@Ip:ip', ip);
 
 export default class Login extends Component {
@@ -77,7 +77,7 @@ export default class Login extends Component {
             Alert.alert("Senha", "Insira sua senha")
         } else {
             this.setState({ loading: true })
-            fetch(`http://${ip}:3000/auth/authenticate`,
+            fetch(`https://yourtalent-backend.herokuapp.com/auth/authenticate`,
                 {
                     method: 'POST',
                     headers:
@@ -140,7 +140,7 @@ export default class Login extends Component {
     novasenha = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/novasenha/${this.state.email}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/novasenha/${this.state.email}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 this.setState({ loading: false, modalSenha: false })

@@ -69,6 +69,7 @@ export default class PageFeed extends Component {
             placeholderValue: 'Eai atleta, quais são as novidades?',
             nivelPost: false,
             modalDenuncia: false,
+            postarFeed: false,
 
             //Denuncias
             spam: false,
@@ -92,7 +93,8 @@ export default class PageFeed extends Component {
                 await this.setState({ esporteUsuario: this.state.esporteFeed })
             }
 
-            await fetch(`http://${ip}:3000/novopost`, {
+            this.setState({ postarFeed: true })
+            await fetch(`https://yourtalent-backend.herokuapp.com/novopost`, {
                 method: 'POST',
                 body: this.state.data,
                 headers: {
@@ -108,7 +110,7 @@ export default class PageFeed extends Component {
                     const idPost = responseJson.message
                     this.setState({ idPost })
                 })
-            await fetch(`http://${ip}:3000/novopostdesc`,
+            await fetch(`https://yourtalent-backend.herokuapp.com/novopostdesc`,
                 {
                     method: 'POST',
                     headers:
@@ -124,6 +126,7 @@ export default class PageFeed extends Component {
                         })
 
                 })
+            this.setState({ postarFeed: false })
             RNRestart.Restart();
         } else {
             const options = {
@@ -198,7 +201,7 @@ export default class PageFeed extends Component {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const idUser = await AsyncStorage.getItem('@Login:id');
 
-        await fetch(`http://${ip}:3000/esportes/getfavesporte/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/esportes/getfavesporte/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 const esporteFeed = responseJson.esporte[0].esporteFeed;
@@ -218,7 +221,7 @@ export default class PageFeed extends Component {
             if (this.state.esporteFeed == undefined) {
                 var categoriaEsporte = await AsyncStorage.getItem('Esporte');
                 this.setState({ esporteFeed: categoriaEsporte })
-                await fetch(`http://${ip}:3000/listarposts`, {
+                await fetch(`https://yourtalent-backend.herokuapp.com/listarposts`, {
                     method: 'POST',
                     headers:
                     {
@@ -245,7 +248,7 @@ export default class PageFeed extends Component {
             }
         }
         this.setState({ loading: true })
-        await fetch(`http://${ip}:3000/listarposts`, {
+        await fetch(`https://yourtalent-backend.herokuapp.com/listarposts`, {
             method: 'POST',
             headers:
             {
@@ -278,7 +281,7 @@ export default class PageFeed extends Component {
     async componentDidMount() {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         const idUser = await AsyncStorage.getItem('@Login:id');
-        await fetch(`http://${ip}:3000/data/${idUser}`)
+        await fetch(`https://yourtalent-backend.herokuapp.com/data/${idUser}`)
             .then((response) => response.json())
             .then((responseJson) => {
                 const nivel = responseJson.user.nivel;
@@ -303,7 +306,7 @@ export default class PageFeed extends Component {
         console.log('Cidade: ', this.state.estadoEscolhido);
         console.log('Sexo: ', this.state.checked);
         const ip = await AsyncStorage.getItem('@Ip:ip');
-        await fetch(`http://${ip}:3000/listarposts/especificos`, {
+        await fetch(`https://yourtalent-backend.herokuapp.com/listarposts/especificos`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -331,7 +334,7 @@ export default class PageFeed extends Component {
     }
 
     buscaOlheiro = async () => {
-        fetch(`http://${ip}:3000/listarposts/atleta`, {
+        fetch(`https://yourtalent-backend.herokuapp.com/listarposts/atleta`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -379,7 +382,7 @@ export default class PageFeed extends Component {
     enviarDenuncia = async () => {
         const ip = await AsyncStorage.getItem('@Ip:ip');
         this.setState({ loadingDenuncia: true });
-        fetch(`http://${ip}:3000/enviardenuncia`,
+        fetch(`https://yourtalent-backend.herokuapp.com/enviardenuncia`,
             {
                 method: 'POST',
                 headers:
@@ -449,6 +452,17 @@ export default class PageFeed extends Component {
                         barStyle='light-content'
                         backgroundColor="#6a1b9a"
                     />
+
+                    {this.state.postarFeed == true && (
+                        <ActivityIndicator
+                            color="#C00"
+                            size="large"
+                            color='#9c27b0'
+                            style={{
+                                position: 'absolute'
+                            }}
+                        />
+                    )}
 
                     <Modal visible={this.state.modalDenuncia} transparent={true} animationType='fade' onRequestClose={() => this.setState({ modalDenuncia: false })}>
                         <View style={{
@@ -866,6 +880,7 @@ export default class PageFeed extends Component {
                                     <TouchableOpacity
                                         onPress={() => this.novoPost(true)}
                                         activeOpacity={0.8}
+                                        disabled={this.state.postarFeed}
                                     >
                                         <Icon
                                             name="send"
@@ -923,7 +938,7 @@ export default class PageFeed extends Component {
                                                     onPress={() => this.handlePerfil(item.autor._id)}
                                                 >
                                                     <Image
-                                                        source={{ uri: `http://${ip}:3000/${item.autor.fotoPerfil}` }}
+                                                        source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.autor.fotoPerfil}` }}
                                                         style={{
                                                             width: 50,
                                                             height: 50,
@@ -980,7 +995,7 @@ export default class PageFeed extends Component {
                                             {item.descricao}
                                         </Text>
 
-                                        <ConteudoFeed type={item.tipo} ratio={item.ratio} source={{ uri: `http://${ip}:3000/${item.conteudoPost}` }} />
+                                        <ConteudoFeed type={item.tipo} ratio={item.ratio} source={{ uri: `https://yourtalent-backend.herokuapp.com/${item.conteudoPost}` }} />
                                     </View>
                                 );
                             }}
